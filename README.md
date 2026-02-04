@@ -14,12 +14,12 @@
 A component that is registered in app.routes.ts and loaded through the Angular router. A page represents a full application view.
 
 ### Layout
-A component that provides structure and is reused across multiple pages, such as a navigation bar or header.
-<component-nav-bar></component-nav-bar>
+A component that provides structure and is reused across multiple pages, such as a navigation bar or header.<br>
+&lt;component-nav-bar&gt;&lt;/component-nav-bar&gt;
 
 ### Component
-A reusable UI element that is embedded within a page or layout and is not directly routed to.
-<component-item></component-item>
+A reusable UI element that is embedded within a page or layout and is not directly routed to.<br>
+&lt;component-item&gt;&lt;/component-item&gt;
 
 ##
 
