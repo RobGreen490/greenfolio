@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 // Make sure environments/environment is used and not environments/environment.prod
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/employee-management-environment/environment';
 import { Observable } from 'rxjs';
 import { Employee } from '../../models/employee';
 
@@ -14,25 +14,27 @@ export class EmployeeManagementService {
 
   constructor(private http: HttpClient) { }
 
-  // Get all employees
+  // GET all employees
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.apiUrl);
   }
 
+  // GET employee by id
   getEmployeeById(employeeId: number): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/${employeeId}`);
   }
 
-  // Create employee
+  // CREATE employee
   createEmployee(employee: Employee): Observable<Employee>{
     return this.http.post<Employee>(this.apiUrl, employee);
   }
 
-  // Delete employee
+  // DELETE employee
   deleteEmployee(employeeId: number): Observable<void>{
     return this.http.delete<void>(`${this.apiUrl}/${employeeId}`);
   }
 
+  // UPDATE employe
   updateEmployee(employee: Employee): Observable<Employee>{
     return this.http.put<Employee>(`${this.apiUrl}/${employee.employeeId}`, employee);
   };
