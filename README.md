@@ -1,29 +1,42 @@
 # Greenfolio
 
 <br>
+
 ## Steps to updating the website after making edits to the app:
 1. Update the production build(this creates the dist folder):<br>
+   ```bash
    ng build --configuration production --base-href=/greenfolio/
+   ```
 
 2. Deploy to GitHub Pages using angular-cli-ghpages<br>
+   ```bash
    npx angular-cli-ghpages --dir=dist/greenfolio/browser/
+   ```
 
 <br>
+
 ## Learning - Angular Definitions
 
 ### Page
 A component that is registered in app.routes.ts and loaded through the Angular router. A page represents a full application view.
 
 ### Layout
-A component that provides structure and is reused across multiple pages, such as a navigation bar or header.<br>
-&lt;component-nav-bar&gt;&lt;/component-nav-bar&gt;
+A component that provides structure and is reused across multiple pages, such as a navigation bar or header.
+```html
+<component-nav-bar></component-nav-bar>
+```
 
 ### Component
-A reusable UI element that is embedded within a page or layout and is not directly routed to.<br>
-&lt;component-item&gt;&lt;/component-item&gt;
+A reusable UI element that is embedded within a page or layout and is not directly routed to.
+```html
+<component-item></component-item>
+```
 
 ##
-<br><br>
+
+<br>
+<br>
+
 ## Learning - Angular Configurations
 
 ### Json Notes
@@ -31,16 +44,29 @@ Comments cannot be added to an angular.json file.
 
 ### Environments
 angular.json uses fileReplacements to swap environment files based on build configuration (dev vs prod).<br>
+```json
 "fileReplacements": [  
    {  
       "replace": "src/environments/environment.ts",  
       "with": "src/environments/environment.prod.ts"  
    }  
 ]
+```
 
 ##
-<br><br>
-#This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+# This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
+
+<br>
 
 ## Development server
 
