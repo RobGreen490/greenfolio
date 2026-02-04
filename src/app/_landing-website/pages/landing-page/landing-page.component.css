@@ -34,12 +34,38 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
-    transition: transform 0.5s ease-in-out;
+
+    /* floating animation */
+    animation: float 6s ease-in-out infinite alternate;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
+/* Hover effect to stop the tile from floating */
 .tile:hover {
     transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    animation-play-state: paused;
 }
+
+/* Keyframes for floating motion of the tiles */
+@keyframes float {
+    0% {
+        transform: translateY(0px) translateX(0px);
+    }
+    25% {
+        transform: translateY(-10px) translateX(5px);
+    }
+    50% {
+        transform: translateY(5px) translateX(-5px);
+    }
+    75% {
+        transform: translateY(-5px) translateX(10px);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px);
+    }
+}
+
 
 footer {
     background-color: #333;
