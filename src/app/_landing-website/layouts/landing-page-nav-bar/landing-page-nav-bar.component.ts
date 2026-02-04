@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import {AppRoutes } from '../../../routes/app-routes';
+import {AppRoutes } from '../../../../routes/app-routes';
 
 @Component({
   selector: 'app-landing-page-nav-bar',

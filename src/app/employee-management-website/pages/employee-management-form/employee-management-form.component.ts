@@ -4,7 +4,7 @@ import { Employee } from '../../models/employee';
 import { EmployeeManagementService } from '../../services/employee-management-service/employee-management.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EmployeeManagementNavBarComponent } from '../../layouts/employee-management-nav-bar/employee-management-nav-bar.component';
-import { AppRoutes } from '../../../routes/app-routes';
+import { AppRoutes } from '../../../../routes/app-routes';
 
 @Component({
   selector: 'app-employee-management-form',

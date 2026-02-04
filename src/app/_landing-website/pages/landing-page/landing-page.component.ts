@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppRoutes } from '../../../routes/app-routes';
+import { AppRoutes } from '../../../../routes/app-routes';
 import { LandingPageNavBarComponent } from '../../layouts/landing-page-nav-bar/landing-page-nav-bar.component';
 
 @Component({

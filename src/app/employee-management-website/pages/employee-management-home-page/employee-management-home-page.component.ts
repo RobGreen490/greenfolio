@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { EmployeeManagementNavBarComponent } from '../../layouts/employee-management-nav-bar/employee-management-nav-bar.component';
 import { EmployeeManagementService } from '../../services/employee-management-service/employee-management.service';
 import { Employee } from '../../models/employee';
-import { AppRoutes } from '../../../routes/app-routes';
+import { AppRoutes } from '../../../../routes/app-routes';
 
 
 @Component({
