@@ -19,6 +19,9 @@
 
 ### Page
 A component that is registered in app.routes.ts and loaded through the Angular router. A page represents a full application view.
+```ts
+{ path: '', component: LandingPageComponent },
+```
 
 ### Layout
 A component that provides structure and is reused across multiple pages, such as a navigation bar or header.
