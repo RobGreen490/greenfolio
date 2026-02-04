@@ -1,11 +1,11 @@
 # Greenfolio
 
 ## Steps to updating the website after making edits to the app:
-1. Update the production build(this creates the dist folder):
-    ng build --configuration production --base-href=/greenfolio/
+1. Update the production build(this creates the dist folder):<br>
+   ng build --configuration production --base-href=/greenfolio/
 
-2. Deploy to GitHub Pages using angular-cli-ghpages
-    npx angular-cli-ghpages --dir=dist/greenfolio/browser/
+2. Deploy to GitHub Pages using angular-cli-ghpages<br>
+   npx angular-cli-ghpages --dir=dist/greenfolio/browser/
 
 
 ## Learning
