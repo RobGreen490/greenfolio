@@ -8,7 +8,7 @@
    npx angular-cli-ghpages --dir=dist/greenfolio/browser/
 
 
-## Learning
+## Learning - Angular Definitions
 
 ### Page
 A component that is registered in app.routes.ts and loaded through the Angular router. A page represents a full application view.
@@ -20,6 +20,21 @@ A component that provides structure and is reused across multiple pages, such as
 ### Component
 A reusable UI element that is embedded within a page or layout and is not directly routed to.<br>
 &lt;component-item&gt;&lt;/component-item&gt;
+
+##
+
+### Learning - Angular Configurations
+
+Comments cannot be added to an angular.json file
+
+## Environment
+angular.json uses fileReplacements to swap environment files based on build configuration (dev vs prod).<br>
+"fileReplacements": [  
+              {  
+                "replace": "src/environments/environment.ts",  
+                "with": "src/environments/environment.prod.ts"  
+              }  
+]
 
 ##
 
