@@ -1,5 +1,6 @@
 # Greenfolio
 
+<br>
 ## Steps to updating the website after making edits to the app:
 1. Update the production build(this creates the dist folder):<br>
    ng build --configuration production --base-href=/greenfolio/
@@ -7,7 +8,7 @@
 2. Deploy to GitHub Pages using angular-cli-ghpages<br>
    npx angular-cli-ghpages --dir=dist/greenfolio/browser/
 
-
+<br>
 ## Learning - Angular Definitions
 
 ### Page
@@ -22,7 +23,7 @@ A reusable UI element that is embedded within a page or layout and is not direct
 &lt;component-item&gt;&lt;/component-item&gt;
 
 ##
-
+<br><br>
 ## Learning - Angular Configurations
 
 ### Json Notes
@@ -37,11 +38,9 @@ angular.json uses fileReplacements to swap environment files based on build conf
    }  
 ]
 
-
-<br><br><br><br>
 ##
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
+<br><br>
+#This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
 
 ## Development server
 

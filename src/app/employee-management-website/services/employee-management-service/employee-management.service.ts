@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 // Make sure environments/environment is used and not environments/environment.prod
-import { environment } from '../../../../environments/employee-management-environment/environment';
+import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Employee } from '../../models/employee';
 

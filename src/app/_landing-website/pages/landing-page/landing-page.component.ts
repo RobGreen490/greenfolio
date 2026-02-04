@@ -15,7 +15,7 @@ constructor(
       private router: Router
     ){}
     
-    tileBackground = 'assets/images/employee-management-photo.jpg';
+    tileBackground = 'assets/images/employee-management-images/employee-management-photo.jpg';
 
     goToEmployeeManagement() {
       this.router.navigate([AppRoutes.employeeManagement]);
