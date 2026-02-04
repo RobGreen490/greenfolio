@@ -15,9 +15,19 @@ constructor(
       private router: Router
     ){}
     
-    tileBackground = 'assets/images/landing-website-images/employee-management-photo.jpg';
+    // https://unsplash.com/@bennieray
+    employeeManagementBackground = 'assets/images/landing-website-images/employee-management-photo.jpg';
 
+    // https://unsplash.com/@photowolf
+    worldMapBackground = 'assets/images/landing-website-images/world-map-photo.jpg';
+
+    // Employee Management Website
     goToEmployeeManagement() {
       this.router.navigate([AppRoutes.employeeManagement]);
+    }
+
+    // World Map Website
+    goToWorldMap(){
+      this.router.navigate([AppRoutes.worldMap]);
     }
 }

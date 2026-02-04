@@ -1,15 +1,34 @@
-<!--The navigation bar should be visible everywhere, so it will be created here-->
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" [routerLink]="routes.landingPage">Home Page</a>
+
+        <!-- Left side of the nav bar for the current websites home page -->
+        <a class="navbar-brand" [routerLink]="routes.landingPage">
+            Home Page
+        </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav w-100">
-                <li class="nav-item ms-auto">
-                    <a class="nav-link" [routerLink]="routes.employeeManagement">Employee Management App</a>
+
+            <!-- Right side of the nav bar for the most popular websites -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link link-body-emphasis" [routerLink]="routes.employeeManagement">
+                        Employee Management App
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-link link-light disabled px-3">|</span>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link link-body-emphasis" [routerLink]="routes.worldMap">
+                        World Map
+                    </a>
                 </li>
             </ul>
 

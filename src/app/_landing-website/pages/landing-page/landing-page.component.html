@@ -1,31 +1,41 @@
 <app-landing-page-nav-bar></app-landing-page-nav-bar>
 <main>
     <section class="tiles-container">
-        <!--https://unsplash.com/@bennieray-->
-        <div class="tile" [style.background-image]="'url(' + tileBackground + ')'" (click)="goToEmployeeManagement()">
+        <!-- https://unsplash.com/@bennieray -->
+        <div class="tile" [style.background-image]="'url(' + employeeManagementBackground + ')'" (click)="goToEmployeeManagement()">
             <h1>Employee Management System</h1>
             <p>
                 <b>
                     A simple frontend solution for adding, updating, and deleting employees from a database.
-                    The current system does not persist data past a certain time frame, but it communicates with an
-                    ASP.NET backend
-                    client and features a responsive
-                    interface, real-time updates, and centralized routing for easy navigation between pages.
+                    The current system does not persist data past a certain time frame. It does communicate
+                    with an ASP.NET backend client and features a responsive interface, real-time updates,
+                    and centralized routing for easy navigation between pages.
+                </b>
+            </p>
+        </div>
+
+        <!-- https://unsplash.com/@photowolf -->
+        <div class="tile" [style.background-image]="'url(' + worldMapBackground + ')'" (click)="goToWorldMap()">
+            <h1>World Map</h1>
+            <p>
+                <b>
+                    A world map interface that shows information about each country using an svg file and
+                    backend api from api.worldbank.org.
                 </b>
             </p>
         </div>
 
         <div class="tile">
-            <h2>Idea 2</h2>
+            <h1>Idea 3</h1>
             <p>
-                Filler tile 2
+                Filler tile 3
             </p>
         </div>
 
         <div class="tile">
-            <h2>Idea 3</h2>
+            <h1>Idea 4</h1>
             <p>
-                Filler tile 3
+                Filler tile 4
             </p>
         </div>
 

@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #242424;
+}
+
+
+/* Making it so the mouse cursor doesn't change when you hover over the country info items */
+h3,
+h3:hover,
+li,
+li:hover {
+    cursor: default;
+}
+
+ /* Grid container (2 columns) for the map and country data */
+.grid-container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 1fr;
+    min-height: 100vh;
+    background-color: #242424;
+    padding: 10px;
+    column-gap: 6px;
+}
+
+/* country data box */
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 30vh;
+    background-color: rgb(5, 69, 69);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* h3 styling */
+.custom-h3 {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgb(5, 69, 69);
+    color: yellow;
+}
+
+/* Was having trouble keeping the bullet points within the .grid-item so added 12px padding to the left and right*/
+ul {
+    background-color: rgb(5, 69, 69);
+    padding: 0 12px 0 12px;
+}
+
+
+/* list items styling */
+.custom-list li {
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(119, 190, 11);
+    background-color: rgb(5, 69, 69);
+    padding: 10px;
+}
+
+/* allowing the pointer to change when moving mouse over svg */
+svg path {
+    cursor: pointer;
+}
+
+/* changing color of country when hovered over */
+svg path:hover {
+    fill: darkred;
+}
+
+svg path {
+    transition: fill 0.5s ease;
+}
