@@ -23,19 +23,22 @@ A reusable UI element that is embedded within a page or layout and is not direct
 
 ##
 
-### Learning - Angular Configurations
+## Learning - Angular Configurations
 
-Comments cannot be added to an angular.json file
+### Json Notes
+Comments cannot be added to an angular.json file.
 
-## Environment
+### Environments
 angular.json uses fileReplacements to swap environment files based on build configuration (dev vs prod).<br>
 "fileReplacements": [  
-              {  
-                "replace": "src/environments/environment.ts",  
-                "with": "src/environments/environment.prod.ts"  
-              }  
+   {  
+      "replace": "src/environments/environment.ts",  
+      "with": "src/environments/environment.prod.ts"  
+   }  
 ]
 
+
+<br><br><br><br>
 ##
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
