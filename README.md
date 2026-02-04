@@ -8,6 +8,25 @@
     npx angular-cli-ghpages --dir=dist/greenfolio/browser/
 
 
+### Learning-----
+
+## Page
+A component that is registered in app.routes.ts and loaded through the Angular router. A page represents a full application view.
+
+## Layout
+A component that provides structure and is reused across multiple pages, such as a navigation bar or header.
+<component-nav-bar></component-nav-bar>
+
+## Component
+A reusable UI element that is embedded within a page or layout and is not directly routed to.
+<component-item></component-item>
+
+
+
+
+
+
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
 
