@@ -1,1 +1,68 @@
-<p>employee-management-form works!</p>
+<app-employee-management-nav-bar></app-employee-management-nav-bar>
+<div class="container">
+    <h2 class="text-center my-5">{{ isUpdating ? 'Update Employee' : 'Create Employee' }}</h2>
+
+    <form class="border rounded p-5 w-50 mb-5 mx-auto" #employeeForm="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input required #employeeFirstName="ngModel" class="form-control" type="text" name="employeeFirstName"
+                [(ngModel)]="employee.employeeFirstName" />
+            <!-- if the user touched/clicked the input box and left it empty, show error message -->
+            @if (employeeFirstName.errors?.['required'] && (employeeFirstName.touched || employeeFirstName.dirty)) {
+            <div class="text-danger">First Name is required.</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input required #employeeLastName="ngModel" class="form-control" type="text" name="employeeLastName"
+                [(ngModel)]="employee.employeeLastName" />
+            @if (employeeLastName.errors?.['required'] && (employeeLastName.touched || employeeLastName.dirty)) {
+            <div class="text-danger">Last Name is required.</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input required #employeePhone="ngModel" class="form-control" type="tel" name="employeePhone"
+                [(ngModel)]="employee.employeePhone" />
+            @if (employeePhone.errors?.['required'] && (employeePhone.touched || employeePhone.dirty)) {
+            <div class="text-danger">Phone Number is required.</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" #employeeEmail="ngModel" class="form-control"
+                type="email" name="employeeEmail" [(ngModel)]="employee.employeeEmail" />
+            @if (employeeEmail.errors?.['required'] && (employeeEmail.touched || employeeEmail.dirty)) {
+            <div class="text-danger">Email is required.</div>
+            }
+            @if (employeeEmail.errors?.['pattern'] && employeeEmail.touched) {
+            <div class="text-danger">Email is invalid.</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Job Title</label>
+            <input required #employeePosition="ngModel" class="form-control" type="text" name="employeePosition"
+                [(ngModel)]="employee.employeePosition" />
+            @if (employeePosition.errors?.['required'] && (employeePosition.touched || employeePosition.dirty)) {
+            <div class="text-danger">Job Title is required.</div>
+            }
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="employeeForm.invalid">{{ isUpdating ? 'Update' :
+            'Create'
+            }}</button>
+
+    </form>
+
+    <!-- For Error Message if one exists -->
+    @if (errorMessage != "") {
+    <div>
+        <p class="text-danger text-center">{{errorMessage}}</p>
+    </div>
+    }
+</div>

@@ -10,7 +10,7 @@ export const AppRoutes = {
      * -----------------------
      * The body page for the employee management system
     */
-    employeeTable: '/EmployeeManagement',
+    employeeManagement: '/EmployeeManagement',
     createEmployee: '/EmployeeManagement/create',
     updateEmployee: (id: string | number) => `/EmployeeManagement/update/${id}`,
 };

@@ -1,1 +1,47 @@
-<p>employee-management-home-page works!</p>
+<app-employee-management-nav-bar></app-employee-management-nav-bar>
+<div class="container">
+    <h2 class="text-center py-5">Employees</h2>
+    <div class="card">
+        <div class="card-body">
+            <div class="card-header">
+                <div class="text-center">
+                    <button class="btn btn-primary" (click)="goToCreate()">Add Employee</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="text-center align-middle">
+                            <th>Id</th>
+                            <th>FirstName</th>
+                            <th>LastName</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Position</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (employee of employees; track $index) {
+                        <tr class="text-center align-middle">
+                            <td class="align-middle">{{employee.employeeId}}</td>
+                            <td class="align-middle">{{employee.employeeFirstName}}</td>
+                            <td class="align-middle">{{employee.employeeLastName}}</td>
+                            <td class="align-middle">{{employee.employeePhone}}</td>
+                            <td class="align-middle">{{employee.employeeEmail}}</td>
+                            <td class="align-middle">{{employee.employeePosition}}</td>
+                            <td>
+                                <button class="btn btn-primary m-2 align-middle"
+                                    (click)="updateEmployee(employee.employeeId)">Update</button>
+                                <button class="btn btn-danger align-middle"
+                                    (click)="deleteEmployee(employee.employeeId)">Delete</button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
