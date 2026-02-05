@@ -31,10 +31,9 @@ main {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.4);
     padding: 20px;
     border-radius: 10px;
-
     /* floating animation */
     animation: float 6s ease-in-out infinite alternate;
     transition: transform 0.3s, box-shadow 0.3s;
