@@ -15,6 +15,14 @@
 
 <br>
 
+## Useful Tips
+
+## Adding Bootstrap
+Run the following code in the terminal to add bootstrap to the Angular app.
+npm install bootstrap@5.3
+
+<br>
+
 ## Learning - Angular Definitions
 
 ### Page
@@ -70,6 +78,10 @@ angular.json uses fileReplacements to swap environment files based on build conf
 # This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
 
 <br>
+
+## Creating the angular app
+
+run `ng new app-name` to create a new angular app.
 
 ## Development server
 
