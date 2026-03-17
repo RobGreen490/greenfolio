@@ -17,7 +17,7 @@
 
 ## Useful Tips
 
-## Adding Bootstrap
+### Adding Bootstrap
 Run the following code in the terminal to add bootstrap to the Angular app.
 ```bash
 npm install bootstrap@5.3
