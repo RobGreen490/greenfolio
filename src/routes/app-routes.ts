@@ -5,7 +5,6 @@ export const AppRoutes = {
     */
     landingPage: '/',
 
-    
     /** employeeManagement
      * -----------------------
      * The home page for the employee management system website.
@@ -14,7 +13,7 @@ export const AppRoutes = {
     createEmployee: '/EmployeeManagement/create',
     updateEmployee: (id: string | number) => `/EmployeeManagement/update/${id}`,
 
-    
+
     /** worldMap
      * -----------------------
      * The home page for the world map website.

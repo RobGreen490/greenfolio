@@ -1,4 +1,4 @@
 export const environment = {
     isProduction: false,
-    apiUrl: 'https://greenfolio-api.azurewebsites.net/api'
+    apiUrl: 'http://localhost:5191/api'
 }
