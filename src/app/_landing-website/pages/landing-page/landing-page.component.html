@@ -1,22 +1,48 @@
+<!--
 <div class="page">
   <app-canvas class="background-canvas" [drawFn]="draw"></app-canvas>
   <app-landing-page-nav-bar></app-landing-page-nav-bar>
   <main>
     <section class="tiles-container">
-      <!-- https://unsplash.com/@bennieray -->
+
+
+    </section>
+
+    <div class="button-container">
+      <button class="gravity-button" (click)="turnOnGravity()">
+        @if (gravityOn) {
+        Turn on gravity
+        }
+        @else {
+        Turn gravity off
+        }
+      </button>
+    </div>
+  </main>
+</div>
+
+-->
+<div class="page">
+
+  <app-canvas #canvasComp class="background-canvas" [drawFn]="draw"></app-canvas>
+
+  <div #content class="page-content">
+
+    <app-landing-page-nav-bar></app-landing-page-nav-bar>
+    <div class="container">
+    <div class="tiles-container">
+
       <div class="tile" [style.background-image]="'url(' + employeeManagementBackground + ')'"
         (click)="goToEmployeeManagement()">
         <h1>Employee Management System</h1>
         <p>
           <b>
-            A simple frontend solution for adding, updating, deleting, and viewing employees from/to a database.
-            data persist as the backend api communicates with an Azure SQL Database. This app features a responsive
-            interface, real-time updates, and centralized routing for easy navigation between pages.
+            A simple frontend solution for adding, updating, deleting, and viewing employees through a database.
+            Data persist as the ASP.net API communicates with an Azure SQL Database.
           </b>
         </p>
       </div>
 
-      <!-- https://unsplash.com/@photowolf -->
       <div class="tile" [style.background-image]="'url(' + worldMapBackground + ')'" (click)="goToWorldMap()">
         <h1>World Map</h1>
         <p>
@@ -40,18 +66,18 @@
           Filler tile 4
         </p>
       </div>
-    </section>
-  </main>
-</div>
+    </div>
+    </div>
 
-<div class="button-container">
-  <button class="gravity-button" (click)="turnOnGravity()">
-    @if (gravityOn) {
-    Turn on gravity
-    }
-    @else {
-    Turn gravity off
-    }
-  </button>
+    <div class="button-container">
+      <button class="gravity-button" (click)="turnOnGravity()">
+        @if (gravityOn) {
+        Turn on gravity
+        }
+        @else {
+        Turn gravity off
+        }
+      </button>
+    </div>
+  </div>
 </div>
-

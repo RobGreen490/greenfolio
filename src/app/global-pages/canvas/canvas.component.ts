@@ -20,14 +20,8 @@ export class CanvasComponent implements AfterViewInit{
       const canvas = this.canvasRef.nativeElement;
       const ctx = canvas.getContext('2d')!;
 
-      canvas.width = document.documentElement.scrollWidth;
-      canvas.height = document.documentElement.scrollHeight;
-
-      // this will reshape the size of the canvas when the page is resized.
-      window.addEventListener('resize', resizeCanvas);
-
-      // run once on load
-      resizeCanvas();
+      // temporary initial size so the canvas exists visually before the parent resizes it
+      this.resizeCanvas(window.innerWidth, window.innerHeight);
 
       // will declare a mouse move event in case one of my pages needs it.
       // Canvas listens for mouse movement, and tells the page where it is, even if it doesn't need it.
@@ -44,26 +38,16 @@ export class CanvasComponent implements AfterViewInit{
 
       // animate the canvas
       animate();
+  }
 
-      // resize based on the entire page, not just the window.
-      function resizeCanvas() {
-        const doc = document.documentElement;
-        const body = document.body;
+  // public method so the parent component can decide the correct size
+  public resizeCanvas(width: number, height: number): void {
+    const canvas = this.canvasRef.nativeElement;
 
-        const width = window.innerWidth;
-        const height = Math.max(
-          body.scrollHeight,
-          body.offsetHeight,
-          doc.clientHeight,
-          doc.scrollHeight,
-          doc.offsetHeight
-        );
+    canvas.width = width;
+    canvas.height = height;
 
-        canvas.width = width;
-        canvas.height = height;
-
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-      }
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppRoutes } from '../../../../routes/app-routes';
 import { LandingPageNavBarComponent } from '../../layouts/landing-page-nav-bar/landing-page-nav-bar.component';
@@ -12,7 +12,12 @@ import { Circle } from '../../../models/circle';
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
-export class LandingPageComponent implements OnInit{
+export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
+  @ViewChild('canvasComp') canvasComp!: CanvasComponent;
+  @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
+
+  private resizeObserver?: ResizeObserver;
+  private resizeHandler = () => this.resizeCanvasToContent();
 
   constructor(
     private router: Router
@@ -57,6 +62,36 @@ export class LandingPageComponent implements OnInit{
         )
       );
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.resizeCanvasToContent();
+
+    window.addEventListener('resize', this.resizeHandler);
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.resizeCanvasToContent();
+    });
+
+    this.resizeObserver.observe(this.contentRef.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.resizeHandler);
+    this.resizeObserver?.disconnect();
+  }
+
+
+  private resizeCanvasToContent(): void {
+    if (!this.canvasComp || !this.contentRef) return;
+
+    const width = window.innerWidth;
+    const height = Math.max(
+      window.innerHeight,
+      this.contentRef.nativeElement.scrollHeight
+    );
+
+    this.canvasComp.resizeCanvas(width, height);
   }
 
   // will be used to turn drawing on and off.
