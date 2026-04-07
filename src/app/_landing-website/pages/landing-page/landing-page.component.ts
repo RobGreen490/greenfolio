@@ -109,7 +109,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
       // drawing, updating, and checking bounds all happens within circle.update.
       this.circles.forEach((circle, index) => {
         // update the circle with new x, y cooridates, then draw the circle
-        circle.update(canvas.width, canvas.height, ctx, mouse, this.gravityOn);
+        circle.update(canvas.width, canvas.height, ctx, mouse, this.gravityOn, true);
       });
     }
     else{
@@ -117,7 +117,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
       if(mouse.x > this.minRadius && mouse.y > this.minRadius)
         this.mouseDraw(this.isMouseDrawOn, ctx, mouse);
     }
-
   }
 
   turnOnGravity(): void{
@@ -154,5 +153,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   // World Map Website
   goToWorldMap(){
     this.router.navigate([AppRoutes.worldMap]);
+  }
+
+  goToBubblePopper(){
+    this.router.navigate([AppRoutes.bubblePopper]);
   }
 }

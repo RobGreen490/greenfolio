@@ -3,6 +3,7 @@ import { LandingPageComponent } from './_landing-website/pages/landing-page/land
 import { EmployeeManagementHomePageComponent } from './employee-management-website/pages/employee-management-home-page/employee-management-home-page.component';
 import { EmployeeManagementFormComponent } from './employee-management-website/pages/employee-management-form/employee-management-form.component';
 import { WorldMapHomePageComponent } from './world-map-website/pages/world-map-home-page/world-map-home-page.component';
+import { BubblePopperPageComponent } from './bubble-popper-website/pages/bubble-popper-page/bubble-popper-page.component';
 
 
 export const routes: Routes = [
@@ -12,5 +13,6 @@ export const routes: Routes = [
     { path: 'EmployeeManagement/create', component: EmployeeManagementFormComponent },
     { path: 'EmployeeManagement/update/:employeeId',  component: EmployeeManagementFormComponent},
     { path: 'WorldMap', component: WorldMapHomePageComponent} ,
+    { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent} ,
     {path: '**', redirectTo: '/', pathMatch:'full'} // wildcard for any page that doesn't exist
 ];

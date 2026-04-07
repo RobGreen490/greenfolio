@@ -18,5 +18,11 @@ export const AppRoutes = {
      * -----------------------
      * The home page for the world map website.
      */
-    worldMap: '/WorldMap'
+    worldMap: '/WorldMap',
+
+    /** bubblePopper
+     * -----------------------
+     * The home page for the bubble popper game
+     */
+    bubblePopper: '/Bubble-Popper-Game'
 };

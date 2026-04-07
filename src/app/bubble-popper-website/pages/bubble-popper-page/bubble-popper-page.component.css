@@ -1,0 +1,20 @@
+.page {
+  position: relative;
+  cursor: none;
+}
+
+.background-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+

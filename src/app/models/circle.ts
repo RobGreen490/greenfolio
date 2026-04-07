@@ -35,8 +35,10 @@ export class Circle{
     canvasHeight: number,
     ctx: CanvasRenderingContext2D,
     mouseLocation: { x: number, y: number},
-    gravityOn: boolean
+    gravityOn: boolean,
+    expandCircles: boolean
   ): void {
+    // console.log("drawing circle..");
     // gravity is off, balls floating in space
     if(!gravityOn){
       // reverse circle direction when they hit the edge of the page wall.
@@ -48,8 +50,11 @@ export class Circle{
       this.gravityAffect(canvasWidth, canvasHeight);
     }
 
-    // expanding the circle on mouse hover.
-    this.expandCircleOnMouseHover(canvasWidth, canvasHeight, mouseLocation);
+    // expanding the circle on mouse hover if expandCircles is true
+    if(expandCircles){
+      console.log("Expanding..");
+      this.expandCircleOnMouseHover(canvasWidth, canvasHeight, mouseLocation);
+    }
 
     // draw the circle
     this.draw(ctx);
@@ -120,7 +125,10 @@ export class Circle{
   }
 
   // expands the radius of the circle when mouse is hovered over circles.
-  expandCircleOnMouseHover(canvasWidth: number, canvasHeight: number, mouseLocation: {x: number, y:number}): void{
+  expandCircleOnMouseHover(
+    canvasWidth: number,
+    canvasHeight: number,
+    mouseLocation: {x: number, y:number},): void{
   // if a circle is within 50 pixels from the mouse, and radius is less than 100px, make the circle grow.
     if (
       Math.abs(mouseLocation.x - this.x) < 50 &&
