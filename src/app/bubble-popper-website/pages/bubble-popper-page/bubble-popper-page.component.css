@@ -18,3 +18,8 @@
   flex-direction: column;
 }
 
+p{
+  margin-left: 12px;
+  margin-top: 12px;
+  user-select: none;
+}

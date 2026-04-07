@@ -36,15 +36,23 @@ export class Circle{
     ctx: CanvasRenderingContext2D,
     mouseLocation: { x: number, y: number},
     gravityOn: boolean,
-    expandCircles: boolean
+    expandCircles: boolean,
+    reverseCircleDirection: boolean
   ): void {
     // console.log("drawing circle..");
     // gravity is off, balls floating in space
     if(!gravityOn){
-      // reverse circle direction when they hit the edge of the page wall.
-      this.reverseCircleDirection(canvasWidth, canvasHeight);
-      // if the page is resized, move the circle within bounds
-      this.clampToBounds(canvasWidth, canvasHeight);
+      if(reverseCircleDirection){
+        // reverse circle direction when they hit the edge of the page wall.
+        this.circleDirectionWithReverse(canvasWidth, canvasHeight);
+        // if the page is resized, move the circle within bounds
+        this.clampToBounds(canvasWidth, canvasHeight);
+      }
+      else{
+        // don't reverse circle direction.
+        this.circleDirectionWithoutReverse(canvasWidth, canvasHeight);
+      }
+
     } // gravity on, implement gravity
     else{
       this.gravityAffect(canvasWidth, canvasHeight);
@@ -115,12 +123,17 @@ export class Circle{
   }
 
   // if a circle hits the bounds of the canvas walls, reverse the direction of the velocity.
-  reverseCircleDirection(canvasWidth: number,canvasHeight: number): void{
+  circleDirectionWithReverse(canvasWidth: number,canvasHeight: number): void{
     if (this.x + this.minRadius >= canvasWidth || this.x - this.minRadius <= 0)
       this.dx = -this.dx;
     this.x += this.dx;
     if (this.y + this.minRadius >= canvasHeight || this.y - this.minRadius <= 0)
       this.dy = -this.dy;
+    this.y += this.dy;
+  }
+
+  circleDirectionWithoutReverse(canvasWidth: number, canvasHeight: number): void{
+    this.x += this.dx;
     this.y += this.dy;
   }
 

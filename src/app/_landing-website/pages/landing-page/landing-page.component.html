@@ -29,7 +29,7 @@
         </p>
       </div>
 
-      <div class="tile blank-tile" (click)="goToBubblePopper()">
+      <div class="tile background-image" [style.background-image]="'url(' + bubblePopperBackground + ')'" (click)="goToBubblePopper()">
         <h1>Bubble Popper Game</h1>
         <p>
           A fun little game for popping bubbles using a canvas.

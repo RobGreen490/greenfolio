@@ -4,6 +4,7 @@ import { AppRoutes } from '../../../../routes/app-routes';
 import { CanvasComponent } from '../../../global-pages/canvas/canvas.component';
 import { Circle } from '../../../models/circle';
 import { Projectile } from '../../../models/projectile';
+import { ExplosionParticle } from '../../../models/explosionParticle';
 
 @Component({
   selector: 'app-bubble-popper-page',
@@ -32,10 +33,8 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     private router: Router
   ){}
 
-  minRadius = 25;
-  maxRadius = 100;
-  circles: Circle[] = [];
   projectiles: Projectile [] = [];
+  explosionParticles: ExplosionParticle[] = [];
   colorArray: string [] = [
     '#CCC7B9',
     '#EAF9D9',
@@ -44,18 +43,20 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     '#653239'
   ];
 
-  dx: number = 0;
-  dy: number = 0;
-
   // used to drawing the crosshair
   pointerSize = 10;
   xRadius = 0;
 
-
+  // used for circles
+  minRadius = 25;
+  maxRadius = 100;
+  circles: Circle[] = [];
   expandCircles = false;
-  circle2!: Circle;
+  private bubbleSpawnTimeout?: number;
+
+
   ngOnInit(): void {
-    this.circle2 = new Circle(0, 0, 0, 0, this.minRadius, this.minRadius, this.maxRadius, 'blue', this.colorArray[Math.floor(Math.random() * this.colorArray.length)]);
+
   }
 
   ngOnDestroy(): void {
@@ -63,6 +64,9 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     window.removeEventListener('resize', this.resizeHandler);
     window.removeEventListener('click', this.buttonClickHandler);
     this.resizeObserver?.disconnect();
+
+    if (this.bubbleSpawnTimeout)
+      clearTimeout(this.bubbleSpawnTimeout);
   }
 
   ngAfterViewInit(): void {
@@ -76,6 +80,7 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
       this.resizeCanvasToContent();
     });
     this.resizeObserver.observe(this.contentRef.nativeElement);
+    this.startBubbleSpawning();
   }
 
   private resizeCanvasToContent(): void {
@@ -106,8 +111,8 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     // clear the canvas every time we start drawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // drawing cannon
-    this.mouseDrawCrossier(true, ctx, mouse);
+    // drawing crosshair and cannon
+    this.mouseDrawCrosshair(true, ctx, mouse);
     this.drawCannon(canvas.height, ctx, mouse);
 
     // drawing projectile if active
@@ -132,8 +137,101 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
         }
       })
 
+    // determine if a projectile hits a circle and remove both from the frame
+    this.projectiles.forEach((projectile) => {
+      this.circles.forEach((circle) => {
+        const dx = projectile.x - circle.x;
+        const dy = projectile.y - circle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < projectile.radius + circle.radius) {
+          this.spawnExplosion(projectile.x, projectile.y);
+          projectile.isActive = false;
+          circle.x = -1000;
+        }
+      });
+    });
+
+    this.explosionParticles.forEach((particle) => {
+      particle.x += particle.dx;
+      particle.y += particle.dy;
+      particle.life -= 1;
+      particle.radius *= 0.95;
+
+      const alpha = particle.life / 30;
+
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(255, 140, 0, ${alpha})`;
+      ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+    });
+
+    this.explosionParticles = this.explosionParticles.filter(
+      particle => particle.life > 0 && particle.radius > 0.5
+    );
+
+    this.circles.forEach((circle) => {
+      circle.update(canvas.width, canvas.height, ctx, mouse, false, false, false);
+    });
+
+    // remove circles where x < 0
+    this.circles = this.circles.filter(circle => circle.x >= 0 - circle.radius);
   }
 
+  // used to spawn the bubble
+  private spawnBubble(canvas: HTMLCanvasElement): void {
+    const radius = Math.floor(Math.random() * (this.maxRadius - this.minRadius + 1)) + this.minRadius;
+
+    const x = canvas.width - 100; // off screen to the right
+    const y = Math.random() * (canvas.height - radius * 2) + radius;
+
+    const dx = -(Math.random() * 2 + 1); // move left, between about -1 and -3
+    const dy = 0;
+
+    const outlineColor = 'blue';
+    const fillColor = this.colorArray[Math.floor(Math.random() * this.colorArray.length)];
+
+    this.circles.push(
+      new Circle(x, y, dx, dy, radius, this.minRadius, this.maxRadius, outlineColor, fillColor)
+    );
+  }
+
+  spawnExplosion(x: number, y: number): void {
+    const particleCount = 12;
+
+    for (let i = 0; i < particleCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 4 + 1;
+      const radius = Math.random() * 3 + 2;
+      const life = 30;
+
+      const dx = Math.cos(angle) * speed;
+      const dy = Math.sin(angle) * speed;
+
+      this.explosionParticles.push(
+        new ExplosionParticle(x, y, dx, dy, radius, life, 'orange')
+      );
+    }
+  }
+
+  private startBubbleSpawning(): void {
+    const canvas = this.canvasComp.canvasRef.nativeElement;
+
+    const scheduleNext = () => {
+      // spawn timer random between 1 and 5 seconds
+      const delay = Math.floor(Math.random() * 2000) + 1000;
+
+      this.bubbleSpawnTimeout = window.setTimeout(() => {
+        this.spawnBubble(canvas);
+        scheduleNext();
+      }, delay);
+    };
+
+    scheduleNext();
+  }
+
+  // draw the cannon
   drawCannon(canvasHeight: number, ctx: CanvasRenderingContext2D, mouse: {x: number, y: number}): void{
     const cannonX = 20; // pivot point (center top of base)
     const cannonY = canvasHeight - 30;
@@ -193,7 +291,7 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
   }
 
 
-  mouseDrawCrossier(isOn: boolean, ctx: CanvasRenderingContext2D, mouse: { x: number, y: number }): void {
+  mouseDrawCrosshair(isOn: boolean, ctx: CanvasRenderingContext2D, mouse: { x: number, y: number }): void {
     if (isOn) {
       ctx.beginPath();
       ctx.strokeStyle = 'red';

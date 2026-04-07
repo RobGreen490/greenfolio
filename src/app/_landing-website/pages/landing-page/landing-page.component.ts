@@ -109,7 +109,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
       // drawing, updating, and checking bounds all happens within circle.update.
       this.circles.forEach((circle, index) => {
         // update the circle with new x, y cooridates, then draw the circle
-        circle.update(canvas.width, canvas.height, ctx, mouse, this.gravityOn, true);
+        circle.update(canvas.width, canvas.height, ctx, mouse, this.gravityOn, true, true);
       });
     }
     else{
@@ -144,6 +144,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   // https://unsplash.com/@photowolf
   worldMapBackground = 'assets/images/landing-website-images/world-map-photo.jpg';
+
+  bubblePopperBackground = 'assets/images/landing-website-images/bubble-popper-photo.png';
 
   // Employee Management Website
   goToEmployeeManagement() {
