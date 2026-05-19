@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg header">
     <div class="container-fluid">
 
         <!-- Left side of the nav bar for the current websites home page -->
-        <a class="navbar-brand" [routerLink]="routes.landingPage">
-            Home Page
+        <a class="navbar-brand text-light fw-bold fs-4" [routerLink]="routes.landingPage">
+            Greenfolio
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -16,7 +16,7 @@
             <!-- Right side of the nav bar for the most popular websites -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link link-body-emphasis" [routerLink]="routes.employeeManagement">
+                    <a class="nav-link link-light" [routerLink]="routes.employeeManagement">
                         Employee Management App
                     </a>
                 </li>
@@ -26,7 +26,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link link-body-emphasis" [routerLink]="routes.worldMap">
+                    <a class="nav-link link-light" [routerLink]="routes.worldMap">
                         World Map
                     </a>
                 </li>

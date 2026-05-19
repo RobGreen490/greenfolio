@@ -1,7 +1,5 @@
 export class Circle{
   constructor(
-    // mouse location (may be a number, may be null)
-    // public mouseLocation: {mx: number | null, my: number | null},
     // starting location of the x axis (random * (max - min) + min)
     public x: number,
     // starting location of the y axis (random * (max - min) + min)
@@ -10,8 +8,8 @@ export class Circle{
     public dx: number,
     // vertical velocity of the moving circle
     public dy: number,
-    // the distance from the center of the circle to ring of the circle
     public minRadius: number,
+    // the distance from the center of the circle to ring of the circle
     public radius: number,
     public maxRadius: number,
     public strokeColor: string = 'black',
@@ -19,8 +17,6 @@ export class Circle{
   ){}
 
   draw(ctx: CanvasRenderingContext2D): void{
-    // console.log("Circle.draw()", this.x, this.y, this.radius, this.strokeColor);
-
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     ctx.strokeStyle = this.strokeColor;
@@ -39,7 +35,6 @@ export class Circle{
     expandCircles: boolean,
     reverseCircleDirection: boolean
   ): void {
-    // console.log("drawing circle..");
     // gravity is off, balls floating in space
     if(!gravityOn){
       if(reverseCircleDirection){
@@ -49,7 +44,7 @@ export class Circle{
         this.clampToBounds(canvasWidth, canvasHeight);
       }
       else{
-        // don't reverse circle direction.
+        // don't reverse circle direction, no collision with walls
         this.circleDirectionWithoutReverse(canvasWidth, canvasHeight);
       }
 
@@ -60,7 +55,6 @@ export class Circle{
 
     // expanding the circle on mouse hover if expandCircles is true
     if(expandCircles){
-      console.log("Expanding..");
       this.expandCircleOnMouseHover(canvasWidth, canvasHeight, mouseLocation);
     }
 
@@ -149,7 +143,8 @@ export class Circle{
       this.radius < this.maxRadius
     )
       this.radius += 1;
-    else { // no mouse on circle, radius is returning to normal size
+    else {
+      // no mouse on circle, radius is returning to normal size if radius > minRadius
       if (this.minRadius < this.radius )
         this.radius -= 1;
     }
