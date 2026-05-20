@@ -183,7 +183,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   // https://unsplash.com/@photowolf
   worldMapBackground = 'assets/images/landing-website-images/world-map-photo.jpg';
 
-  bubblePopperBackground = 'assets/images/landing-website-images/bubble-popper-photo.png';
+  bubblePopperBackground = 'assets/images/landing-website-images/bubble-popper-photo.jpg';
 
 
   //** ROUTING LOGIC=====================================================================================

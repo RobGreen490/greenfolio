@@ -47,29 +47,33 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
   pointerSize = 10;
   xRadius = 0;
 
+  // used to keep tab on player score
+  playerScore = 0;
+
   // used for circles
   minRadius = 25;
   maxRadius = 100;
   circles: Circle[] = [];
   expandCircles = false;
   private bubbleSpawnTimeout?: number;
+  colorHit = "";
 
 
   ngOnInit(): void {
 
   }
 
-  ngOnDestroy(): void {
-    window.removeEventListener('keydown', this.escapeKeyHandler);
-    window.removeEventListener('resize', this.resizeHandler);
-    window.removeEventListener('click', this.buttonClickHandler);
-    this.resizeObserver?.disconnect();
-
-    if (this.bubbleSpawnTimeout)
-      clearTimeout(this.bubbleSpawnTimeout);
+  // can be used to change the background color of the canvas
+  toggleCanvasBGC(color: string): void {
+    const canvas = this.canvasComp.canvasRef.nativeElement;
+    canvas.style.backgroundColor = color;
   }
 
+
+
   ngAfterViewInit(): void {
+
+    this.toggleCanvasBGC("#0D0E12");
     this.resizeCanvasToContent();
 
     window.addEventListener('resize', this.resizeHandler);
@@ -81,6 +85,16 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     });
     this.resizeObserver.observe(this.contentRef.nativeElement);
     this.startBubbleSpawning();
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('keydown', this.escapeKeyHandler);
+    window.removeEventListener('resize', this.resizeHandler);
+    window.removeEventListener('click', this.buttonClickHandler);
+    this.resizeObserver?.disconnect();
+
+    if (this.bubbleSpawnTimeout)
+      clearTimeout(this.bubbleSpawnTimeout);
   }
 
   private resizeCanvasToContent(): void {
@@ -123,9 +137,14 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
           projectile.y += projectile.dy;
 
           ctx.beginPath();
-          ctx.fillStyle = 'black';
+          ctx.fillStyle = '#000';
+          ctx.strokeStyle = '#FFF';
+          // If I want the projectile to be a circle, use this.
           ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
+          // If I want the projectile to be a dot.
+          // ctx.rect(projectile.x, projectile.y, 1, 1);
           ctx.fill();
+          ctx.stroke();
           ctx.closePath();
 
           // if the projectile isn't on screen, stop drawing projectile.
@@ -146,8 +165,19 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
 
         if (distance < projectile.radius + circle.radius) {
           this.spawnExplosion(projectile.x, projectile.y);
+          // stop drawing the projectile once false (it still exist at the point of contact with the bubble)
           projectile.isActive = false;
+          // the projectiles explosion will match the fill color of the circle.
+          this.colorHit = circle.fillColor;
+          // move the circle off screen (this will automatically drop it from the array of bubbles)
           circle.x = -1000;
+          // increment player score based on the radius of the circle.
+          this.playerScore += Math.ceil((circle.maxRadius - circle.radius)/ 10) + 1;
+
+          // this actually removes the projectile so its point of contact will not hit other bubbles.
+          this.projectiles = this.projectiles.filter(
+            projectile => projectile.isActive
+          );
         }
       });
     });
@@ -161,7 +191,7 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
       const alpha = particle.life / 30;
 
       ctx.beginPath();
-      ctx.fillStyle = `rgba(255, 140, 0, ${alpha})`;
+      ctx.fillStyle = this.colorHit;
       ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
       ctx.fill();
       ctx.closePath();
@@ -193,7 +223,7 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     const fillColor = this.colorArray[Math.floor(Math.random() * this.colorArray.length)];
 
     this.circles.push(
-      new Circle(x, y, dx, dy, radius, this.minRadius, this.maxRadius, outlineColor, fillColor)
+      new Circle(x, y, dx, dy, this.minRadius, radius, this.maxRadius, outlineColor, fillColor)
     );
   }
 
@@ -210,6 +240,7 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
       const dy = Math.sin(angle) * speed;
 
       this.explosionParticles.push(
+        // I'll change the color of the explosion in a different part of this code-base based on what it hits.
         new ExplosionParticle(x, y, dx, dy, radius, life, 'orange')
       );
     }
@@ -219,8 +250,8 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     const canvas = this.canvasComp.canvasRef.nativeElement;
 
     const scheduleNext = () => {
-      // spawn timer random between 1 and 5 seconds
-      const delay = Math.floor(Math.random() * 2000) + 1000;
+      // spawn timer random between 1 and 4 seconds
+      const delay = Math.floor(Math.random() * 1000) + 2000;
 
       this.bubbleSpawnTimeout = window.setTimeout(() => {
         this.spawnBubble(canvas);
@@ -237,8 +268,8 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     const cannonY = canvasHeight - 30;
 
     // draw the cannon base
-    ctx.strokeStyle = 'black';
-    ctx.fillStyle = 'black';
+    ctx.strokeStyle = '#FFF';
+    ctx.fillStyle = '#000';
     ctx.beginPath();
     ctx.rect(0, cannonY, 20, 50);
     ctx.fill();
@@ -247,8 +278,9 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
 
     // draw the cannon wheel
     ctx.beginPath();
-    ctx.arc(15, canvasHeight - 25, this.xRadius, 0, Math.PI * 2);
+    ctx.arc(15, canvasHeight - 25, this.xRadius, Math.PI, Math.PI * 2.4);
     ctx.stroke();
+    ctx.fill();
     ctx.closePath();
 
     // save the cannon base and wheel
@@ -263,8 +295,8 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
 
 
     // draw the barrel
-    ctx.fillStyle = 'black';
-    ctx.strokeStyle = 'black';
+    ctx.fillStyle = '#000';
+    ctx.strokeStyle = '#FFF';
     ctx.beginPath();
     ctx.rect(0, -5, 40, 10); // x, y, width, height
     ctx.stroke();
@@ -276,9 +308,12 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
   fireProjectile(mouse: { x: number, y: number }, canvasHeight: number): void {
     const cannonX = 20;
     const cannonY = canvasHeight - 30;
+    // The angle at which the projectile should spawn
     const angle = Math.atan2(mouse.y - cannonY, mouse.x - cannonX);
-    const speed = 12;
+    // The speed of the projectile
+    const speed = 48;
     const barrelLength = 40;
+    const projectileRadius = 4;
 
     const tempX = cannonX + Math.cos(angle) * barrelLength;
     const tempY = cannonY + Math.sin(angle) * barrelLength;
@@ -286,7 +321,7 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
     const tempDy = Math.sin(angle) * speed;
     const isActive = true;
     this.projectiles.push(new Projectile(
-      tempX, tempY, tempDx, tempDy, 8, isActive
+      tempX, tempY, tempDx, tempDy, projectileRadius, isActive
     ));
   }
 

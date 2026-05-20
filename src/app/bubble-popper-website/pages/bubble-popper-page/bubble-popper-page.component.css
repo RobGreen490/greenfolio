@@ -18,8 +18,13 @@
   flex-direction: column;
 }
 
-p{
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
   margin-left: 12px;
   margin-top: 12px;
+  margin-right: 12px;
   user-select: none;
 }
