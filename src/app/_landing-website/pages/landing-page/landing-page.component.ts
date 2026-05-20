@@ -48,7 +48,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
     // recolor the background of the canvas based on what is drawn
     switch(this.currentDrawable){
       case 'bouncing-circles':
-        this.toggleCanvasBGC("#121318");
+        this.toggleCanvasBGC("#0D0E12");
         break;
       case 'mouse-draw':
         this.toggleCanvasBGC("#b0b0b0");

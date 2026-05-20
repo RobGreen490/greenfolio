@@ -2,6 +2,16 @@
 
 <br>
 
+## Steps to updating the website when hosted through a domain name:
+1. Update the production build(this creates the dist folder):<br>
+   ```bash
+   ng build --configuration production
+   ```
+2. Deploy to GitHub Pages using angular-cli-ghpages<br>
+   ```bash
+   npx angular-cli-ghpages --dir=dist/greenfolio/browser/
+   ```
+
 ## Steps to updating the website after making edits to the app:
 1. Update the production build(this creates the dist folder):<br>
    ```bash
