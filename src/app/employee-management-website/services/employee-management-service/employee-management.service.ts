@@ -10,7 +10,7 @@ import { Employee } from '../../models/employee';
 })
 export class EmployeeManagementService {
   // employee comes from the api/[controller] name EmployeeController in the backend.
-  private apiUrl = `${environment.apiUrl}/employees`
+  private apiUrl = `${environment.apiUrl}/Employees`
 
   constructor(private http: HttpClient) { }
 
