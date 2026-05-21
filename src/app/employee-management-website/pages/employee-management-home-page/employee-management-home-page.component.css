@@ -17,7 +17,6 @@
 
 .body {
   display: flex;
-  border: 2px solid #0000ff;
   flex-direction: column;
   position: relative;
   z-index: 1;
@@ -27,5 +26,10 @@
 }
 
 .card{
-  background-color: aqua;
+  background-color: #38383d;
+}
+
+.employee-table-container {
+  max-height: 70vh;
+  overflow-y: auto;
 }
