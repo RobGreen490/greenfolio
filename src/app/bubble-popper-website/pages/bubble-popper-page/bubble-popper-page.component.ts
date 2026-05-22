@@ -264,26 +264,33 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
 
   // draw the cannon
   drawCannon(canvasHeight: number, ctx: CanvasRenderingContext2D, mouse: {x: number, y: number}): void{
-    const cannonX = 20; // pivot point (center top of base)
-    const cannonY = canvasHeight - 30;
+    const cannonX = 50; // pivot point (center top of base)
+    const cannonY = canvasHeight - 40;
 
-    // draw the cannon base
-    ctx.strokeStyle = '#FFF';
-    ctx.fillStyle = '#000';
-    ctx.beginPath();
-    ctx.rect(0, cannonY, 20, 50);
-    ctx.fill();
-    ctx.stroke();
-    ctx.closePath();
+    // Color for the base and barrel
+    const gradient = ctx.createLinearGradient(0, 22, 45, 0);
+    gradient.addColorStop(0, '#444');
+    gradient.addColorStop(0.5, '#999');
+    gradient.addColorStop(1, '#222');
+
+
+    // new cannon base
+    const cannonSvgPath = `m 11.229126,197.49092 -10.54818765,6.6487 c 1.03499115,0.18266 0.0267,0.0202 0.83888115,0.11572 0.21263,0.025 0.4233,0.0661 0.6364,0.0868 0.32287,0.0312 0.53726,-0.0413 0.78103,0.20249 0.099,0.099 0.20731,0.21454 0.26034,0.34712 0.0896,0.22398 0.16713,0.87106 0.11571,1.12816 -0.0514,0.25714 -0.16444,0.40181 -0.11571,0.69425 0.0476,0.28568 0.33961,0.32097 0.5496205,0.40498 0.042,0.0168 0.13449,0.0579 0.17356,0.0579 H 0.62307835 v 1.70663 H 3.80506 117.90865 v -2.86094 l -9.40909,-0.16364 -8.16118,-30.45794 h -9.102489 l -7.72839,-28.84275 -9.69888,-4.27204 H 40.508626 l -17.09539,9.87003 -11.77966,43.96228 z`;
+    const cannonBasePath = new Path2D(cannonSvgPath);
+    ctx.fillStyle = gradient;
+    this.drawSvgPath(canvasHeight, ctx, cannonSvgPath, cannonBasePath);
 
     // draw the cannon wheel
-    ctx.beginPath();
-    ctx.arc(15, canvasHeight - 25, this.xRadius, Math.PI, Math.PI * 2.4);
-    ctx.stroke();
-    ctx.fill();
-    ctx.closePath();
 
-    // save the cannon base and wheel
+    ctx.beginPath();
+    ctx.arc(50, canvasHeight - 40, 12, 0, Math.PI * 2);
+    ctx.strokeStyle = '#222'
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(50, canvasHeight - 40, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#777';
+    ctx.fill();
     ctx.save();
 
     // move to pivot
@@ -295,19 +302,39 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
 
 
     // draw the barrel
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = gradient;
     ctx.strokeStyle = '#FFF';
     ctx.beginPath();
-    ctx.rect(0, -5, 40, 10); // x, y, width, height
-    ctx.stroke();
-    ctx.fill();
+    ctx.moveTo(0, -8);
+    ctx.lineTo(70, -5);
+    ctx.lineTo(60, 5);
+    ctx.lineTo(0, 8);
     ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // I'll use this to get the height of my Path2D
+  drawSvgPath(canvasHeight: number, ctx: CanvasRenderingContext2D, svgStringPath: string, svgPath: Path2D,){
+    ctx.save();
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    const path = document.createElementNS(svgNS, "path");
+    path.setAttribute("d", svgStringPath);
+    svg.appendChild(path);
+    document.body.appendChild(svg);
+    const bbox = path.getBBox();
+    document.body.removeChild(svg);
+
+    ctx.translate(0, canvasHeight - bbox.height - bbox.y);
+    ctx.stroke(svgPath);
+    ctx.fill(svgPath);
     ctx.restore();
   }
 
   fireProjectile(mouse: { x: number, y: number }, canvasHeight: number): void {
-    const cannonX = 20;
-    const cannonY = canvasHeight - 30;
+    const cannonX = 50;
+    const cannonY = canvasHeight - 40;
     // The angle at which the projectile should spawn
     const angle = Math.atan2(mouse.y - cannonY, mouse.x - cannonX);
     // The speed of the projectile

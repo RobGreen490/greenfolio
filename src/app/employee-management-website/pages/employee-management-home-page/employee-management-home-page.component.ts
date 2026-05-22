@@ -23,6 +23,7 @@ export class EmployeeManagementHomePageComponent implements OnInit, AfterViewIni
   private resizeHandler = () => this.resizeCanvasToContent();
 
   employees: Employee[] = [];
+  loading: boolean = true;
 
   constructor(
     private EmployeeManagementService: EmployeeManagementService,
@@ -30,8 +31,11 @@ export class EmployeeManagementHomePageComponent implements OnInit, AfterViewIni
   ){}
 
   ngOnInit(): void {
+    // console.log("loading employees..");
     this.EmployeeManagementService.getEmployees().subscribe((employeeDataFromDB: Employee[]) => {
       this.employees = employeeDataFromDB;
+      this.loading = false;
+      // console.log("finished loading employees.");
     })
   }
 
