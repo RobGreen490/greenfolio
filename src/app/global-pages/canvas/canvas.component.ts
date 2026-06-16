@@ -26,8 +26,11 @@ export class CanvasComponent implements AfterViewInit{
       // will declare a mouse move event in case one of my pages needs it.
       // Canvas listens for mouse movement, and tells the page where it is, even if it doesn't need it.
       window.addEventListener('mousemove', (event: MouseEvent) => {
-        this.mouse.x = event.clientX;
-        this.mouse.y = event.clientY;
+        // Convert mouse position using canvas position on screen
+        const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+
+        this.mouse.x = event.clientX - rect.left;
+        this.mouse.y = event.clientY - rect.top;
       });
 
 

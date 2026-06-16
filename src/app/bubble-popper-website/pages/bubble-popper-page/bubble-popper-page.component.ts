@@ -108,13 +108,13 @@ export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestr
   }
 
   private escapeKeyHandlerFunction(): void {
-    console.log("Returning to main menu..");
+    // console.log("Returning to main menu..");
     this.router.navigate([AppRoutes.landingPage]);
   }
 
   private buttonClickHandlerFunction(event: MouseEvent): void{
-    console.log("Shooting cannon..");
-      this.fireProjectile(event, this.canvasComp.canvasRef.nativeElement.height);
+    // console.log("Shooting cannon..");
+    this.fireProjectile(event, this.canvasComp.canvasRef.nativeElement.height);
   }
 
   draw = (

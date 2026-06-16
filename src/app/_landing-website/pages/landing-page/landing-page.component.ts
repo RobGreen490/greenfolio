@@ -5,6 +5,9 @@ import { LandingPageNavBarComponent } from '../../layouts/landing-page-nav-bar/l
 import { CanvasComponent } from '../../../global-pages/canvas/canvas.component';
 import { Circle } from '../../../models/circle';
 import { DrawableMode } from '../../../types/drawable-mode.type' ;
+import { BouncingCirclesService } from '../../../services/bouncingCirclesService';
+import { BackgroundColorService } from '../../../services/backgroundColorService';
+import { Wave } from '../../../models/wave';
 
 @Component({
   selector: 'app-landing-page',
@@ -21,17 +24,23 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   private resizeHandler = () => this.resizeCanvasToContent();
 
   constructor(
-    private router: Router
-  ){}
+    private router: Router,
+    private bouncingCirclesService: BouncingCirclesService,
+    private backgroundColorService: BackgroundColorService
+  ){
+  }
 
-
+  // review 'DrawableMode' to see the different types of strings to use for drawables.
+  currentDrawable: DrawableMode = 'sine-waves';
   ngOnInit(): void {
     switch(this.currentDrawable){
       default:
         break;
       case 'bouncing-circles':
         // generate and store the circles within an array to be drawn later.
-        this.generateCircles();
+        this.circles = this.bouncingCirclesService.generateCircles(400, 0, 100);
+        break;
+      case 'sine-waves':
         break;
     }
   }
@@ -46,20 +55,13 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   ngAfterViewInit(): void {
     // recolor the background of the canvas based on what is drawn
-    switch(this.currentDrawable){
-      case 'bouncing-circles':
-        this.toggleCanvasBGC("#0D0E12");
-        break;
-      case 'mouse-draw':
-        this.toggleCanvasBGC("#b0b0b0");
-        break;
-      default:
-        this.toggleCanvasBGC("#b0b0b0");
-        break;
-    }
+    const newBackgroundColor = this.backgroundColorService.determineBackgroundColor(this.currentDrawable);
+    this.toggleCanvasBGC(newBackgroundColor);
 
+    // initialize the size of the canvas.
     this.resizeCanvasToContent();
 
+    // add an event listener that changes the canvas size based on the new size of the window.
     window.addEventListener('resize', this.resizeHandler);
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
@@ -81,16 +83,18 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
     const width = window.innerWidth;
     const height = Math.max(
       window.innerHeight,
-      this.contentRef.nativeElement.scrollHeight
+      this.contentRef.nativeElement.scrollHeight,
+      this.contentRef.nativeElement.clientHeight
     );
 
     this.canvasComp.resizeCanvas(width, height);
+
+    if(this.currentDrawable == 'sine-waves')
+      this.wave = new Wave();
   }
 
 
   //** ALL DRAWING LOGIC=================================================================================
-  // will be used to turn drawing on and off.
-  currentDrawable: DrawableMode = 'bouncing-circles';
   draw = (
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
@@ -108,8 +112,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
       case 'mouse-draw':
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if(mouse.x > this.minRadius && mouse.y > this.minRadius)
+        if(mouse.x > 0 && mouse.y > 100)
           this.mouseDraw(ctx, mouse);
+        break;
+
+      case 'sine-waves':
+        this.wave.draw(ctx);
         break;
 
       default:
@@ -121,69 +129,41 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   //** CIRCLES LOGIC=====================================================================================
   circles: Circle [] = [];
-  minRadius = 0;
-  maxRadius = 100;
-  CirclesColorArray: string [] = ['#CCC7B9', '#EAF9D9', '#E2D4BA', '#AF7A6D', '#653239'];
-  private generateCircles(){
-    for(var i = 0; i < 400; i++){
-      this.minRadius = Math.floor(Math.random() * 20 + 1);
-        this.circles.push(
-        new Circle(
-          // mouse location
-          //{mx: 0, my: 0},
-          // x position
-          Math.random() * (innerWidth - 2 * this.minRadius) + this.minRadius,
-          // y position
-          Math.random() * (innerHeight - 2 * this.minRadius) + this.minRadius,
-          // x speed
-          (Math.random() - 0.5) * 6,
-          // y speed
-          (Math.random() - 0.5) * 6,
-          // minRadius (smallest the dot can get)
-          this.minRadius,
-          // the current radius
-          this.minRadius,
-          // maxRadius (maximum size a circle can get)
-          this.maxRadius,
-          // outline
-          'transparent',
-          this.CirclesColorArray[Math.floor(Math.random() * this.CirclesColorArray.length)]
-        )
-      );
-    }
-  }
-  // Turns on/off gravity for bouncing circles.
+
+  // html button for gravity (turns on and off gravity when pressed)
   gravityOn = false;
   turnOnGravity(): void{
     this.gravityOn = !this.gravityOn;
-    if(!this.gravityOn){
-      this.circles.forEach((circle, index) => {
-        circle.dx = (Math.random() - 0.5) * 6
-        circle.dy = (Math.random() - 0.5) * 8
-      });
-    }
-    console.log(this.gravityOn);
+    this.bouncingCirclesService.turnOnGravity(this.gravityOn);
   }
   //** CIRCLES LOGIC====================================================================================>
+
+
+  //** WAVE LOGIC====================================================================================>
+  wave: Wave = new Wave();
+
+  //** WAVE LOGIC====================================================================================>
 
 
   //** MOUSE DRAW LOGIC==================================================================================
   mouseDraw (ctx: CanvasRenderingContext2D, mouse: { x: number, y: number }): void {
     ctx.beginPath();
-    ctx.arc(mouse.x, mouse.y, this.minRadius, 0, Math.PI * 2);
+    ctx.arc(mouse.x, mouse.y, 50, 0, Math.PI * 2);
     ctx.strokeStyle = 'red';
     ctx.stroke();
   }
   //** MOUSE DRAW LOGIC=================================================================================>
 
 
+  //** IMAGES FROM UNSPLASH=================================================================================>
   // https://unsplash.com/@bennieray
   employeeManagementBackground = 'assets/images/landing-website-images/employee-management-photo.jpg';
 
   // https://unsplash.com/@photowolf
   worldMapBackground = 'assets/images/landing-website-images/world-map-photo.jpg';
 
-  bubblePopperBackground = 'assets/images/landing-website-images/bubble-popper-photo.jpg';
+  bubblePopperBackground = 'assets/images/landing-website-images/bubble-popper-photo-v2.jpg';
+  //** IMAGES FROM UNSPLASH=================================================================================>
 
 
   //** ROUTING LOGIC=====================================================================================

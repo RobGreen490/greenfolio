@@ -40,7 +40,7 @@ export class EmployeeManagementFormComponent implements OnInit{
         const employeeId = result.get('employeeId');
         if(employeeId) // if we have an employee, update it
         {
-          console.log(`Updating employeeId ${employeeId}`)
+          // console.log(`Updating employeeId ${employeeId}`)
           this.isUpdating = true;             //have to static cast string to number
           this.employeeManagementService.getEmployeeById(Number(employeeId)).subscribe({
             next: (result) => this.employee = result,
@@ -61,7 +61,7 @@ export class EmployeeManagementFormComponent implements OnInit{
         .subscribe({
           next: (Response) => {
             // Route the user back to the home page after creating employee
-            console.log(this.employee);
+            // console.log(this.employee);
             this.router.navigate([[AppRoutes.employeeManagement]]);
             //(result) => console.log(result)
           },
@@ -78,7 +78,7 @@ export class EmployeeManagementFormComponent implements OnInit{
         .subscribe({
           next: (Response) => {
             // Route the user back to the home page after creating employee
-            console.log(this.employee);
+            // console.log(this.employee);
             this.router.navigate([[AppRoutes.employeeManagement]]);
             //(result) => console.log(result)
           },
