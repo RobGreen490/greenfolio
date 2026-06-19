@@ -10,7 +10,7 @@ export class Wave{
 
   // The actual sine wave ('y' will be properly assigned within the draw() method)
   wave = {
-    y: 304,
+    y: 0,
     length: -0.003,
     amplitude: 200,
     frequency: 0.01
@@ -28,11 +28,15 @@ export class Wave{
   freqIncrement = this.wave.frequency;
   waveLength = 0.05;
   public draw(ctx: CanvasRenderingContext2D): void{
-    const isMobile = this.canvasHeight > this.canvasWidth;
 
-    // set the appropriate canvas width and height.
+    // grab the width and height of the canvas.
     this.canvasWidth = ctx.canvas.width;
     this.canvasHeight = ctx.canvas.height;
+
+    // then determine if the user is on mobile based on those measurements.
+    const isMobile = this.canvasHeight > this.canvasWidth;
+
+
     this.wave.y = this.canvasHeight / 2;
 
     // this.amplitudeUpdate();
@@ -46,6 +50,7 @@ export class Wave{
 
     // if mobile, have the sin wave go from top to bottom.
     if(!isMobile){
+
       ctx.lineWidth = 12;
       ctx.moveTo(-this.screenOffset, this.canvasHeight / 2);
       for(let i = -this.screenOffset; i < (isMobile? this.canvasHeight : this.canvasWidth); i++)
@@ -92,7 +97,6 @@ export class Wave{
   waveDirection = -0.001;
   waveSpeed = 0.001;
   wavelengthUpdate() {
-
     if (this.waveLength >= 0.001) {
       this.waveLength = 0.01;
       this.waveDirection = -this.waveSpeed;

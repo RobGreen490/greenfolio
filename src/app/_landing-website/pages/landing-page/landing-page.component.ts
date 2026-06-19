@@ -41,6 +41,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
         this.circles = this.bouncingCirclesService.generateCircles(400, 0, 100);
         break;
       case 'sine-waves':
+        //not really necessary but for now I'll keep this switch here.
         break;
     }
   }
@@ -80,6 +81,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   private resizeCanvasToContent(): void {
     if (!this.canvasComp || !this.contentRef) return;
 
+    if(this.currentDrawable == 'sine-waves')
+      this.wave = new Wave();
+
     const width = window.innerWidth;
     const height = Math.max(
       window.innerHeight,
@@ -89,8 +93,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
     this.canvasComp.resizeCanvas(width, height);
 
-    if(this.currentDrawable == 'sine-waves')
-      this.wave = new Wave();
+
   }
 
 
