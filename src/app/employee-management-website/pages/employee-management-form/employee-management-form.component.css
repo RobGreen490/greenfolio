@@ -1,5 +1,19 @@
 .background{
-  background-color: #0D0E12;
+  background-color: transparent;
   height: 100vh;
   color: white;
+}
+.background-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }

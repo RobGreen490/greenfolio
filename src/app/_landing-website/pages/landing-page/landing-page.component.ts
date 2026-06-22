@@ -8,6 +8,7 @@ import { DrawableMode } from '../../../types/drawable-mode.type' ;
 import { BouncingCirclesService } from '../../../services/bouncingCirclesService';
 import { BackgroundColorService } from '../../../services/backgroundColorService';
 import { Wave } from '../../../models/wave';
+import { ResizeHelperService } from '../../../services/resizeHelperService';
 
 @Component({
   selector: 'app-landing-page',
@@ -21,13 +22,17 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
 
   private resizeObserver?: ResizeObserver;
-  private resizeHandler = () => this.resizeCanvasToContent();
+  private readonly _resizeHelperService?: ResizeHelperService;
+  private lastIsMobile = false;
+
 
   constructor(
     private router: Router,
     private bouncingCirclesService: BouncingCirclesService,
-    private backgroundColorService: BackgroundColorService
+    private backgroundColorService: BackgroundColorService,
+    private resizeHelperService: ResizeHelperService
   ){
+    this._resizeHelperService = resizeHelperService;
   }
 
   // review 'DrawableMode' to see the different types of strings to use for drawables.
@@ -59,11 +64,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
     const newBackgroundColor = this.backgroundColorService.determineBackgroundColor(this.currentDrawable);
     this.toggleCanvasBGC(newBackgroundColor);
 
-    // initialize the size of the canvas.
-    this.resizeCanvasToContent();
-
-    // add an event listener that changes the canvas size based on the new size of the window.
-    window.addEventListener('resize', this.resizeHandler);
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
     });
@@ -72,28 +72,23 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   ngOnDestroy(): void {
-    window.removeEventListener('resize', this.resizeHandler);
+    //window.removeEventListener('resize', this.resizeHandler);
     this.resizeObserver?.disconnect();
   }
 
 
+  // TODO:: figure out why the phone isn't resizing properly horizontally.
+  private previousWidth = window.innerWidth;
+
   // used to resize the canvas on window resize by user.
   private resizeCanvasToContent(): void {
-    if (!this.canvasComp || !this.contentRef) return;
+    console.log("resize running..");
+    const result = this._resizeHelperService?.resizeCanvasToContent(this.canvasComp, this.contentRef, this.currentDrawable, this.lastIsMobile);
 
-    if(this.currentDrawable == 'sine-waves')
+    this.lastIsMobile = result!.isMobile;
+
+    if(result?.shouldResetWave)
       this.wave = new Wave();
-
-    const width = window.innerWidth;
-    const height = Math.max(
-      window.innerHeight,
-      this.contentRef.nativeElement.scrollHeight,
-      this.contentRef.nativeElement.clientHeight
-    );
-
-    this.canvasComp.resizeCanvas(width, height);
-
-
   }
 
 
@@ -103,28 +98,30 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
     canvas: HTMLCanvasElement,
     mouse: { x: number, y: number }
   ) => {
+    // These drawables call their own clearRect, the switch statement should not call clearRect for != drawables.
+    if(this.currentDrawable != 'sine-waves')
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     switch(this.currentDrawable){
+      case 'sine-waves':
+        this.wave.draw(ctx);
+      break;
+
       case 'bouncing-circles':
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         // drawing, updating, and checking bounds all happens within circle.update.
         this.circles.forEach((circle, index) => {
         // update the circle with new x, y cooridates, then draw the circle
         circle.update(canvas.width, canvas.height, ctx, mouse, this.gravityOn, true, true);
         });
-        break;
+      break;
 
       case 'mouse-draw':
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         if(mouse.x > 0 && mouse.y > 100)
           this.mouseDraw(ctx, mouse);
-        break;
-
-      case 'sine-waves':
-        this.wave.draw(ctx);
-        break;
+      break;
 
       default:
-        break;
+      break;
     }
   }
   //** ALL DRAWING LOGIC================================================================================>

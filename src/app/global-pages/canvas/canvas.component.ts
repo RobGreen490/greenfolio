@@ -34,9 +34,12 @@ export class CanvasComponent implements AfterViewInit{
       });
 
 
-      const animate = ()=>{
+      const animate = () =>{
         this.drawFn(ctx, canvas, this.mouse);
-        requestAnimationFrame(animate);
+
+        requestAnimationFrame(() => {
+          animate();
+        });
       }
 
       // animate the canvas

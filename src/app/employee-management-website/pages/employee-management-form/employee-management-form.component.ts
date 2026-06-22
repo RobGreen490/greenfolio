@@ -1,19 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Employee } from '../../models/employee';
 import { EmployeeManagementService } from '../../services/employee-management-service/employee-management.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EmployeeManagementNavBarComponent } from '../../layouts/employee-management-nav-bar/employee-management-nav-bar.component';
 import { AppRoutes } from '../../../../routes/app-routes';
+import { CanvasComponent } from '../../../global-pages/canvas/canvas.component';
+import { DrawableMode } from '../../../types/drawable-mode.type';
+import { Wave } from '../../../models/wave';
+import { BackgroundColorService } from '../../../services/backgroundColorService';
+import { ResizeHelperService } from '../../../services/resizeHelperService';
+
 
 @Component({
   selector: 'app-employee-management-form',
   standalone: true,
-  imports: [FormsModule, EmployeeManagementNavBarComponent],
+  imports: [FormsModule, EmployeeManagementNavBarComponent, CanvasComponent],
   templateUrl: './employee-management-form.component.html',
   styleUrl: './employee-management-form.component.css'
 })
-export class EmployeeManagementFormComponent implements OnInit{
+export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, OnDestroy{
+  @ViewChild('canvasComp') canvasComp!: CanvasComponent;
+  @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
+
+  currentDrawable: DrawableMode = 'sine-waves';
+  private resizeObserver?: ResizeObserver;
+  private readonly _resizeHelperService?: ResizeHelperService;
+  private lastIsMobile = false;
+
   employee: Employee = {
     employeeId: 0,
     employeeFirstName: '',
@@ -31,8 +45,12 @@ export class EmployeeManagementFormComponent implements OnInit{
   constructor(
     private employeeManagementService: EmployeeManagementService,
     private router: Router,
-    private route: ActivatedRoute // Provides access to route parameters (e.g., employeeId from the end of the URL)
-  ){}
+    private route: ActivatedRoute, // Provides access to route parameters (e.g., employeeId from the end of the URL)
+    private backgroundColorService: BackgroundColorService,
+    private resizeHelperService: ResizeHelperService
+  ){
+    this._resizeHelperService = resizeHelperService;
+  }
 
   ngOnInit(): void {
       //check if we have an employeeId, if we do UPDATE
@@ -52,6 +70,31 @@ export class EmployeeManagementFormComponent implements OnInit{
           })
         }
       });
+  }
+
+  private resizeCanvasToContent(): void {
+    const result = this._resizeHelperService?.resizeCanvasToContent(this.canvasComp, this.contentRef, this.currentDrawable, this.lastIsMobile);
+
+    this.lastIsMobile = result!.isMobile;
+
+    if(result?.shouldResetWave)
+      this.wave = new Wave();
+  }
+
+  ngAfterViewInit(): void {
+
+    // recolor the background of the canvas based on what is drawn
+    const newBackgroundColor = this.backgroundColorService.determineBackgroundColor(this.currentDrawable);
+    this.toggleCanvasBGC(newBackgroundColor);
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.resizeCanvasToContent();
+    });
+    this.resizeObserver.observe(this.contentRef.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
   }
 
   onSubmit() : void {
@@ -89,5 +132,29 @@ export class EmployeeManagementFormComponent implements OnInit{
           }
         });
       }
+  }
+
+  toggleCanvasBGC(color: string): void {
+    const canvas = this.canvasComp.canvasRef.nativeElement;
+    canvas.style.backgroundColor = color;
+  }
+
+  wave: Wave = new Wave();
+
+  // TODO:: draw not implemented yet
+  draw = (
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement,
+  mouse: { x: number, y: number }
+  ) => {
+    if(this.currentDrawable != 'sine-waves')
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    switch(this.currentDrawable){
+      case 'sine-waves':
+        break;
+      default:
+        break;
+    }
   }
 }

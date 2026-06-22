@@ -99,6 +99,10 @@ run `ng new app-name` to create a new angular app.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
+## Development on network
+
+Run `ng serve --host 0.0.0.0`
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.

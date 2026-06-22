@@ -1,6 +1,8 @@
 
-<body class="background">
+<div #content class="page-content background">
+  <app-canvas #canvasComp class="background-canvas" [drawFn]="draw"></app-canvas>
   <app-employee-management-nav-bar></app-employee-management-nav-bar>
+
   <div class="container">
     <h2 class="text-center my-5">{{ isUpdating ? 'Update Employee' : 'Create Employee' }}</h2>
 
@@ -69,4 +71,4 @@
     }
   </div>
 
-</body>
+</div>

@@ -50,7 +50,6 @@ export class Wave{
 
     // if mobile, have the sin wave go from top to bottom.
     if(!isMobile){
-
       ctx.lineWidth = 12;
       ctx.moveTo(-this.screenOffset, this.canvasHeight / 2);
       for(let i = -this.screenOffset; i < (isMobile? this.canvasHeight : this.canvasWidth); i++)
@@ -64,12 +63,16 @@ export class Wave{
         ctx.lineTo(this.canvasWidth / 2 + Math.sin(i * this.wave.length + this.freqIncrement) * this.wave.amplitude * Math.sin(this.freqIncrement), i);
     }
 
-
     ctx.strokeStyle = `hsl(${this.strokeColor.h}, ${this.strokeColor.s}%, ${this.strokeColor.l}%)`;
     ctx.stroke();
     this.freqIncrement += this.wave.frequency;
   }
 
+  canvasResize(width: number, height: number){
+    this.canvasWidth = width;
+    this.canvasHeight = height;
+    this.wave.y = height / 2;
+  }
 
   startAmp = this.wave.amplitude;
   ampDirection = 1;

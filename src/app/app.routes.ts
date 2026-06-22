@@ -4,15 +4,30 @@ import { EmployeeManagementHomePageComponent } from './employee-management-websi
 import { EmployeeManagementFormComponent } from './employee-management-website/pages/employee-management-form/employee-management-form.component';
 import { WorldMapHomePageComponent } from './world-map-website/pages/world-map-home-page/world-map-home-page.component';
 import { BubblePopperPageComponent } from './bubble-popper-website/pages/bubble-popper-page/bubble-popper-page.component';
+import { LoginPageComponent } from './_auth/pages/login/login-page/login-page.component';
+import { ForgotPasswordPageComponent } from './_auth/pages/forgot-password/forgot-password-page/forgot-password-page.component';
+import { RegisterPageComponent } from './_auth/pages/register/register-page/register-page.component';
 
 
 export const routes: Routes = [
-    // _landing-website
+    // _landing-website ---------------------------------------------------------------------------
     { path: '', component: LandingPageComponent },
+
+    // auth pages ---------------------------------------------------------------------------------
+    { path: 'login', component: LoginPageComponent },
+    { path: 'login/forgot-password', component: ForgotPasswordPageComponent },
+    { path: 'login/register', component: RegisterPageComponent },
+    // auth pages ---------------------------------------------------------------------------------
+
+    // employee-management-website-----------------------------------------------------------------
     { path: 'EmployeeManagement', component: EmployeeManagementHomePageComponent },
     { path: 'EmployeeManagement/create', component: EmployeeManagementFormComponent },
-    { path: 'EmployeeManagement/update/:employeeId',  component: EmployeeManagementFormComponent},
-    { path: 'WorldMap', component: WorldMapHomePageComponent} ,
-    { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent} ,
-    {path: '**', redirectTo: '/', pathMatch:'full'} // wildcard for any page that doesn't exist
+    { path: 'EmployeeManagement/update/:employeeId',  component: EmployeeManagementFormComponent },
+    // employee-management-website-----------------------------------------------------------------
+
+    { path: 'WorldMap', component: WorldMapHomePageComponent },
+
+    { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent },
+
+    {path: '**', redirectTo: '/', pathMatch:'full' } // wildcard for any page that doesn't exist
 ];
