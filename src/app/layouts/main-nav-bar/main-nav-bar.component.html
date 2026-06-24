@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg header">
+  <div class="container-fluid">
+
+    <!-- Left side of the nav bar for the current websites home page -->
+    <a class="navbar-brand text-light fw-bold fs-4" [routerLink]="routes.landingPage">
+      Greenfolio
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <!-- Right side of the nav bar for the most popular websites -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link link-light" [routerLink]="routes.employeeManagement">
+            Employee Management App
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <span class="nav-link link-light disabled px-3">|</span>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link link-light" [routerLink]="routes.worldMap">
+            World Map
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
