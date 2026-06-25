@@ -1,0 +1,58 @@
+.page {
+  position: relative;
+}
+
+.background-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  max-width: 1400px;
+  min-height: 100vh;
+  margin: 0 auto;
+  justify-content: center;
+
+}
+
+.logo-warning{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.logo{
+  max-width: 200px;
+}
+
+.form{
+  padding-bottom: 20%;
+}
+
+.form-box{
+  width: 100%;
+}
+
+.form-label{
+  color: white;
+}
+
+p{
+  color: #81270b;
+  text-align: center;
+  cursor: default;
+}

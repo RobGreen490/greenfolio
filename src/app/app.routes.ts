@@ -7,27 +7,46 @@ import { EmployeeManagementHomePageComponent } from './pages/employee-management
 import { EmployeeManagementFormComponent } from './pages/employee-management/employee-management-form/employee-management-form.component';
 import { WorldMapHomePageComponent } from './pages/world-map-home-page/world-map-home-page.component';
 import { BubblePopperPageComponent } from './pages/bubble-popper-page/bubble-popper-page.component';
+import { BoilerPlatePageComponent } from './pages/boiler-plate-page/boiler-plate-page.component';
 
 
 export const routes: Routes = [
-    // _landing-website ---------------------------------------------------------------------------
-    { path: '', component: LandingPageComponent },
+  // boiler-plate -------------------------------------------------------------------------------
+  {path: 'boiler-plate', component: BoilerPlatePageComponent},
 
-    // auth pages ---------------------------------------------------------------------------------
-    { path: 'login', component: LoginPageComponent },
-    { path: 'login/forgot-password', component: ForgotPasswordPageComponent },
-    { path: 'login/register', component: RegisterPageComponent },
-    // auth pages ---------------------------------------------------------------------------------
 
-    // employee-management-website-----------------------------------------------------------------
-    { path: 'EmployeeManagement', component: EmployeeManagementHomePageComponent },
-    { path: 'EmployeeManagement/create', component: EmployeeManagementFormComponent },
-    { path: 'EmployeeManagement/update/:employeeId',  component: EmployeeManagementFormComponent },
-    // employee-management-website-----------------------------------------------------------------
 
-    { path: 'WorldMap', component: WorldMapHomePageComponent },
+  // _landing-website ---------------------------------------------------------------------------
+  { path: '', component: LandingPageComponent },
 
-    { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent },
 
-    {path: '**', redirectTo: '/', pathMatch:'full' } // wildcard for any page that doesn't exist
+
+  // auth pages ---------------------------------------------------------------------------------
+  { path: 'login', component: LoginPageComponent },
+  { path: 'login/forgot-password', component: ForgotPasswordPageComponent },
+  { path: 'login/register', component: RegisterPageComponent },
+  // auth pages ---------------------------------------------------------------------------------
+
+
+
+  // employee-management-website-----------------------------------------------------------------
+  { path: 'EmployeeManagement', component: EmployeeManagementHomePageComponent },
+  { path: 'EmployeeManagement/create', component: EmployeeManagementFormComponent },
+  { path: 'EmployeeManagement/update/:employeeId',  component: EmployeeManagementFormComponent },
+  // employee-management-website-----------------------------------------------------------------
+
+
+
+  // WorldMap -----------------------------------------------------------------------------------
+  { path: 'WorldMap', component: WorldMapHomePageComponent },
+
+
+
+  // Bubble-Popper-Game -------------------------------------------------------------------------
+  { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent },
+
+
+
+  // wildcard -----------------------------------------------------------------------------------
+  {path: '**', redirectTo: '/', pathMatch:'full' }
 ];

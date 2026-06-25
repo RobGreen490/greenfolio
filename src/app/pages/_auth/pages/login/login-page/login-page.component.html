@@ -1,1 +1,53 @@
-<p>login-page works!</p>
+<div class="page">
+
+  <app-canvas #canvasComp class="background-canvas" [drawFn]="draw"></app-canvas>
+
+  <div #content class="page-content">
+    <div class="body">
+
+      <div class="logo-warning">
+        <img class="logo" src="assets/images/auth-images/custom-tdcj-seal.png" alt="tdcj image" />
+        <p><b>
+          ------------------------------WARNING------------------------------<br />
+          By continuing past this login screen, you acknowledge<br />
+          that the information contained within is confidential and<br />
+          must not be disclosed, shared, or distributed without<br />
+          authorization.<br />
+          ------------------------------WARNING------------------------------
+        </b></p>
+      </div>
+
+      <form class="form" #userForm="ngForm" (ngSubmit)="onSubmit()">
+        <label class="form-label"><b>Username</b></label>
+        <div class="input-group">
+          <input required #username="ngModel" class="form-control fs-4 form-control-lg bg-warning-subtle" type="text" name="username"
+            [(ngModel)]="user.username" />
+        </div>
+        @if (username.errors?.['required'] && (username.touched || username.dirty)) {
+          <div class="text-danger">Username is required.</div>
+        }
+        @else {
+          <br/>
+        }
+
+
+        <label class="form-label"><b>Password</b></label>
+        <div class="input-group">
+          <input required #password="ngModel" class="form-control fs-4 form-control-lg bg-warning-subtle" [type]="showPassword ? 'text' : 'password'" autocomplete="off" name="password" [(ngModel)]="user.password" />
+          <span class="input-group-text text-primary" style="cursor: pointer;" (click)="showPassword = !showPassword">
+            {{ showPassword ? 'hide' : 'show' }}
+          </span>
+        </div>
+
+        @if (password.errors?.['required'] && (password.touched || password.dirty)) {
+          <div class="text-danger">Password is required.</div>
+        }
+        @else {
+          <br/>
+        }
+
+        <button class="btn btn-primary mt-4" type="submit" [disabled]="userForm.invalid">Login</button>
+      </form>
+    </div>
+  </div>
+</div>

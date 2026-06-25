@@ -1,25 +1,20 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CanvasComponent } from '../../../../../services/canvas-engine/canvas/canvas.component';
-import { DrawableMode } from '../../../../../types/drawable-mode.type';
-import { BackgroundColorService } from '../../../../../services/background-color-service/background-color.service';
-import { ResizeHelperService } from '../../../../../services/resize-helper-service/resize-helper.service';
-import { Circle } from '../../../../../services/canvas-renderers/circle';
-import { BouncingCirclesService } from '../../../../../services/bouncingCirclesService';
-import { User } from '../../../../../models/auth-models/user';
-
-
-
+import { CanvasComponent } from '../../services/canvas-engine/canvas/canvas.component';
+import { DrawableMode } from '../../types/drawable-mode.type';
+import { BackgroundColorService } from '../../services/background-color-service/background-color.service';
+import { ResizeHelperService } from '../../services/resize-helper-service/resize-helper.service';
+import { Circle } from '../../services/canvas-renderers/circle';
+import { BouncingCirclesService } from '../../services/bouncingCirclesService';
 
 @Component({
-  selector: 'app-login-page',
+  selector: 'app-boiler-plate-page',
   standalone: true,
-  imports: [FormsModule ,CanvasComponent],
-  templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  imports: [CanvasComponent],
+  templateUrl: './boiler-plate-page.component.html',
+  styleUrl: './boiler-plate-page.component.css'
 })
-export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
+export class BoilerPlatePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
 
@@ -32,17 +27,10 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
 
   private resizeObserver?: ResizeObserver;
 
-  user: User = {
-    username: '',
-    password: ''
-  }
-
-  showPassword: boolean = false;
-  private errorMessage: string = '';
-
   // type in a different string for a different drawable effect.
   private currentDrawable: DrawableMode = 'bouncing-circles';
   private lastIsMobile = false;
+  private circles: Circle [] = [];
   private gravityOn = false;
 
 
@@ -50,6 +38,12 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
   //** ngOnInit==========================================================================================
   ngOnInit(): void {
     // If drawing something like circles, initialize it here at the start of the page.
+    switch(this.currentDrawable){
+      case 'bouncing-circles':
+        // generate and store the circles within an array to be drawn later.
+        this.circles = this.bouncingCirclesService.generateCircles(400, 0, 100);
+        break;
+    }
   }
   //** ngOnInit==========================================================================================
 
@@ -98,8 +92,10 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
 
 
   //** BUTTONS===========================================================================================
-  onSubmit() : void {
 
+  turnOnGravity(): void{
+    this.gravityOn = !this.gravityOn;
+    this.bouncingCirclesService.turnOnGravity(this.gravityOn);
   }
   //** BUTTONS===========================================================================================
 
@@ -119,6 +115,9 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
       break;
 
       case 'bouncing-circles':
+        this.circles.forEach((circle, index) => {
+        circle.update(canvas.width, canvas.height, ctx, mouse, this.gravityOn, true, true);
+        });
       break;
 
       case 'mouse-draw':

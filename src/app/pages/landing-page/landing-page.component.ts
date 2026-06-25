@@ -53,7 +53,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   ngAfterViewInit(): void {
     // recolor the background of the canvas based on what is drawn
     const canvas = this.canvasComp.canvasRef.nativeElement;
-    const newBackgroundColor = this.backgroundColorService.determineBackgroundColor(this.currentDrawable);
     this.backgroundColorService.toggleCanvasBGC(canvas, this.currentDrawable);
 
     // when the page is resized, or the orientation of the screen is changed, run risizeCanvasToContent().
