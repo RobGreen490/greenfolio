@@ -20,6 +20,9 @@ export class BackgroundColorService {
       case 'mouse-draw':
         this.backgroundColor = "#b0b0b0";
         break;
+      case 'dark-canvas':
+        this.backgroundColor = "#0D0E12"
+        break;
       default:
         this.backgroundColor = "#b0b0b0";
         break;

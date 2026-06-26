@@ -37,5 +37,12 @@ export const AppRoutes = {
      * -----------------------
      * The home page for the bubble popper game
      */
-    bubblePopper: '/Bubble-Popper-Game'
+    bubblePopper: '/Bubble-Popper-Game',
+
+
+    /** visit
+     * -----------------------
+     *
+     */
+    visitManagement: '/visit-management'
 };

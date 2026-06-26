@@ -176,5 +176,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   goToBubblePopper(){
     this.router.navigate([AppRoutes.bubblePopper]);
   }
+
+  goToVisit(){
+    this.router.navigate([AppRoutes.visitManagement])
+  }
   //** ROUTING LOGIC====================================================================================>
 }

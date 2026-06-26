@@ -8,6 +8,8 @@ import { EmployeeManagementFormComponent } from './pages/employee-management/emp
 import { WorldMapHomePageComponent } from './pages/world-map-home-page/world-map-home-page.component';
 import { BubblePopperPageComponent } from './pages/bubble-popper-page/bubble-popper-page.component';
 import { BoilerPlatePageComponent } from './pages/boiler-plate-page/boiler-plate-page.component';
+import { authGuard } from './guards/auth.guard';
+import { VisitManagementHomePageComponent } from './pages/visit-management/visit-management-home-page/visit-management-home-page.component';
 
 
 export const routes: Routes = [
@@ -24,7 +26,7 @@ export const routes: Routes = [
   // auth pages ---------------------------------------------------------------------------------
   { path: 'login', component: LoginPageComponent },
   { path: 'login/forgot-password', component: ForgotPasswordPageComponent },
-  { path: 'login/register', component: RegisterPageComponent },
+  { path: 'login/register', component: RegisterPageComponent, canActivate: [authGuard] },
   // auth pages ---------------------------------------------------------------------------------
 
 
@@ -45,6 +47,8 @@ export const routes: Routes = [
   // Bubble-Popper-Game -------------------------------------------------------------------------
   { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent },
 
+
+  { path: 'visit-management', component: VisitManagementHomePageComponent, canActivate: [authGuard]},
 
 
   // wildcard -----------------------------------------------------------------------------------
