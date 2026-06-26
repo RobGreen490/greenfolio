@@ -8,6 +8,9 @@ import { ResizeHelperService } from '../../../../../services/resize-helper-servi
 import { Circle } from '../../../../../services/canvas-renderers/circle';
 import { BouncingCirclesService } from '../../../../../services/bouncingCirclesService';
 import { User } from '../../../../../models/auth-models/user';
+import { AuthService } from '../../../../../services/auth-service/auth.service';
+import { MainNavBarComponent } from "../../../../../layouts/main-nav-bar/main-nav-bar.component";
+
 
 
 
@@ -15,7 +18,7 @@ import { User } from '../../../../../models/auth-models/user';
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [FormsModule ,CanvasComponent],
+  imports: [FormsModule, CanvasComponent, MainNavBarComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
@@ -25,6 +28,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
 
   constructor(
     private router: Router,
+    private authService: AuthService,
     private bouncingCirclesService: BouncingCirclesService,
     private backgroundColorService: BackgroundColorService,
     private resizeHelperService: ResizeHelperService
@@ -98,8 +102,16 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
 
 
   //** BUTTONS===========================================================================================
-  onSubmit() : void {
-
+  login() : void {
+    console.log("Attemping login...");
+    this.authService.login(this.user).subscribe({
+      next: () => {
+        console.log("successfully logged in.");
+      },
+      error: () => {
+        console.log("error");
+      }
+    });
   }
   //** BUTTONS===========================================================================================
 

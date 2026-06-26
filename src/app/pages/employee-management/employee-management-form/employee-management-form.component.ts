@@ -59,7 +59,7 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
         if(employeeId) // if we have an employee, update it
         {
           // console.log(`Updating employeeId ${employeeId}`)
-          this.isUpdating = true;             //have to static cast string to number
+          this.isUpdating = true; // have to static cast string to number
           this.employeeManagementService.getEmployeeById(Number(employeeId)).subscribe({
             next: (result) => this.employee = result,
             // If the employee doesn't exist, reroute to home page
@@ -122,12 +122,9 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
         .subscribe({
           next: (Response) => {
             // Route the user back to the home page after creating employee
-            // console.log(this.employee);
             this.router.navigate([[AppRoutes.employeeManagement]]);
-            //(result) => console.log(result)
           },
           error: (err) => {
-            //console.log(err);
             console.log(err.message);
             this.errorMessage = `Error occured during creating: (${err.status})`;
           }

@@ -5,6 +5,16 @@ export const AppRoutes = {
     */
     landingPage: '/',
 
+
+
+    /** Login
+     * -----------------------
+     * Login page so users can gain access to authorized content
+    */
+   loginPage: '/login',
+
+
+
     /** employeeManagement
      * -----------------------
      * The home page for the employee management system website.
@@ -14,11 +24,14 @@ export const AppRoutes = {
     updateEmployee: (id: string | number) => `/EmployeeManagement/update/${id}`,
 
 
+
     /** worldMap
      * -----------------------
      * The home page for the world map website.
      */
     worldMap: '/WorldMap',
+
+
 
     /** bubblePopper
      * -----------------------

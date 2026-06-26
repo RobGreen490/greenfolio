@@ -3,3 +3,23 @@
   font: #ffffff;
   border-bottom: 2px solid #212226;
 }
+
+li{
+  align-items: center;
+  justify-content: center;
+}
+
+p{
+  cursor: default;
+  color: #ffffff;
+}
+
+.logout{
+  color: white;
+}
+
+.logout:hover{
+  cursor: pointer;
+  color: red;
+}
+

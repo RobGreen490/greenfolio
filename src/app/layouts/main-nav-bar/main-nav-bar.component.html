@@ -13,24 +13,26 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
-      <!-- Right side of the nav bar for the most popular websites -->
+      <!-- Right side of the nav bar for the login -->
+      @if (isLoggedIn) {
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link link-light" [routerLink]="routes.employeeManagement">
-            Employee Management App
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <span class="nav-link link-light disabled px-3">|</span>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link link-light" [routerLink]="routes.worldMap">
-            World Map
+          <a class="nav-link logout" (mouseenter)="hoveringLogout = true" (mouseout)="hoveringLogout = false" (click)="logout()">
+            {{ hoveringLogout ? 'Logout' : loggedInUserName }}
           </a>
         </li>
       </ul>
+      }
+      @else {
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link link-light" [routerLink]="routes.loginPage">
+              Login
+            </a>
+          </li>
+        </ul>
+      }
+
 
     </div>
   </div>

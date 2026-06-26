@@ -3,8 +3,9 @@
   <app-canvas #canvasComp class="background-canvas" [drawFn]="draw"></app-canvas>
 
   <div #content class="page-content">
+    <!-- NAVIGATION BAR -->
+    <app-main-nav-bar></app-main-nav-bar>
     <div class="body">
-
       <div class="logo-warning">
         <img class="logo" src="assets/images/auth-images/custom-tdcj-seal.png" alt="tdcj image" />
         <p><b>
@@ -17,7 +18,7 @@
         </b></p>
       </div>
 
-      <form class="form" #userForm="ngForm" (ngSubmit)="onSubmit()">
+      <form class="form" #userForm="ngForm" (ngSubmit)="login()">
         <label class="form-label"><b>Username</b></label>
         <div class="input-group">
           <input required #username="ngModel" class="form-control fs-4 form-control-lg bg-warning-subtle" type="text" name="username"
