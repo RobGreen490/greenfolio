@@ -16,3 +16,44 @@
   display: flex;
   flex-direction: column;
 }
+
+.scanner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.camera{
+  width: 50%;
+}
+
+video {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+h4, p{
+  color: white;
+}
+
+.scan-list{
+  z-index: 2;
+  background-color: blue;
+}
+
+.btn{
+  background-color: white;
+  width: 50%;
+  border-radius: 8px;
+}
+
+@media (max-width: 1080px) {
+  .camera {
+      width: 100%;
+    }
+  .btn{
+    width: 75%;
+  }
+}

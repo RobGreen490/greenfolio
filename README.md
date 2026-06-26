@@ -33,6 +33,13 @@ Run the following code in the terminal to add bootstrap to the Angular app.
 npm install bootstrap@5.3
 ```
 
+
+### Adding ZXing
+```bash
+npm install @zxing/browser @zxing/library
+```
+
+
 <br>
 
 ## Learning - Angular Definitions

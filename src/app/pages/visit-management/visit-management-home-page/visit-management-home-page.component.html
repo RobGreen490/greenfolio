@@ -4,6 +4,40 @@
 
   <div #content class="page-content">
 
+    <div class="scanner-container">
+      <video #video class="camera" autoplay muted></video>
+
+      <button class="btn" (click)="startScan()">Start Scan</button>
+      <button class="btn" (click)="stopScan()">Stop</button>
+
+    </div>
+    <hr/>
+    @if (scans.length > 0) {
+    <div class="scan-list">
+      @for (scan of scans; track scan.timestamp) {
+      <div class="scan-card">
+        <h4>Scan &#64; {{ scan.timestamp | date:'short' }}</h4>
+
+        <p><strong>Name:</strong> {{this.visitor.firstName}} {{this.visitor.lastName}}</p>
+        <p><strong>DOB:</strong> {{ this.visitor.dob }}</p>
+        <p><strong>License #:</strong> {{ this.visitor.dlNumber }}</p>
+
+        <details>
+          <summary>Raw Data</summary>
+          <pre>{{ scan.raw }}</pre>
+        </details>
+      </div>
+      }
+    </div>
+    }
+
+    @if (debugMessage) {
+    <div style="background: yellow; padding: 10px;">
+      {{ debugMessage }}
+    </div>
+    }
+
+
   </div>
 
 </div>

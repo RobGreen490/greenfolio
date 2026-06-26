@@ -48,7 +48,7 @@ export const routes: Routes = [
   { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent },
 
 
-  { path: 'visit-management', component: VisitManagementHomePageComponent, canActivate: [authGuard]},
+  { path: 'visit-management', component: VisitManagementHomePageComponent},
 
 
   // wildcard -----------------------------------------------------------------------------------
