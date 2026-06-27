@@ -7,8 +7,11 @@ import { ResizeHelperService } from '../../../services/resize-helper-service/res
 import { Circle } from '../../../services/canvas-renderers/circle';
 import { BouncingCirclesService } from '../../../services/bouncingCirclesService';
 import { DatePipe } from '@angular/common';
-import { BrowserMultiFormatReader } from '@zxing/library';
-import { Visitor } from '../../../models/visit-management-models/visitor';
+import { BrowserMultiFormatReader, Result } from '@zxing/library';
+import { Visitor, createEmptyVisitor } from '../../../models/visit-management-models/visitor';
+import { ScannerService } from '../../../services/scanner-services/scanner.service';
+import { ParserService } from '../../../services/scanner-services/parser.service';
+import { timestamp } from 'rxjs';
 
 
 @Component({
@@ -21,16 +24,30 @@ import { Visitor } from '../../../models/visit-management-models/visitor';
 export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
-
   @ViewChild('video', {static: true})
   videoRef!: ElementRef<HTMLVideoElement>
+
+  scanning = false;
+  private enterKeyHandler = (event: KeyboardEvent) => {
+  if(event.key === 'Enter')
+    if(!this.scanning){
+      this.startScan();
+      this.scanning = true;
+    }
+    else{
+      this.stopScan();
+      this.scanning = false;
+    }
+  };
 
   constructor(
     private router: Router,
     private bouncingCirclesService: BouncingCirclesService,
     private backgroundColorService: BackgroundColorService,
     private resizeHelperService: ResizeHelperService,
-    
+    private scannerService: ScannerService,
+    private parserService: ParserService
+
   ){}
 
   private resizeObserver?: ResizeObserver;
@@ -59,6 +76,7 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
 
   //** ngAfterViewInit===================================================================================
   ngAfterViewInit(): void {
+    window.addEventListener('keydown', this.enterKeyHandler);
     const canvas = this.canvasComp.canvasRef.nativeElement;
     this.backgroundColorService.toggleCanvasBGC(canvas, this.currentDrawable);
 
@@ -74,6 +92,7 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
   //** ngOnDestroy=======================================================================================
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
+    window.removeEventListener('keydown', this.enterKeyHandler);
   }
   //** ngOnDestroy=======================================================================================
 
@@ -93,10 +112,6 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
     //   this.wave = new Wave();
   }
   //** RESIZE WINDOW LOGIC===============================================================================
-
-
-
-
 
 
 
@@ -143,95 +158,66 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
 
 
   //** Scanner LOGIC=====================================================================================
-  visitor: Visitor = {
-    dlNumber: '', //DAQ
-    dlExpiration: '', //DBA
-    firstName: '', //DAC
-    lastName: '', //DCS
-    fullName: '',
-    dob: '', //DBB
-    address: '', //DAG
-    city: '', //DAI
-    state: '', //DAJ
-    zip: '' //DAK
-  };
+  visitor: Visitor = createEmptyVisitor();
+  previousVisitor: Visitor = this.visitor;
   debugMessage: string = '';
   scans: any[] = [];
   numberOfScans: number = 0;
   private codeReader = new BrowserMultiFormatReader();
   async startScan() {
-    this.debugMessage = 'Starting scanner...';
+    this.visitor = createEmptyVisitor();
 
-    this.codeReader.decodeFromVideoDevice(
-      null,
-      this.videoRef.nativeElement,
-      (result) => {
 
-        // keep track of how many times the camera has attempted to scan the id.
-        this.debugMessage = 'Scan # ' + this.numberOfScans;
-        this.numberOfScans+=1;
+    this.scannerService.start(this.videoRef.nativeElement, (Result) => {
+          this.debugMessage = 'Scanning # ' + this.numberOfScans;
+    this.numberOfScans++;
+      if(!Result) return;
 
-        // if a result isn't found, rerun decodeFromVideoDevice.
-        if (!result) {
+
+      const raw = Result.getText();
+
+      // I'm only keeping the parsed data so I can review ALL data within the card.
+      const parsed = this.parserService.parseAAMVA(raw);
+
+      // this technically isn't copying the parsed object, it's changing the visitor to refer to the parsed object.
+      this.visitor = parsed;
+
+      // make sure each value within the id was grabbed.
+      for (const key in this.visitor) {
+        if (this.visitor[key as keyof Visitor] === '') {
+          this.debugMessage = `${key} is empty, rerunning decoder...`;
           return;
         }
-
-
-
-        this.debugMessage = 'SCAN DETECTED!';
-        const raw = result.getText();
-        const parsed = this.parseAAMVA(raw);
-
-        for (const key in this.visitor) {
-          if (this.visitor[key as keyof Visitor] === '') {
-            console.log(`${key} is empty, rerunning decoder...`);
-            return;
-          }
-        }
-
-        console.log(this.visitor);
-
-        // empty the scan so that the previous scan doesn't persist, then push
-        this.scans = [];
-        this.scans.push({
-          timestamp: new Date(),
-          raw,
-          data: parsed
-        });
-
-        this.codeReader.reset(); // STOP after success
       }
-    );
-  }
 
-
-  parseAAMVA(data: string): any {
-    const lines = data.split('\n');
-    const result: any = {};
-
-    for (const line of lines) {
-      const key = line.substring(0, 3);
-      const value = line.substring(3).trim();
-
-      switch (key) {
-        case 'DAQ': this.visitor.dlNumber = value; break;
-        case 'DBA': this.visitor.dlExpiration = value; break;
-        case 'DAC': this.visitor.firstName = value; break;
-        case 'DCS': this.visitor.lastName = value; break;
-        case 'DBB': this.visitor.dob = value; break;
-        case 'DAG': this.visitor.address = value; break;
-        case 'DAI': this.visitor.city = value; break;
-        case 'DAJ': this.visitor.state = value; break;
-        case 'DAK': this.visitor.zip = value; break;
+      // empty strings are falsy, so if(empty && previousVisitor === visitor) will evaluate to true.
+      const isSamePerson =
+      this.previousVisitor.dlNumber &&
+      this.previousVisitor.dlNumber === this.visitor.dlNumber;
+      if(isSamePerson){
+        this.debugMessage = 'previous visitor identified, rerunning decoder...';
+        return;
       }
-    }
-    // grab full name
-    this.visitor.fullName = `${this.visitor.firstName} ${this.visitor.lastName}`;
-    return result;
+
+      this.previousVisitor = structuredClone(this.visitor);
+      console.log(this.previousVisitor);
+
+      this.debugMessage = "SCAN DETECTED!";
+      this.scanning = false;
+      this.scans = [];
+      this.scans.push({
+        timestamp: new Date(),
+        raw,
+        data: parsed
+      });
+
+      this.scannerService.reset();
+
+    })
   }
 
   stopScan(){
-    this.codeReader.reset();
+    this.scannerService.reset();
   }
   //** Scanner LOGIC=====================================================================================
 }

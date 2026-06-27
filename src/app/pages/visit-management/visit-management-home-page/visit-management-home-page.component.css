@@ -34,7 +34,7 @@ video {
   border-radius: 8px;
 }
 
-h4, p{
+h4, p, summary, pre{
   color: white;
 }
 

@@ -10,3 +10,18 @@ export interface Visitor{
   state: string;//DAJ
   zip: string; //DAK
 }
+
+export function createEmptyVisitor(): Visitor {
+  return {
+    dlNumber: '',
+    dlExpiration: '',
+    firstName: '',
+    lastName: '',
+    fullName: '',
+    dob: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: ''
+  };
+}
