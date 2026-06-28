@@ -12,6 +12,7 @@ import { Visitor, createEmptyVisitor } from '../../../models/visit-management-mo
 import { ScannerService } from '../../../services/scanner-services/scanner.service';
 import { ParserService } from '../../../services/scanner-services/parser.service';
 import { timestamp } from 'rxjs';
+import { CameraService } from '../../../services/camera-services/camera.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
   @ViewChild('video', {static: true})
   videoRef!: ElementRef<HTMLVideoElement>
+
 
   scanning = false;
   private enterKeyHandler = (event: KeyboardEvent) => {
@@ -46,7 +48,8 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
     private backgroundColorService: BackgroundColorService,
     private resizeHelperService: ResizeHelperService,
     private scannerService: ScannerService,
-    private parserService: ParserService
+    private parserService: ParserService,
+    private cameraService: CameraService
 
   ){}
 
@@ -167,7 +170,10 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
   async startScan() {
     this.visitor = createEmptyVisitor();
 
-
+    // this sets the resolution of the camera and starts it.
+    this.cameraService.startCamera();
+    // the scanner is going to read whatever is within the video reference, it isn't what actually starts the camera
+    // (unless you don't have a camera service running already)
     this.scannerService.start(this.videoRef.nativeElement, (Result) => {
           this.debugMessage = 'Scanning # ' + this.numberOfScans;
     this.numberOfScans++;
@@ -216,8 +222,24 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
     })
   }
 
+  debugMessage2 = '';
+  async testCamera(){
+    const stream = await this.cameraService.startCamera();
+    this.videoRef.nativeElement.srcObject = stream;
+    const caps = this.cameraService.getCapabilities();
+    const settings = this.cameraService.getSettings();
+    // this.debugMessage = "max height:" + caps.height;
+    // this.debugMessage2 = "max width:" + caps.width;
+    this.debugMessage2 = "max width:" + caps.width.max;
+    this.debugMessage = "max height:" + caps.height.max;
+    // console.log("max height:", caps.height.max);
+    // console.log("Max width:", caps.width.max);
+  }
+
+
   stopScan(){
     this.scannerService.reset();
   }
+
   //** Scanner LOGIC=====================================================================================
 }

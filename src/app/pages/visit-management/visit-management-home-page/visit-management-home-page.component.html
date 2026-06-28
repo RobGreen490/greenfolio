@@ -10,6 +10,8 @@
       <button class="btn" (click)="startScan()">Start Scan</button>
       <button class="btn" (click)="stopScan()">Stop</button>
 
+      <button class="btn" (click)="testCamera()">test camera</button>
+
     </div>
     <hr/>
     @if (scans.length > 0) {
@@ -30,12 +32,17 @@
       }
     </div>
     }
-
-    @if (debugMessage) {
-    <div style="background: yellow; padding: 10px;">
-      {{ debugMessage }}
-    </div>
+    @if (debugMessage2){
+      <div style="background: yellow; padding: 10px;">
+        {{ debugMessage2 }}
+      </div>
     }
+    @if (debugMessage) {
+      <div style="background: yellow; padding: 10px;">
+        {{ debugMessage }}
+      </div>
+    }
+
   </div>
 
 </div>

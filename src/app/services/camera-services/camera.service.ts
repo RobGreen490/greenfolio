@@ -12,7 +12,11 @@ export class CameraService {
 
   async startCamera(){
     this.stream = await navigator.mediaDevices.getUserMedia({
-      video: {facingMode: 'environment'}
+      video: {
+        facingMode: 'environment',
+        width: { ideal: 1920 },
+        height: { ideal: 1080 }
+      }
     });
 
     this.track = this.stream.getVideoTracks()[0];
@@ -31,6 +35,17 @@ export class CameraService {
     this.stream?.getTracks().forEach(t => t.stop());
   }
 
+  getCapabilities(){
+    const caps = this.track?.getCapabilities?.() as any;
+    // console.log("Capabilities:", caps);
+    return caps;
+  }
+
+  getSettings(){
+    const settings = this.track?.getSettings?.();
+    // console.log('Active settings:', settings);
+    return settings;
+  }
 
   async setTorch(enabled: boolean){
     const caps = this.track?.getCapabilities?.() as any;
