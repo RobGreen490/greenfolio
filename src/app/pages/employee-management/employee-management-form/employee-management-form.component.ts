@@ -1,15 +1,14 @@
 import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Employee } from '../../../models/employee-management-models/employee';
+import { Employee } from '@models';
 import { EmployeeManagementService } from '../../../services/employee-management-service/employee-management.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EmployeeManagementNavBarComponent } from '../../../layouts/employee-management-nav-bar/employee-management-nav-bar.component';
-import { AppRoutes } from '../../../../routes/app-routes';
-import { CanvasComponent } from '../../../services/canvas-engine/canvas/canvas.component';
-import { DrawableMode } from '../../../types/drawable-mode.type';
-import { Wave } from '../../../services/canvas-renderers/wave';
-import { BackgroundColorService } from '../../../services/background-color-service/background-color.service';
-import { ResizeHelperService } from '../../../services/resize-helper-service/resize-helper.service';
+import { EmployeeManagementNavBarComponent } from '@layouts';
+import { AppRoutes } from '@routes';
+import { CanvasComponent, ResizeHelperService, BackgroundColorService } from '@canvas';
+import { DrawableMode } from '@types';
+import { Wave } from '@canvas-renders';
+
 
 
 @Component({

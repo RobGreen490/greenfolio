@@ -1,10 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { EmployeeManagementNavBarComponent } from '../../../layouts/employee-management-nav-bar/employee-management-nav-bar.component';
-
-import { Employee } from '../../../models/employee-management-models/employee';
-import { AppRoutes } from '../../../../routes/app-routes';
-import { CanvasComponent } from '../../../services/canvas-engine/canvas/canvas.component';
+import { EmployeeManagementNavBarComponent } from '@layouts';
+import { CanvasComponent } from '@canvas';
+import { Employee } from '@models';
+import { AppRoutes } from '@routes';
 import { EmployeeManagementService } from '../../../services/employee-management-service/employee-management.service';
 
 

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { User } from '../../models/auth-models/user';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { AuthStatus } from '../../types/auth-status';
+import { Injectable, model } from '@angular/core';
+import { User } from '@models';
+import { HttpClient } from '@angular/common/http';
+import { AuthStatus } from '@types';
 
 @Injectable({
   providedIn: 'root'

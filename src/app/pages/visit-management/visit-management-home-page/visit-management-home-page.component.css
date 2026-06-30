@@ -26,8 +26,11 @@
 }
 
 .camera{
-  width: 50%;
+  width: 50%
+  /*width: 940px;
+  height: 700px;*/
 }
+
 
 video {
   border: 1px solid #ccc;

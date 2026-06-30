@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppRoutes } from '../../../routes/app-routes';
+import { AppRoutes } from '@routes';
 
 
 @Component({

@@ -1,11 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { CanvasComponent } from '../../services/canvas-engine/canvas/canvas.component';
-import { DrawableMode } from '../../types/drawable-mode.type';
-import { BackgroundColorService } from '../../services/background-color-service/background-color.service';
-import { ResizeHelperService } from '../../services/resize-helper-service/resize-helper.service';
-import { Circle } from '../../services/canvas-renderers/circle';
-import { BouncingCirclesService } from '../../services/bouncingCirclesService';
+import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
+import { DrawableMode } from '@types';
+import { Circle } from '@canvas-renders';
 
 @Component({
   selector: 'app-boiler-plate-page',

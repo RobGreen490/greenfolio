@@ -1,24 +1,19 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { CanvasComponent } from "../../../services/canvas-engine/canvas/canvas.component";
-import { DrawableMode } from '../../../types/drawable-mode.type';
-import { BackgroundColorService } from '../../../services/background-color-service/background-color.service';
-import { ResizeHelperService } from '../../../services/resize-helper-service/resize-helper.service';
-import { Circle } from '../../../services/canvas-renderers/circle';
-import { BouncingCirclesService } from '../../../services/bouncingCirclesService';
-import { DatePipe } from '@angular/common';
-import { BrowserMultiFormatReader, Result } from '@zxing/library';
-import { Visitor, createEmptyVisitor } from '../../../models/visit-management-models/visitor';
-import { ScannerService } from '../../../services/scanner-services/scanner.service';
-import { ParserService } from '../../../services/scanner-services/parser.service';
+import { Data, Router } from '@angular/router';
+import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
+import { DrawableMode } from '@types';
+import { Circle } from '@canvas-renders';
+import { DatePipe, JsonPipe } from '@angular/common';
+import { Visitor, createEmptyVisitor, Scan } from '@models';
+import { ScannerService, ParserService, ScanRulesService } from '@services';
 import { timestamp } from 'rxjs';
-import { CameraService } from '../../../services/camera-services/camera.service';
+import { CameraService } from '@services';
 
 
 @Component({
   selector: 'app-visit-management-home-page',
   standalone: true,
-  imports: [CanvasComponent, DatePipe],
+  imports: [CanvasComponent, DatePipe, JsonPipe],
   templateUrl: './visit-management-home-page.component.html',
   styleUrl: './visit-management-home-page.component.css'
 })
@@ -28,17 +23,24 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
   @ViewChild('video', {static: true})
   videoRef!: ElementRef<HTMLVideoElement>
 
+  // used to get the capabilities and settings of the camera.
+  private track!: MediaStreamTrack;
 
-  scanning = false;
+  // messages shown to the user on screen.
+  debugMessage: string = '';
+
+
+  // used to determine action is taken when the user hits 'enter'
+  private scanning = false;
+
+  // I need to remember if I ever implement typing into this form that I'll have to remove this handler.
   private enterKeyHandler = (event: KeyboardEvent) => {
-  if(event.key === 'Enter')
+  if(event.key === 's')
     if(!this.scanning){
       this.startScan();
-      this.scanning = true;
     }
     else{
       this.stopScan();
-      this.scanning = false;
     }
   };
 
@@ -49,7 +51,8 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
     private resizeHelperService: ResizeHelperService,
     private scannerService: ScannerService,
     private parserService: ParserService,
-    private cameraService: CameraService
+    private cameraService: CameraService,
+    private scanRules: ScanRulesService
 
   ){}
 
@@ -161,85 +164,94 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
 
 
   //** Scanner LOGIC=====================================================================================
+  private stream!: MediaStream;
   visitor: Visitor = createEmptyVisitor();
   previousVisitor: Visitor = this.visitor;
-  debugMessage: string = '';
-  scans: any[] = [];
-  numberOfScans: number = 0;
-  private codeReader = new BrowserMultiFormatReader();
-  async startScan() {
-    this.visitor = createEmptyVisitor();
+  currentScan: Scan | null = null;
+  scanNumber: number = 1;
+  async startScan(){
+    // scanning initiated, user can stop with the 'enter' key because of this boolean:
+    this.scanning = true;
 
-    // this sets the resolution of the camera and starts it.
-    this.cameraService.startCamera();
-    // the scanner is going to read whatever is within the video reference, it isn't what actually starts the camera
-    // (unless you don't have a camera service running already)
-    this.scannerService.start(this.videoRef.nativeElement, (Result) => {
-          this.debugMessage = 'Scanning # ' + this.numberOfScans;
-    this.numberOfScans++;
-      if(!Result) return;
+    // start the camera and store the stream for accessing camera settings
+    this.stream = await this.cameraService.startCamera();
 
+    // show the video feed on screen, to the user.
+    this.videoRef.nativeElement.srcObject = this.stream;
 
-      const raw = Result.getText();
+    // scanning services will continuously scan frames until specified not to.
+    this.scannerService.start(this.stream, this.videoRef.nativeElement, (result) => {
 
-      // I'm only keeping the parsed data so I can review ALL data within the card.
-      const parsed = this.parserService.parseAAMVA(raw);
+      // keep track of the number of scans done
+      this.debugMessage = 'attempted scan # ' + this.scanNumber;
+      this.scanNumber++;
 
-      // this technically isn't copying the parsed object, it's changing the visitor to refer to the parsed object.
-      this.visitor = parsed;
+      // failed to get a scan on id, return.
+      if(!result)
+        return;
 
-      // make sure each value within the id was grabbed.
-      for (const key in this.visitor) {
-        if (this.visitor[key as keyof Visitor] === '') {
-          this.debugMessage = `${key} is empty, rerunning decoder...`;
-          return;
-        }
-      }
+      // translate result into raw text data (this is all the data from the card)
+      const raw = result.getText();
 
-      // empty strings are falsy, so if(empty && previousVisitor === visitor) will evaluate to true.
-      const isSamePerson =
-      this.previousVisitor.dlNumber &&
-      this.previousVisitor.dlNumber === this.visitor.dlNumber;
-      if(isSamePerson){
-        this.debugMessage = 'previous visitor identified, rerunning decoder...';
+      // grab only data we need from raw and store it in this.visitor.
+      this.visitor = this.parserService.parseAAMVA(raw);
+
+      // if all values were scanned for visitor, continue:
+      if(!this.scanRules.isValidVisitor(this.visitor)){
+        this.debugMessage = "Incomplete scan, retrying...";
         return;
       }
 
-      this.previousVisitor = structuredClone(this.visitor);
-      console.log(this.previousVisitor);
+      // all information on the id was found at this point, we can stop the scan and video.
+      this.scannerService.reset();
+      this.cameraService.stopCamera();
 
-      this.debugMessage = "SCAN DETECTED!";
-      this.scanning = false;
-      this.scans = [];
-      this.scans.push({
+      // if previously scanned id: reset scan counter. We don't need to rescan the same id.
+      if(this.scanRules.isDuplicate(this.visitor, this.previousVisitor)){
+        this.debugMessage = 'previous visitor identified, closing decoder..';
+        this.scanNumber = 1;
+        return;
+      }
+
+      // successful scan, store the scanned visitor in previousVisitor.
+      this.previousVisitor = structuredClone(this.visitor);
+
+      // pass the current date/time, all data from the license, and the desired visitor object into currentScan.
+      this.currentScan = {
         timestamp: new Date(),
         raw,
-        data: parsed
-      });
+        visitor: structuredClone(this.visitor)
+      };
 
-      this.scannerService.reset();
-
+      // advise the user of success. The currentScan will be used within the html page to display necessary information.
+      this.debugMessage = "SCAN SUCCESSFUL!";
     })
   }
 
-  debugMessage2 = '';
+
+  abilities: any [] = [];
+  camMessageMaxAchievableWidth = '';
+  camMessageMaxAchievableHeight = '';
+  camMessageCurrentWidth = '';
+  camMessageCurrentHeight = '';
   async testCamera(){
-    const stream = await this.cameraService.startCamera();
-    this.videoRef.nativeElement.srcObject = stream;
-    const caps = this.cameraService.getCapabilities();
     const settings = this.cameraService.getSettings();
-    // this.debugMessage = "max height:" + caps.height;
-    // this.debugMessage2 = "max width:" + caps.width;
-    this.debugMessage2 = "max width:" + caps.width.max;
-    this.debugMessage = "max height:" + caps.height.max;
-    // console.log("max height:", caps.height.max);
-    // console.log("Max width:", caps.width.max);
+    this.camMessageCurrentWidth = "current camera width: " + settings.width;
+    this.camMessageCurrentHeight = "current camera height: " + settings.height;
+    console.log("Settings: ", settings);
+
+    const caps = this.cameraService.getCapabilities();
+    this.camMessageMaxAchievableWidth = "max achievable width: " + caps.width.max;
+    this.camMessageMaxAchievableHeight = "max achievable height: " + caps.height.max;
+    console.log("Capabilities: ", caps);
+    this.abilities = [caps];
   }
 
-
+  // button to stop scanning.
   stopScan(){
     this.scannerService.reset();
+    this.cameraService.stopCamera();
+    this.scanning = false;
   }
-
   //** Scanner LOGIC=====================================================================================
 }

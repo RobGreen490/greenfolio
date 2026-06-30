@@ -1,15 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MainNavBarComponent } from '../../layouts/main-nav-bar/main-nav-bar.component';
-import { AppRoutes } from '../../../routes/app-routes';
-import { CanvasComponent } from '../../services/canvas-engine/canvas/canvas.component';
-import { ResizeHelperService } from '../../services/resize-helper-service/resize-helper.service';
-import { DrawableMode } from '../../types/drawable-mode.type';
-import { BouncingCirclesService } from '../../services/bouncingCirclesService';
-import { BackgroundColorService } from '../../services/background-color-service/background-color.service';
-import { Circle } from '../../services/canvas-renderers/circle';
-import { Wave } from '../../services/canvas-renderers/wave';
-
+import { MainNavBarComponent } from '@layouts';
+import { AppRoutes } from '@routes';
+import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
+import { DrawableMode } from '@types';
+import { Circle, Wave } from '@canvas-renders';
 
 @Component({
   selector: 'app-landing-page',

@@ -37,13 +37,11 @@ export class CameraService {
 
   getCapabilities(){
     const caps = this.track?.getCapabilities?.() as any;
-    // console.log("Capabilities:", caps);
     return caps;
   }
 
   getSettings(){
-    const settings = this.track?.getSettings?.();
-    // console.log('Active settings:', settings);
+    const settings = this.track?.getSettings?.() as any;
     return settings;
   }
 

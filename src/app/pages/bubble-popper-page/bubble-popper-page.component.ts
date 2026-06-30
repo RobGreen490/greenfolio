@@ -1,10 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppRoutes } from '../../../routes/app-routes';
-import { CanvasComponent } from '../../services/canvas-engine/canvas/canvas.component';
-import { Circle } from '../../services/canvas-renderers/circle';
-import { Projectile } from '../../services/canvas-renderers/projectile';
-import { ExplosionParticle } from '../../services/canvas-renderers/explosionParticle';
+import { AppRoutes } from '@routes';
+import { CanvasComponent } from '@canvas';
+import { Circle, Projectile , ExplosionParticle } from '@canvas-renders';
 
 
 @Component({

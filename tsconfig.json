@@ -2,6 +2,16 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@canvas": ["src/app/services/canvas-engine/index.ts"],
+      "@canvas-renders": ["src/app/services/canvas-renderers/index.ts"],
+      "@types": ["src/app/types/index.ts"],
+      "@services": ["src/app/services/index.ts"],
+      "@routes": ["src/routes/index.ts"],
+      "@models": ["src/app/models/index.ts"],
+      "@layouts": ["src/app/layouts/index.ts"]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,

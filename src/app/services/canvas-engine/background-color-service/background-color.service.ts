@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DrawableMode } from '../../types/drawable-mode.type';
+import { DrawableMode } from '@types';
 
 @Injectable({
   providedIn: 'root'

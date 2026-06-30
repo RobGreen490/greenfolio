@@ -1,6 +1,6 @@
 import { ElementRef, Injectable } from "@angular/core";
-import { CanvasComponent } from "../canvas-engine/canvas/canvas.component";
-import { DrawableMode } from "../../types/drawable-mode.type";
+import { CanvasComponent } from "@canvas";
+import { DrawableMode } from "@types";
 
 
 @Injectable({

@@ -14,34 +14,71 @@
 
     </div>
     <hr/>
-    @if (scans.length > 0) {
-    <div class="scan-list">
-      @for (scan of scans; track scan.timestamp) {
-      <div class="scan-card">
-        <h4>Scan &#64; {{ scan.timestamp | date:'short' }}</h4>
+    @if (currentScan){
+      <div class="scan-list">
+        <div class="scan-card">
+          <h4>Scan &#64; {{ currentScan.timestamp | date:'short' }}</h4>
+          <p><strong>Name:</strong> {{ currentScan.visitor.firstName }}</p>
+          <p><strong>DOB:</strong> {{ currentScan.visitor.dob }}</p>
+          <p><strong>License #:</strong> {{ currentScan.visitor.dlNumber }}</p>
 
-        <p><strong>Name:</strong> {{this.visitor.firstName}} {{this.visitor.lastName}}</p>
-        <p><strong>DOB:</strong> {{ this.visitor.dob }}</p>
-        <p><strong>License #:</strong> {{ this.visitor.dlNumber }}</p>
+          <details>
+            <summary>Raw Data</summary>
+            <pre>{{ 'currentScan.raw' }}</pre>
+          </details>
+        </div>
+      </div>
+      <hr />
+    }
 
-        <details>
-          <summary>Raw Data</summary>
-          <pre>{{ scan.raw }}</pre>
-        </details>
-      </div>
-      }
-    </div>
-    }
-    @if (debugMessage2){
-      <div style="background: yellow; padding: 10px;">
-        {{ debugMessage2 }}
-      </div>
-    }
+
     @if (debugMessage) {
       <div style="background: yellow; padding: 10px;">
         {{ debugMessage }}
       </div>
+      <hr />
     }
+
+    <!-- CAMERA MESSAGES -->
+    @if (camMessageCurrentWidth){
+      <div style="background: cyan; padding: 10px;">
+        {{ camMessageCurrentWidth }}
+      </div>
+    }
+    @if (camMessageCurrentHeight){
+    <div style="background: cyan; padding: 10px;">
+      {{ camMessageCurrentHeight }}
+    </div>
+    <hr/>
+    }
+
+    @if (camMessageMaxAchievableWidth){
+    <div style="background: cyan; padding: 10px;">
+      {{ camMessageMaxAchievableWidth }}
+    </div>
+    }
+    @if (camMessageMaxAchievableHeight){
+    <div style="background: cyan; padding: 10px;">
+      {{ camMessageMaxAchievableHeight }}
+    </div>
+    }
+
+    @if (abilities.length > 0) {
+      <hr/>
+      <div class="scan-list">
+
+        <div class="scan-card">
+          <details>
+            <summary>Abilities:</summary>
+            <pre>{{ abilities | json }}</pre>
+          </details>
+        </div>
+
+      </div>
+    <hr />
+    }
+
+
 
   </div>
 

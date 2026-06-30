@@ -1,18 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CanvasComponent } from '../../../../../services/canvas-engine/canvas/canvas.component';
-import { DrawableMode } from '../../../../../types/drawable-mode.type';
-import { BackgroundColorService } from '../../../../../services/background-color-service/background-color.service';
-import { ResizeHelperService } from '../../../../../services/resize-helper-service/resize-helper.service';
-import { Circle } from '../../../../../services/canvas-renderers/circle';
-import { BouncingCirclesService } from '../../../../../services/bouncingCirclesService';
-import { User } from '../../../../../models/auth-models/user';
-import { AuthService } from '../../../../../services/auth-service/auth.service';
-import { MainNavBarComponent } from "../../../../../layouts/main-nav-bar/main-nav-bar.component";
-import { AppRoutes } from '../../../../../../routes/app-routes';
-
-
+import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService} from '@canvas';
+import { DrawableMode } from '@types';
+import { Circle } from '@canvas-renders';
+import { User } from '@models';
+import { AuthService } from '@services';
+import { MainNavBarComponent } from "@layouts";
+import { AppRoutes } from '@routes';
 
 
 

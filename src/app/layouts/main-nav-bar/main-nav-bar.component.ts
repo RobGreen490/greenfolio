@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AppRoutes } from '../../../routes/app-routes';
+import { AppRoutes } from '@routes';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth-service/auth.service';
-import { routes } from '../../app.routes';
+import { AuthService } from '@services';
 
 @Component({
   selector: 'app-main-nav-bar',

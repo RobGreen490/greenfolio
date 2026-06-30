@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Circle } from "./canvas-renderers/circle";
+import { Circle } from "@canvas-renders";
 
 @Injectable({
   providedIn: 'root'

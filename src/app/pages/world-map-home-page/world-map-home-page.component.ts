@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { WorldMapService } from '../../services/world-map-service/world-map.service';
-import { WorldMapNavBarComponent } from "../../layouts/world-map-nav-bar/world-map-nav-bar.component";
+import { WorldMapService } from '@services';
+import { WorldMapNavBarComponent } from "@layouts";
 
 @Component({
   selector: 'app-world-map-home-page',
