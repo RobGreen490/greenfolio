@@ -247,6 +247,13 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
     this.abilities = [caps];
   }
 
+  
+  torchOn = false;
+  turnOnTorch(){
+    this.cameraService.setTorch(!this.torchOn);
+    this.torchOn = !this.torchOn;
+  }
+
   // button to stop scanning.
   stopScan(){
     this.scannerService.reset();

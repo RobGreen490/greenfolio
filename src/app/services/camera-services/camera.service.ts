@@ -46,18 +46,31 @@ export class CameraService {
   }
 
   async setTorch(enabled: boolean){
-    const caps = this.track?.getCapabilities?.() as any;
+    try{
+        if(!this.track){
+        console.log("Unable to get track from camera.")
+        return false;
+      }
 
-    type TorchConstraint = MediaTrackConstraintSet & {
-      torch?: boolean;
-    };
+      const caps = this.track?.getCapabilities?.() as any;
 
-    if(!caps.torch) return false;
+      type TorchConstraint = MediaTrackConstraintSet & {
+        torch?: boolean;
+      };
 
-    await this.track.applyConstraints({
-      advanced: [{ torch: enabled } as TorchConstraint]
-    });
+      if(!caps.torch){
+        console.log("No torch detected.");
+        return false;
+      }
 
-    return true;
+      await this.track.applyConstraints({
+        advanced: [{ torch: enabled } as TorchConstraint]
+      });
+
+      return true;
+    }
+    catch{
+      return false;
+    }
   }
 }

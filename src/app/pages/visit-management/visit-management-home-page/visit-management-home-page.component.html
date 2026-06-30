@@ -9,8 +9,8 @@
 
       <button class="btn" (click)="startScan()">Start Scan</button>
       <button class="btn" (click)="stopScan()">Stop</button>
-
-      <button class="btn" (click)="testCamera()">test camera</button>
+      <hr/>
+      <button class="btn" (click)="turnOnTorch()">Toggle light</button>
 
     </div>
     <hr/>
@@ -24,7 +24,8 @@
 
           <details>
             <summary>Raw Data</summary>
-            <pre>{{ currentScan.raw }}</pre>
+            <pre>{{ currentScan.raw
+             }}</pre>
           </details>
         </div>
       </div>
