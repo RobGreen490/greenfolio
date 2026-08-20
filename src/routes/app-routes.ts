@@ -44,5 +44,6 @@ export const AppRoutes = {
      * -----------------------
      *
      */
-    visitManagement: '/visit-management'
+    visitManagement: '/visit-management',
+    visitScanner: '/visit-management/scanner'
 };

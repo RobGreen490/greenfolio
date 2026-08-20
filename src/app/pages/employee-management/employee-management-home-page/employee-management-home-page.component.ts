@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmployeeManagementNavBarComponent } from '@layouts';
-import { CanvasComponent } from '@canvas';
+import { BackgroundColorService, CanvasComponent, DrawHelperService } from '@canvas';
 import { Employee } from '@models';
 import { AppRoutes } from '@routes';
 import { EmployeeManagementService } from '../../../services/employee-management-service/employee-management.service';
+import { DrawableMode } from '@types';
 
 
 @Component({
@@ -15,64 +16,111 @@ import { EmployeeManagementService } from '../../../services/employee-management
   styleUrl: './employee-management-home-page.component.css'
 })
 export class EmployeeManagementHomePageComponent implements OnInit, AfterViewInit, OnDestroy{
-
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
 
-  private resizeObserver?: ResizeObserver;
-  private resizeHandler = () => this.resizeCanvasToContent();
+  constructor(
+    private EmployeeManagementService: EmployeeManagementService,
+    private router: Router,
+    private backgroundColorService: BackgroundColorService,
+    private drawHelperService: DrawHelperService
+  ){}
+
+
 
   employees: Employee[] = [];
   loading: boolean = true;
 
-  constructor(
-    private EmployeeManagementService: EmployeeManagementService,
-    private router: Router
-  ){}
+  //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
+  private resizeObserver?: ResizeObserver;
+  // type in a different string for a different drawable effect.
+  currentDrawable: DrawableMode = 'sine-waves';
+  lastIsMobile = false;
+  gravityOn = false;
+  //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
 
+
+
+  //#region ng-ANGULAR LIFECYCLE HOOKS───────────────────────────────────────────────────────────────────
+  //** ngOnInit==========================================================================================
   ngOnInit(): void {
-    // console.log("loading employees..");
+    console.log("loading employees..");
     this.EmployeeManagementService.getEmployees().subscribe((employeeDataFromDB: Employee[]) => {
       this.employees = employeeDataFromDB;
       this.loading = false;
-      // console.log("finished loading employees.");
+      console.log("finished loading employees.");
     })
   }
+  //** ngOnInit==========================================================================================
 
+
+
+  //** ngAfterViewInit===================================================================================
   ngAfterViewInit(): void {
-    this.toggleCanvasBGC("#0D0E12");
+    // recolor the background of the canvas based on what is drawn
+    const canvas = this.canvasComp.canvasRef.nativeElement;
+    this.backgroundColorService.toggleCanvasBGC(canvas, this.currentDrawable);
 
-    this.resizeCanvasToContent();
-
-    window.addEventListener('resize', this.resizeHandler);
+    // when the page is resized, or the orientation of the screen is changed, run risizeCanvasToContent().
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
     });
     this.resizeObserver.observe(this.contentRef.nativeElement);
   }
+  //** ngAfterViewInit===================================================================================
 
+
+
+  //** ngOnDestroy=======================================================================================
   ngOnDestroy(): void {
-
+    this.resizeObserver?.disconnect();
   }
+  //** ngOnDestroy=======================================================================================
+  //#endregion ng-Angular Lifecycle Hooks────────────────────────────────────────────────────────────────
 
-  // used to resize the canvas on window resize by user.
+
+
+  //#region DRAWABLE METHODS & LOGIC─────────────────────────────────────────────────────────────────────
+  //** RESIZE WINDOW LOGIC===============================================================================
   private resizeCanvasToContent(): void {
-    if (!this.canvasComp || !this.contentRef) return;
-
-    const width = window.innerWidth;
-    const height = Math.max(
-      window.innerHeight,
-      this.contentRef.nativeElement.scrollHeight
+    // store the boolean in result so we can reset the sine wave if necessary, and resize the canvas with the method used to determine the value.
+    this.lastIsMobile = this.drawHelperService.resizeCanvasToContent(
+      this.canvasComp,
+      this.contentRef,
+      this.currentDrawable,
+      this.lastIsMobile
     );
+  }
+  //** RESIZE WINDOW LOGIC===============================================================================
 
-    this.canvasComp.resizeCanvas(width, height);
+
+
+  //** ALL DRAWING LOGIC=================================================================================
+  draw = (
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    mouse: { x: number, y: number }
+  ) => {
+    this.drawHelperService.draw(
+      ctx,
+      canvas,
+      mouse,
+      this.currentDrawable,
+      this.gravityOn
+    );
+  };
+  //** ALL DRAWING LOGIC=================================================================================
+  //#endregion DRAWABLE METHODS & LOGIC──────────────────────────────────────────────────────────────────
+
+
+
+  //#region BUTTONS──────────────────────────────────────────────────────────────────────────────────────
+  //** BUTTONS===========================================================================================
+  turnOnGravity(): void{
+    this.gravityOn = this.drawHelperService.changeGravity(this.gravityOn);
   }
 
-  // can be used to change the background color of the canvas
-  toggleCanvasBGC(color: string): void {
-    const canvas = this.canvasComp.canvasRef.nativeElement;
-    canvas.style.backgroundColor = color;
-  }
+
 
   deleteEmployee(employeeId: number) : void {
     this.EmployeeManagementService.deleteEmployee(employeeId).subscribe({
@@ -85,19 +133,17 @@ export class EmployeeManagementHomePageComponent implements OnInit, AfterViewIni
     });
   }
 
-  draw = (
-    ctx: CanvasRenderingContext2D,
-    canvas: HTMLCanvasElement,
-    mouse: { x: number, y: number }
-  ) => {
 
-  }
 
   updateEmployee(employeeId: number) : void{
     this.router.navigate([AppRoutes.updateEmployee(employeeId)]);
   }
 
+
+
   goToCreate() {
     this.router.navigate([AppRoutes.createEmployee]);
   }
+  //** BUTTONS===========================================================================================
+  //#endregion BUTTONS───────────────────────────────────────────────────────────────────────────────────
 }

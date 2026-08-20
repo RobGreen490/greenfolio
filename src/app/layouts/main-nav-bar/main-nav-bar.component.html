@@ -2,7 +2,7 @@
   <div class="container-fluid">
 
     <!-- Left side of the nav bar for the current websites home page -->
-    <a class="navbar-brand text-light fw-bold fs-4" [routerLink]="routes.landingPage">
+    <a class="navbar-brand text-light fw-bold fs-4 shadow" [routerLink]="routes.landingPage">
       Greenfolio
     </a>
 
@@ -12,6 +12,8 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
+
+
 
       <!-- Right side of the nav bar for the login -->
       @if (isLoggedIn) {

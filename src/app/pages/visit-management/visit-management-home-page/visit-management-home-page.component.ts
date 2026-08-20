@@ -1,59 +1,28 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
 import { DrawableMode } from '@types';
 import { Circle } from '@canvas-renders';
-import { DatePipe, JsonPipe } from '@angular/common';
-import { Visitor, createEmptyVisitor, Scan } from '@models';
-import { ScannerService, ParserService, ScanRulesService } from '@services';
-import { timestamp } from 'rxjs';
-import { CameraService } from '@services';
+import { AppRoutes } from '@routes';
+import { MainNavBarComponent } from "@layouts";
 
 
 @Component({
   selector: 'app-visit-management-home-page',
   standalone: true,
-  imports: [CanvasComponent, DatePipe, JsonPipe],
+  imports: [CanvasComponent, MainNavBarComponent],
   templateUrl: './visit-management-home-page.component.html',
   styleUrl: './visit-management-home-page.component.css'
 })
 export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
-  @ViewChild('video', {static: true})
-  videoRef!: ElementRef<HTMLVideoElement>
-
-  // used to get the capabilities and settings of the camera.
-  private track!: MediaStreamTrack;
-
-  // messages shown to the user on screen.
-  debugMessage: string = '';
-
-
-  // used to determine action is taken when the user hits 'enter'
-  private scanning = false;
-
-  // I need to remember if I ever implement typing into this form that I'll have to remove this handler.
-  private enterKeyHandler = (event: KeyboardEvent) => {
-  if(event.key === 's')
-    if(!this.scanning){
-      this.startScan();
-    }
-    else{
-      this.stopScan();
-    }
-  };
 
   constructor(
     private router: Router,
     private bouncingCirclesService: BouncingCirclesService,
     private backgroundColorService: BackgroundColorService,
-    private resizeHelperService: ResizeHelperService,
-    private scannerService: ScannerService,
-    private parserService: ParserService,
-    private cameraService: CameraService,
-    private scanRules: ScanRulesService
-
+    private resizeHelperService: ResizeHelperService
   ){}
 
   private resizeObserver?: ResizeObserver;
@@ -63,6 +32,9 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
   private lastIsMobile = false;
   private circles: Circle [] = [];
   private gravityOn = false;
+
+  // temporary
+  inmates: any;
 
 
 
@@ -82,7 +54,6 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
 
   //** ngAfterViewInit===================================================================================
   ngAfterViewInit(): void {
-    window.addEventListener('keydown', this.enterKeyHandler);
     const canvas = this.canvasComp.canvasRef.nativeElement;
     this.backgroundColorService.toggleCanvasBGC(canvas, this.currentDrawable);
 
@@ -98,7 +69,6 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
   //** ngOnDestroy=======================================================================================
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
-    window.removeEventListener('keydown', this.enterKeyHandler);
   }
   //** ngOnDestroy=======================================================================================
 
@@ -121,10 +91,26 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
 
 
 
+
+
+
   //** BUTTONS===========================================================================================
-  turnOnGravity(): void{
-    this.gravityOn = !this.gravityOn;
-    this.bouncingCirclesService.turnOnGravity(this.gravityOn);
+
+  // I'll use this to add visits to the list that aren't actually on the list yet.
+  createNewVisit(): void{
+    console.log("create new visit pressed.");
+  }
+
+  // I'll use this to
+  endDay(): void{
+    console.log("end day pressed.");
+  }
+
+
+
+  goToScanner(): void{
+    console.log("going to scanner");
+    this.router.navigate([AppRoutes.visitScanner]);
   }
   //** BUTTONS===========================================================================================
 
@@ -152,113 +138,8 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
       case 'mouse-draw':
       break;
 
-      case 'dark-canvas':
-      break;
-
       default:
       break;
     }
   }
-  //** ALL DRAWING LOGIC=================================================================================
-
-
-
-  //** Scanner LOGIC=====================================================================================
-  private stream!: MediaStream;
-  visitor: Visitor = createEmptyVisitor();
-  previousVisitor: Visitor = this.visitor;
-  currentScan: Scan | null = null;
-  scanNumber: number = 1;
-  async startScan(){
-    // scanning initiated, user can stop with the 'enter' key because of this boolean:
-    this.scanning = true;
-
-    // start the camera and store the stream for accessing camera settings
-    this.stream = await this.cameraService.startCamera();
-
-    // show the video feed on screen, to the user.
-    this.videoRef.nativeElement.srcObject = this.stream;
-
-    // scanning services will continuously scan frames until specified not to.
-    this.scannerService.start(this.stream, this.videoRef.nativeElement, (result) => {
-
-      // keep track of the number of scans done
-      this.debugMessage = 'attempted scan # ' + this.scanNumber;
-      this.scanNumber++;
-
-      // failed to get a scan on id, return.
-      if(!result)
-        return;
-
-      // translate result into raw text data (this is all the data from the card)
-      const raw = result.getText();
-
-      // grab only data we need from raw and store it in this.visitor.
-      this.visitor = this.parserService.parseAAMVA(raw);
-
-      // if all values were scanned for visitor, continue:
-      if(!this.scanRules.isValidVisitor(this.visitor)){
-        this.debugMessage = "Incomplete scan, retrying...";
-        return;
-      }
-
-      // all information on the id was found at this point, we can stop the scan and video.
-      this.scannerService.reset();
-      this.cameraService.stopCamera();
-
-      // if previously scanned id: reset scan counter. We don't need to rescan the same id.
-      if(this.scanRules.isDuplicate(this.visitor, this.previousVisitor)){
-        this.debugMessage = 'previous visitor identified, closing decoder..';
-        this.scanNumber = 1;
-        return;
-      }
-
-      // successful scan, store the scanned visitor in previousVisitor.
-      this.previousVisitor = structuredClone(this.visitor);
-
-      // pass the current date/time, all data from the license, and the desired visitor object into currentScan.
-      this.currentScan = {
-        timestamp: new Date(),
-        raw,
-        visitor: structuredClone(this.visitor)
-      };
-
-      // advise the user of success. The currentScan will be used within the html page to display necessary information.
-      this.debugMessage = "SCAN SUCCESSFUL!";
-    })
-  }
-
-
-  abilities: any [] = [];
-  camMessageMaxAchievableWidth = '';
-  camMessageMaxAchievableHeight = '';
-  camMessageCurrentWidth = '';
-  camMessageCurrentHeight = '';
-  async testCamera(){
-    const settings = this.cameraService.getSettings();
-    this.camMessageCurrentWidth = "current camera width: " + settings.width;
-    this.camMessageCurrentHeight = "current camera height: " + settings.height;
-    console.log("Settings: ", settings);
-
-    const caps = this.cameraService.getCapabilities();
-    this.camMessageMaxAchievableWidth = "max achievable width: " + caps.width.max;
-    this.camMessageMaxAchievableHeight = "max achievable height: " + caps.height.max;
-    console.log("Capabilities: ", caps);
-    this.abilities = [caps];
-  }
-
-  
-  torchOn = false;
-  turnOnTorch(){
-    this.cameraService.setTorch(!this.torchOn);
-    this.torchOn = !this.torchOn;
-  }
-
-  // button to stop scanning.
-  stopScan(){
-    this.scannerService.reset();
-    this.cameraService.stopCamera();
-    this.scanning = false;
-  }
-  //** Scanner LOGIC=====================================================================================
 }

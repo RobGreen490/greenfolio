@@ -4,83 +4,48 @@
 
   <div #content class="page-content">
 
-    <div class="scanner-container">
-      <video #video class="camera" autoplay muted></video>
-
-      <button class="btn" (click)="startScan()">Start Scan</button>
-      <button class="btn" (click)="stopScan()">Stop</button>
-      <hr/>
-      <button class="btn" (click)="turnOnTorch()">Toggle light</button>
-
-    </div>
-    <hr/>
-    @if (currentScan){
-      <div class="scan-list">
-        <div class="scan-card">
-          <h4>Scan &#64; {{ currentScan.timestamp | date:'short' }}</h4>
-          <p><strong>Name:</strong> {{ currentScan.visitor.firstName }}</p>
-          <p><strong>DOB:</strong> {{ currentScan.visitor.dob }}</p>
-          <p><strong>License #:</strong> {{ currentScan.visitor.dlNumber }}</p>
-
-          <details>
-            <summary>Raw Data</summary>
-            <pre>{{ currentScan.raw
-             }}</pre>
-          </details>
+  <!-- NAVIGATION BAR -->
+  <app-main-nav-bar></app-main-nav-bar>
+  <div class="container">
+    <h2 class="text-center py-2">Visits</h2>
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <div class="text-center">
+            <button class="btn btn-primary" (click)="createNewVisit()">Add Visit</button>
+          </div>
+        </div>
+        <div class="table-responsive rounded">
+          <table class="table table-hover">
+            <thead>
+              <tr class="text-center align-middle">
+                <th>TDCJ ID</th>
+                <th>Inmate Name</th>
+                <th>Inmate Housing</th>
+                <th>Time of Visit</th>
+                <th>Status of Visit</th>
+                <th># of Vehicles</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (inmate of inmates; track $index) {
+              <tr class="text-center align-middle">
+                <td class="align-middle">{{inmate.id}}</td>
+                <td class="align-middle">{{inmate.firstName}} {{inmate.lastName}}</td>
+                <td class="align-middle">{{inmate.housing}}</td>
+                <td class="align-middle">{{inmate.timeOfVisit}}</td>
+                <td class="align-middle">{{inmate.visitStatus}}</td>
+                <td class="align-middle">{{inmate.numOfVehicles}}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
         </div>
       </div>
-      <hr />
-    }
-
-
-    @if (debugMessage) {
-      <div style="background: yellow; padding: 10px;">
-        {{ debugMessage }}
-      </div>
-      <hr />
-    }
-
-    <!-- CAMERA MESSAGES -->
-    @if (camMessageCurrentWidth){
-      <div style="background: cyan; padding: 10px;">
-        {{ camMessageCurrentWidth }}
-      </div>
-    }
-    @if (camMessageCurrentHeight){
-    <div style="background: cyan; padding: 10px;">
-      {{ camMessageCurrentHeight }}
     </div>
-    <hr/>
-    }
-
-    @if (camMessageMaxAchievableWidth){
-    <div style="background: cyan; padding: 10px;">
-      {{ camMessageMaxAchievableWidth }}
-    </div>
-    }
-    @if (camMessageMaxAchievableHeight){
-    <div style="background: cyan; padding: 10px;">
-      {{ camMessageMaxAchievableHeight }}
-    </div>
-    }
-
-    @if (abilities.length > 0) {
-      <hr/>
-      <div class="scan-list">
-
-        <div class="scan-card">
-          <details>
-            <summary>Abilities:</summary>
-            <pre>{{ abilities | json }}</pre>
-          </details>
-        </div>
-
-      </div>
-    <hr />
-    }
-
+    <button class="btn btn-danger m-3" (click)="endDay()">End Visitation</button>
+  </div>
 
 
   </div>
-
 </div>

@@ -10,6 +10,7 @@ import { BubblePopperPageComponent } from './pages/bubble-popper-page/bubble-pop
 import { BoilerPlatePageComponent } from './pages/boiler-plate-page/boiler-plate-page.component';
 import { authGuard } from './guards/auth.guard';
 import { VisitManagementHomePageComponent } from './pages/visit-management/visit-management-home-page/visit-management-home-page.component';
+import { ScannerPageComponent } from './pages/visit-management/scanner-page/scanner-page.component';
 
 
 export const routes: Routes = [
@@ -48,7 +49,12 @@ export const routes: Routes = [
   { path: 'Bubble-Popper-Game', component: BubblePopperPageComponent },
 
 
+
+  // visit-management-app -----------------------------------------------------------------------
   { path: 'visit-management', component: VisitManagementHomePageComponent},
+  { path: 'visit-management/scanner', component: ScannerPageComponent},
+  // visit-management-app -----------------------------------------------------------------------
+
 
 
   // wildcard -----------------------------------------------------------------------------------

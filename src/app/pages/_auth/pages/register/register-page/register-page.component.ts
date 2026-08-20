@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
+import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
-import { Circle } from '@canvas-renders';
+import { Circle, Wave } from '@canvas-renders';
 
 @Component({
   selector: 'app-register-page',
@@ -19,28 +19,24 @@ export class RegisterPageComponent implements OnInit, AfterViewInit ,OnDestroy{
     private router: Router,
     private bouncingCirclesService: BouncingCirclesService,
     private backgroundColorService: BackgroundColorService,
-    private resizeHelperService: ResizeHelperService
+    private resizeHelperService: ResizeHelperService,
+    private drawHelperService: DrawHelperService
   ){}
 
-  private resizeObserver?: ResizeObserver;
+    //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
+    private resizeObserver?: ResizeObserver;
+    // type in a different string for a different drawable effect.
+    currentDrawable: DrawableMode = 'dark-canvas';
+    lastIsMobile = false;
+    gravityOn = false;
+    //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
 
-  // type in a different string for a different drawable effect.
-  private currentDrawable: DrawableMode = 'dark-canvas';
-  private lastIsMobile = false;
-  private circles: Circle [] = [];
-  private gravityOn = false;
 
 
-
+  //#region ng-ANGULAR LIFECYCLE HOOKS───────────────────────────────────────────────────────────────────
   //** ngOnInit==========================================================================================
   ngOnInit(): void {
-    // If drawing something like circles, initialize it here at the start of the page.
-    switch(this.currentDrawable){
-      case 'bouncing-circles':
-        // generate and store the circles within an array to be drawn later.
-        this.circles = this.bouncingCirclesService.generateCircles(400, 0, 100);
-        break;
-    }
+
   }
   //** ngOnInit==========================================================================================
 
@@ -48,9 +44,11 @@ export class RegisterPageComponent implements OnInit, AfterViewInit ,OnDestroy{
 
   //** ngAfterViewInit===================================================================================
   ngAfterViewInit(): void {
+    // recolor the background of the canvas based on what is drawn
     const canvas = this.canvasComp.canvasRef.nativeElement;
     this.backgroundColorService.toggleCanvasBGC(canvas, this.currentDrawable);
 
+    // when the page is resized, or the orientation of the screen is changed, run risizeCanvasToContent().
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
     });
@@ -65,36 +63,22 @@ export class RegisterPageComponent implements OnInit, AfterViewInit ,OnDestroy{
     this.resizeObserver?.disconnect();
   }
   //** ngOnDestroy=======================================================================================
+  //#endregion ng-Angular Lifecycle Hooks────────────────────────────────────────────────────────────────
 
 
 
+  //#region DRAWABLE METHODS & LOGIC─────────────────────────────────────────────────────────────────────
   //** RESIZE WINDOW LOGIC===============================================================================
   private resizeCanvasToContent(): void {
-    const result = this.resizeHelperService.resizeCanvasToContent(
+    // store the boolean in result so we can reset the sine wave if necessary, and resize the canvas with the method used to determine the value.
+    this.lastIsMobile = this.drawHelperService.resizeCanvasToContent(
       this.canvasComp,
       this.contentRef,
       this.currentDrawable,
       this.lastIsMobile
     );
-
-    this.lastIsMobile = result!.isMobile;
-    // if(result?.shouldResetWave)
-    //   this.wave = new Wave();
   }
   //** RESIZE WINDOW LOGIC===============================================================================
-
-
-
-
-
-
-  //** BUTTONS===========================================================================================
-
-  turnOnGravity(): void{
-    this.gravityOn = !this.gravityOn;
-    this.bouncingCirclesService.turnOnGravity(this.gravityOn);
-  }
-  //** BUTTONS===========================================================================================
 
 
 
@@ -104,24 +88,27 @@ export class RegisterPageComponent implements OnInit, AfterViewInit ,OnDestroy{
     canvas: HTMLCanvasElement,
     mouse: { x: number, y: number }
   ) => {
-    if(this.currentDrawable != 'sine-waves')
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.drawHelperService.draw(
+      ctx,
+      canvas,
+      mouse,
+      this.currentDrawable,
+      this.gravityOn
+    );
+  };
+  //** ALL DRAWING LOGIC=================================================================================
+  //#endregion DRAWABLE METHODS & LOGIC──────────────────────────────────────────────────────────────────
 
-    switch(this.currentDrawable){
-      case 'sine-waves':
-      break;
 
-      case 'bouncing-circles':
-        this.circles.forEach((circle, index) => {
-        circle.update(canvas.width, canvas.height, ctx, mouse, this.gravityOn, true, true);
-        });
-      break;
 
-      case 'mouse-draw':
-      break;
-
-      default:
-      break;
-    }
+  //#region BUTTONS──────────────────────────────────────────────────────────────────────────────────────
+  //** BUTTONS===========================================================================================
+  turnOnGravity(): void{
+    this.gravityOn = this.drawHelperService.changeGravity(this.gravityOn);
   }
+  //** BUTTONS===========================================================================================
+  //#endregion BUTTONS───────────────────────────────────────────────────────────────────────────────────
+
+
+
 }

@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService} from '@canvas';
+import { CanvasComponent, BackgroundColorService, DrawHelperService} from '@canvas';
 import { DrawableMode } from '@types';
-import { Circle } from '@canvas-renders';
 import { User } from '@models';
 import { AuthService } from '@services';
 import { MainNavBarComponent } from "@layouts";
@@ -25,31 +24,33 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
   constructor(
     private router: Router,
     private authService: AuthService,
-    private bouncingCirclesService: BouncingCirclesService,
     private backgroundColorService: BackgroundColorService,
-    private resizeHelperService: ResizeHelperService
+    private drawHelperService: DrawHelperService
   ){}
 
-  private resizeObserver?: ResizeObserver;
+
 
   user: User = {
     username: '',
     password: ''
   }
-
   showPassword: boolean = false;
   private errorMessage: string = '';
 
+  //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
+  private resizeObserver?: ResizeObserver;
   // type in a different string for a different drawable effect.
-  private currentDrawable: DrawableMode = 'bouncing-circles';
-  private lastIsMobile = false;
-  private gravityOn = false;
+  currentDrawable: DrawableMode = 'dark-canvas';
+  lastIsMobile = false;
+  gravityOn = false;
+  //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
 
 
 
+  //#region ng-ANGULAR LIFECYCLE HOOKS───────────────────────────────────────────────────────────────────
   //** ngOnInit==========================================================================================
   ngOnInit(): void {
-    // If drawing something like circles, initialize it here at the start of the page.
+
   }
   //** ngOnInit==========================================================================================
 
@@ -57,9 +58,11 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
 
   //** ngAfterViewInit===================================================================================
   ngAfterViewInit(): void {
+    // recolor the background of the canvas based on what is drawn
     const canvas = this.canvasComp.canvasRef.nativeElement;
     this.backgroundColorService.toggleCanvasBGC(canvas, this.currentDrawable);
 
+    // when the page is resized, or the orientation of the screen is changed, run risizeCanvasToContent().
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
     });
@@ -74,30 +77,49 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
     this.resizeObserver?.disconnect();
   }
   //** ngOnDestroy=======================================================================================
+  //#endregion ng-Angular Lifecycle Hooks────────────────────────────────────────────────────────────────
 
 
-
+  //#region DRAWABLE METHODS & LOGIC─────────────────────────────────────────────────────────────────────
   //** RESIZE WINDOW LOGIC===============================================================================
   private resizeCanvasToContent(): void {
-    const result = this.resizeHelperService.resizeCanvasToContent(
+    // store the boolean in result so we can reset the sine wave if necessary, and resize the canvas with the method used to determine the value.
+    this.lastIsMobile = this.drawHelperService.resizeCanvasToContent(
       this.canvasComp,
       this.contentRef,
       this.currentDrawable,
       this.lastIsMobile
     );
-
-    this.lastIsMobile = result!.isMobile;
-    // if(result?.shouldResetWave)
-    //   this.wave = new Wave();
   }
   //** RESIZE WINDOW LOGIC===============================================================================
 
 
 
+  //** ALL DRAWING LOGIC=================================================================================
+  draw = (
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    mouse: { x: number, y: number }
+  ) => {
+    this.drawHelperService.draw(
+      ctx,
+      canvas,
+      mouse,
+      this.currentDrawable,
+      this.gravityOn
+    );
+  };
+  //** ALL DRAWING LOGIC=================================================================================
+  //#endregion DRAWABLE METHODS & LOGIC──────────────────────────────────────────────────────────────────
 
 
-
+  //#region BUTTONS──────────────────────────────────────────────────────────────────────────────────────
   //** BUTTONS===========================================================================================
+
+  turnOnGravity(): void{
+    this.gravityOn = this.drawHelperService.changeGravity(this.gravityOn);
+  }
+
   login() : void {
     console.log("Attemping login...");
     this.authService.login(this.user).subscribe({
@@ -111,30 +133,5 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
     });
   }
   //** BUTTONS===========================================================================================
-
-
-
-  //** ALL DRAWING LOGIC=================================================================================
-  draw = (
-    ctx: CanvasRenderingContext2D,
-    canvas: HTMLCanvasElement,
-    mouse: { x: number, y: number }
-  ) => {
-    if(this.currentDrawable != 'sine-waves')
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    switch(this.currentDrawable){
-      case 'sine-waves':
-      break;
-
-      case 'bouncing-circles':
-      break;
-
-      case 'mouse-draw':
-      break;
-
-      default:
-      break;
-    }
-  }
+  //#endregion BUTTONS───────────────────────────────────────────────────────────────────────────────────
 }

@@ -17,46 +17,20 @@
   flex-direction: column;
 }
 
-.scanner-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  justify-content: center;
-  align-items: center;
+.bdr{
+  border: 2px solid blue;
 }
 
-.camera{
-  width: 50%
-  /*width: 940px;
-  height: 700px;*/
+.content-wrapper {
+  max-width: 1800px;
+  margin: auto;
 }
 
-
-video {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-h4, p, summary, pre{
+h2{
   color: white;
-}
-
-.scan-list{
-  z-index: 2;
-  background-color: blue;
-}
-
-.btn{
-  background-color: white;
-  width: 50%;
-  border-radius: 8px;
-}
-
-@media (max-width: 1080px) {
-  .camera {
-      width: 100%;
-    }
-  .btn{
-    width: 75%;
-  }
+    text-shadow:
+        -1px -1px 0 green,
+        1px -1px 0 green,
+        -1px 1px 0 green,
+        1px 1px 0 green;
 }

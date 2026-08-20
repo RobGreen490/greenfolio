@@ -183,23 +183,6 @@ h1, h2, p {
 
 
 
-
-
-.gravity-button {
-  padding: 24px;
-  color: rgba(255, 255, 255, 0.75);
-  background-color: rgba(0, 0, 0, .75);
-  border-radius: 999px;
-  transition: all 0.4s;
-}
-
-.gravity-button:hover {
-  color: rgba(255, 255, 255, 1);
-  background-color: rgba(0, 0, 0, 1);
-}
-
-
-
 /* Keyframes for floating motion of the tiles */
 @keyframes float {
     0% {

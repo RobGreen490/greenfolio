@@ -5,9 +5,8 @@ import { EmployeeManagementService } from '../../../services/employee-management
 import { Router, ActivatedRoute } from '@angular/router';
 import { EmployeeManagementNavBarComponent } from '@layouts';
 import { AppRoutes } from '@routes';
-import { CanvasComponent, ResizeHelperService, BackgroundColorService } from '@canvas';
+import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
-import { Wave } from '@canvas-renders';
 
 
 
@@ -22,10 +21,24 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
 
-  currentDrawable: DrawableMode = 'sine-waves';
+
+
+  constructor(
+    private employeeManagementService: EmployeeManagementService,
+    private router: Router,
+    private route: ActivatedRoute, // Provides access to route parameters (e.g., employeeId from the end of the URL)
+    private backgroundColorService: BackgroundColorService,
+    private drawHelperService: DrawHelperService
+  ){
+  }
+
+  //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
   private resizeObserver?: ResizeObserver;
-  private readonly _resizeHelperService?: ResizeHelperService;
-  private lastIsMobile = false;
+  // type in a different string for a different drawable effect.
+  currentDrawable: DrawableMode = 'sine-waves';
+  lastIsMobile = false;
+  gravityOn = false;
+  //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
 
   employee: Employee = {
     employeeId: 0,
@@ -41,23 +54,14 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
 
   errorMessage: string = '';
 
-  constructor(
-    private employeeManagementService: EmployeeManagementService,
-    private router: Router,
-    private route: ActivatedRoute, // Provides access to route parameters (e.g., employeeId from the end of the URL)
-    private backgroundColorService: BackgroundColorService,
-    private resizeHelperService: ResizeHelperService
-  ){
-    this._resizeHelperService = resizeHelperService;
-  }
+
 
   ngOnInit(): void {
       //check if we have an employeeId, if we do UPDATE
       this.route.paramMap.subscribe((result) => {
         const employeeId = result.get('employeeId');
-        if(employeeId) // if we have an employee, update it
+        if(employeeId) // if we have an employee, show an update page instead of create page
         {
-          // console.log(`Updating employeeId ${employeeId}`)
           this.isUpdating = true; // have to static cast string to number
           this.employeeManagementService.getEmployeeById(Number(employeeId)).subscribe({
             next: (result) => this.employee = result,
@@ -71,31 +75,61 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
       });
   }
 
-  private resizeCanvasToContent(): void {
-    const result = this._resizeHelperService?.resizeCanvasToContent(this.canvasComp, this.contentRef, this.currentDrawable, this.lastIsMobile);
 
-    this.lastIsMobile = result!.isMobile;
-
-    if(result?.shouldResetWave)
-      this.wave = new Wave();
-  }
 
   ngAfterViewInit(): void {
-    const canvas = this.canvasComp.canvasRef.nativeElement;
-
     // recolor the background of the canvas based on what is drawn
-    const newBackgroundColor = this.backgroundColorService.determineBackgroundColor(this.currentDrawable);
+    const canvas = this.canvasComp.canvasRef.nativeElement;
     this.backgroundColorService.toggleCanvasBGC(canvas, this.currentDrawable);
 
+    // when the page is resized, or the orientation of the screen is changed, run risizeCanvasToContent().
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
     });
     this.resizeObserver.observe(this.contentRef.nativeElement);
   }
 
+
+
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
   }
+
+
+
+  private resizeCanvasToContent(): void {
+    // store the boolean in result so we can reset the sine wave if necessary, and resize the canvas with the method used to determine the value.
+    this.lastIsMobile = this.drawHelperService.resizeCanvasToContent(
+      this.canvasComp,
+      this.contentRef,
+      this.currentDrawable,
+      this.lastIsMobile
+    );
+  }
+
+
+
+  draw = (
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    mouse: { x: number, y: number }
+  ) => {
+    this.drawHelperService.draw(
+      ctx,
+      canvas,
+      mouse,
+      this.currentDrawable,
+      this.gravityOn
+    );
+  };
+
+    //#region BUTTONS──────────────────────────────────────────────────────────────────────────────────────
+  //** BUTTONS===========================================================================================
+  turnOnGravity(): void{
+    this.gravityOn = this.drawHelperService.changeGravity(this.gravityOn);
+  }
+
+
 
   onSubmit() : void {
     if(this.isUpdating){
@@ -130,28 +164,6 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
         });
       }
   }
-
-  toggleCanvasBGC(color: string): void {
-    const canvas = this.canvasComp.canvasRef.nativeElement;
-    canvas.style.backgroundColor = color;
-  }
-
-  wave: Wave = new Wave();
-
-  // TODO:: draw not implemented yet
-  draw = (
-  ctx: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement,
-  mouse: { x: number, y: number }
-  ) => {
-    if(this.currentDrawable != 'sine-waves')
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    switch(this.currentDrawable){
-      case 'sine-waves':
-        break;
-      default:
-        break;
-    }
-  }
+  //** BUTTONS===========================================================================================
+  //#endregion BUTTONS───────────────────────────────────────────────────────────────────────────────────
 }

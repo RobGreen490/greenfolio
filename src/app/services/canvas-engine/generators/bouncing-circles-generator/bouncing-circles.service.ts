@@ -19,7 +19,7 @@ export class BouncingCirclesService{
     this.circles = [];
     for(var i = 0; i < numberOfCircles; i++){
       // this is just to initialize the circles, so determine a minimum radius.
-      this.minRadius = Math.floor(Math.random() * 20 + 1);
+      this.minRadius = Math.floor(Math.random() * 20 + minRadius);
       // then declare the starting radius of each circle to be that minimum radius.
       this.radius = this.minRadius;
       this.circles.push(

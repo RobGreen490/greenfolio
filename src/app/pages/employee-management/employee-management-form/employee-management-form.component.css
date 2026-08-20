@@ -1,19 +1,23 @@
-.background{
-  background-color: transparent;
-  height: 100vh;
+.page {
+  position: relative;
   color: white;
 }
+
 .background-canvas {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   display: block;
 }
 
 .page-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
   position: relative;
   z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.transparent{
+  background-color: rgba(0, 0, 0, .4);
 }
