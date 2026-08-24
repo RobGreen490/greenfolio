@@ -51,8 +51,8 @@ export const routes: Routes = [
 
 
   // visit-management-app -----------------------------------------------------------------------
-  { path: 'visit-management', component: VisitManagementHomePageComponent},
-  { path: 'visit-management/scanner', component: ScannerPageComponent},
+  { path: 'visit-management', component: VisitManagementHomePageComponent, canActivate: [authGuard] },
+  { path: 'visit-management/scanner', component: ScannerPageComponent, canActivate: [authGuard] },
   // visit-management-app -----------------------------------------------------------------------
 
 

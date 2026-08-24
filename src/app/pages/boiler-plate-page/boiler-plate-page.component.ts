@@ -83,6 +83,8 @@ export class BoilerPlatePageComponent implements OnInit, AfterViewInit ,OnDestro
 
 
   //** ALL DRAWING LOGIC=================================================================================
+  // Receives a drawing function from the parent page via [drawFn]="draw".
+  // CanvasComponent supplies the canvas context, canvas, and mouse position when calling it.
   draw = (
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,

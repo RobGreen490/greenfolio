@@ -106,8 +106,6 @@ export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,
     console.log("end day pressed.");
   }
 
-
-
   goToScanner(): void{
     console.log("going to scanner");
     this.router.navigate([AppRoutes.visitScanner]);

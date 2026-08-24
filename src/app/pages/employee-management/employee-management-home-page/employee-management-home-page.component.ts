@@ -45,11 +45,25 @@ export class EmployeeManagementHomePageComponent implements OnInit, AfterViewIni
   //** ngOnInit==========================================================================================
   ngOnInit(): void {
     console.log("loading employees..");
-    this.EmployeeManagementService.getEmployees().subscribe((employeeDataFromDB: Employee[]) => {
-      this.employees = employeeDataFromDB;
-      this.loading = false;
-      console.log("finished loading employees.");
-    })
+
+    this.EmployeeManagementService.getEmployees().subscribe({
+      next: (employeeDataFromDb: Employee[]) => {
+        this.employees = employeeDataFromDb;
+        this.loading = false;
+
+        console.log("Finished loading employees.");
+      },
+      error: (err) => {
+        console.error("Error loading employees:", err);
+        console.error("Status:", err.status);
+        console.error("Message:", err.message);
+        console.error("Error body:", err.error);
+
+        this.loading = false;
+      }
+    }
+    )
+
   }
   //** ngOnInit==========================================================================================
 
@@ -128,6 +142,10 @@ export class EmployeeManagementHomePageComponent implements OnInit, AfterViewIni
         this.employees = this.employees.filter(e => e.employeeId !== employeeId);
       },
       error: (err) => {
+        console.log('STATUS: ', err.status);
+        console.log('MESSAGE: ', err.message);
+        console.log('ERROR: ', err.error);
+        console.log('FULL ERROR: ', err);
         console.log("Error deleting employee", err);
       }
     });

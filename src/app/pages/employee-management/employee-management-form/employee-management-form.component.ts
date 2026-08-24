@@ -144,7 +144,10 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
           },
           error: (err) => {
             //console.log(err);
-            console.log(err.message);
+            console.log('STATUS: ', err.status);
+            console.log('MESSAGE: ', err.message);
+            console.log('ERROR: ', err.error);
+            console.log('FULL ERROR: ', err);
             this.errorMessage = `Error occured during updating: (${err.status})`;
           }
         });
@@ -158,7 +161,10 @@ export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, O
             this.router.navigate([[AppRoutes.employeeManagement]]);
           },
           error: (err) => {
-            console.log(err.message);
+            console.log('STATUS: ', err.status);
+            console.log('MESSAGE: ', err.message);
+            console.log('ERROR: ', err.error);
+            console.log('FULL ERROR: ', err);
             this.errorMessage = `Error occured during creating: (${err.status})`;
           }
         });
