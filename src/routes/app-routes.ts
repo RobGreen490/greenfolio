@@ -1,49 +1,58 @@
 export const AppRoutes = {
-    /** landingPage
-     * -----------------------
-     *  landing page for the website where users can navigate to other websites within the angular app
-    */
-    landingPage: '/',
+  /** landingPage
+   * -----------------------
+   *  landing page for the website where users can navigate to other websites within the angular app
+  */
+  landingPage: '/',
 
 
 
-    /** Login
-     * -----------------------
-     * Login page so users can gain access to authorized content
-    */
-   loginPage: '/login',
+  /** Login
+   * -----------------------
+   * Login page so users can gain access to authorized content
+  */
+  loginPage: '/login',
 
 
 
-    /** employeeManagement
-     * -----------------------
-     * The home page for the employee management system website.
-    */
-    employeeManagement: '/EmployeeManagement',
-    createEmployee: '/EmployeeManagement/create',
-    updateEmployee: (id: string | number) => `/EmployeeManagement/update/${id}`,
+  /**
+   * -----------------------
+   * Pages for viewing and creating a random suggestion
+   */
+  randomSuggestionsPage: '/random-suggestions',
+  createSuggestion: '/random-suggestions/create-suggestion',
 
 
 
-    /** worldMap
-     * -----------------------
-     * The home page for the world map website.
-     */
-    worldMap: '/WorldMap',
+  /** employeeManagement
+   * -----------------------
+   * The home page for the employee management system website.
+  */
+  employeeManagement: '/EmployeeManagement',
+  createEmployee: '/EmployeeManagement/create',
+  updateEmployee: (id: string | number) => `/EmployeeManagement/update/${id}`,
 
 
 
-    /** bubblePopper
-     * -----------------------
-     * The home page for the bubble popper game
-     */
-    bubblePopper: '/Bubble-Popper-Game',
+  /** worldMap
+   * -----------------------
+   * The home page for the world map website.
+   */
+  worldMap: '/WorldMap',
 
 
-    /** visit
-     * -----------------------
-     *
-     */
-    visitManagement: '/visit-management',
-    visitScanner: '/visit-management/scanner'
+
+  /** bubblePopper
+   * -----------------------
+   * The home page for the bubble popper game
+   */
+  bubblePopper: '/Bubble-Popper-Game',
+
+
+  /** visit
+   * -----------------------
+   *
+   */
+  visitManagement: '/visit-management',
+  visitScanner: '/visit-management/scanner'
 };

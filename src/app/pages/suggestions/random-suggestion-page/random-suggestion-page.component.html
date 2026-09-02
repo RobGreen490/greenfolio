@@ -1,0 +1,62 @@
+<div class="page">
+
+  <app-canvas #canvasComp class="background-canvas" [drawFn]="draw"></app-canvas>
+
+  <div #content class="page-content">
+
+    <app-main-nav-bar></app-main-nav-bar>
+
+    <div class="container">
+      <div class="card-button-container">
+        @if (loading) {
+          <div class="center-loader">
+            <div class="loader"></div>
+          </div>
+          <p>Loading...</p>
+        }
+        @else {
+          <div class="card">
+            <div class="card-header">
+              Suggestion ID: {{suggestion.suggestionId}}
+            </div>
+            <div class="card-body">
+              <figure>
+                <blockquote class="blockquote">
+                  <p>{{suggestion.suggestionText}}</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                  Author: <cite title="Source Title">{{suggestion.authorName}}</cite>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+          <button class="btn btn-primary crud-button">
+            generate random suggestion
+          </button>
+        }
+      </div>
+      <div class="crud-container">
+        <button class="btn btn-primary crud-button">Create new suggestion</button>
+        <button class="btn btn-warning crud-button">Update current suggestion</button>
+        <button class="btn btn-danger crud-button">delete current suggestion</button>
+      </div>
+    </div>
+
+
+    <!-- draw the gravity button if bouncing circles is on. -->
+    @if (currentDrawable == 'bouncing-circles') {
+    <div class="button-container">
+      <button class="gravity-button" (click)="turnOnGravity()">
+        @if (gravityOn) {
+        Turn off gravity
+        }
+        @else {
+        Turn gravity on
+        }
+      </button>
+    </div>
+    }
+
+  </div>
+
+</div>

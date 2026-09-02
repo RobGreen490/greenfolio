@@ -1,45 +1,43 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MainNavBarComponent } from '@layouts';
-import { AppRoutes } from '@routes';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
-
+import { MainNavBarComponent } from "@layouts";
+import { Suggestion } from '../../../models/suggestion-models/suggestion';
+import { SuggestionService } from '../../../services/suggestion-service/suggestion.service';
 
 @Component({
-  selector: 'app-landing-page',
+  selector: 'app-random-suggestion-page',
   standalone: true,
-  imports: [MainNavBarComponent, CanvasComponent],
-  templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.css'
+  imports: [CanvasComponent, MainNavBarComponent],
+  templateUrl: './random-suggestion-page.component.html',
+  styleUrl: './random-suggestion-page.component.css'
 })
-export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
+export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
 
   constructor(
     private router: Router,
+    private suggestionService: SuggestionService,
     private backgroundColorService: BackgroundColorService,
     private drawHelperService: DrawHelperService
   ){}
 
-  //** IMAGES FROM UNSPLASH=================================================================================>
-  // https://unsplash.com/@jannerboy62
-  suggestionsBackground = 'assets/images/landing-website-images/suggestions-photo.jpg';
+  loading: boolean = true;
+  //  employees: Employee[] = [];
+  suggestions: Suggestion[] = [];
+  suggestion: Suggestion = {
+    suggestionId: 0,
+    suggestionText: "No text to show here.",
+    authorName: "anonymous"
+  };
 
-  // https://unsplash.com/@bennieray
-  employeeManagementBackground = 'assets/images/landing-website-images/employee-management-photo.jpg';
-
-  // https://unsplash.com/@photowolf
-  worldMapBackground = 'assets/images/landing-website-images/world-map-photo.jpg';
-
-  bubblePopperBackground = 'assets/images/landing-website-images/bubble-popper-photo-v2.jpg';
-  //** IMAGES FROM UNSPLASH=================================================================================>
 
   //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
   private resizeObserver?: ResizeObserver;
   // type in a different string for a different drawable effect.
-  currentDrawable: DrawableMode = 'bouncing-circles';
+  currentDrawable: DrawableMode = 'sine-waves';
   lastIsMobile = false;
   gravityOn = false;
   //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
@@ -49,9 +47,25 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   //#region ng-ANGULAR LIFECYCLE HOOKS───────────────────────────────────────────────────────────────────
   //** ngOnInit==========================================================================================
   ngOnInit(): void {
+    console.log("Loading quote..");
 
+    this.suggestionService.getSuggestions().subscribe({
+      next: (suggestionDataFromDb: Suggestion[]) => {
+        this.suggestions = suggestionDataFromDb;
+        this.loading = false;
+
+        this.suggestion = this.suggestions[Math.floor(Math.random() * this.suggestions.length)];
+        console.log("Finished loading suggestions");
+        console.log(this.suggestion);
+
+      },
+      error: (err) => {
+        console.error("Error loading suggestions: ", err);
+      }
+    })
   }
   //** ngOnInit==========================================================================================
+
 
 
   //** ngAfterViewInit===================================================================================
@@ -69,6 +83,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   //** ngAfterViewInit===================================================================================
 
 
+
   //** ngOnDestroy=======================================================================================
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
@@ -80,8 +95,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   //#region DRAWABLE METHODS & LOGIC─────────────────────────────────────────────────────────────────────
   //** RESIZE WINDOW LOGIC===============================================================================
-  // used to resize the canvas on window resize or orientation change by user.
   private resizeCanvasToContent(): void {
+    // store the boolean in result so we can reset the sine wave if necessary, and resize the canvas with the method used to determine the value.
     this.lastIsMobile = this.drawHelperService.resizeCanvasToContent(
       this.canvasComp,
       this.contentRef,
@@ -94,6 +109,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   //** ALL DRAWING LOGIC=================================================================================
+  // Receives a drawing function from the parent page via [drawFn]="draw".
+  // CanvasComponent supplies the canvas context, canvas, and mouse position when calling it.
   draw = (
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
@@ -107,7 +124,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
       this.gravityOn
     );
   };
-  //** ALL DRAWING LOGIC================================================================================>
+  //** ALL DRAWING LOGIC=================================================================================
   //#endregion DRAWABLE METHODS & LOGIC──────────────────────────────────────────────────────────────────
 
 
@@ -122,23 +139,4 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
 
-  //** ROUTING LOGIC=====================================================================================
-  // Employee Management Website
-  goToEmployeeManagement() {
-    this.router.navigate([AppRoutes.randomSuggestionsPage]);
-  }
-
-  // World Map Website
-  goToWorldMap(){
-    this.router.navigate([AppRoutes.worldMap]);
-  }
-
-  goToBubblePopper(){
-    this.router.navigate([AppRoutes.bubblePopper]);
-  }
-
-  goToVisit(){
-    this.router.navigate([AppRoutes.visitManagement])
-  }
-  //** ROUTING LOGIC====================================================================================>
 }

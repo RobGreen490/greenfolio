@@ -33,7 +33,7 @@ export class EmployeeManagementService {
     return this.http.delete<void>(`${this.apiUrl}/${employeeId}`);
   }
 
-  // UPDATE employe
+  // UPDATE employee
   updateEmployee(employee: Employee): Observable<Employee>{
     return this.http.put<Employee>(`${this.apiUrl}/${employee.employeeId}`, employee);
   };

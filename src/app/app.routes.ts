@@ -11,6 +11,8 @@ import { BoilerPlatePageComponent } from './pages/boiler-plate-page/boiler-plate
 import { authGuard } from './guards/auth.guard';
 import { VisitManagementHomePageComponent } from './pages/visit-management/visit-management-home-page/visit-management-home-page.component';
 import { ScannerPageComponent } from './pages/visit-management/scanner-page/scanner-page.component';
+import { RandomSuggestionPageComponent } from './pages/suggestions/random-suggestion-page/random-suggestion-page.component';
+import { CreateSuggestionPageComponent } from './pages/suggestions/create-suggestion-page/create-suggestion-page.component';
 
 
 export const routes: Routes = [
@@ -32,10 +34,19 @@ export const routes: Routes = [
 
 
 
+  // random-suggestion-website-------------------------------------------------------------------
+  { path: 'random-suggestions', component: RandomSuggestionPageComponent},
+  { path: 'random-suggestions/create-suggestion', component: CreateSuggestionPageComponent},
+  // random-suggestion-website-------------------------------------------------------------------
+
+
+
   // employee-management-website-----------------------------------------------------------------
+  /*
   { path: 'EmployeeManagement', component: EmployeeManagementHomePageComponent },
   { path: 'EmployeeManagement/create', component: EmployeeManagementFormComponent },
   { path: 'EmployeeManagement/update/:employeeId',  component: EmployeeManagementFormComponent },
+  */
   // employee-management-website-----------------------------------------------------------------
 
 
