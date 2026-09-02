@@ -5,6 +5,7 @@ import { DrawableMode } from '@types';
 import { MainNavBarComponent } from "@layouts";
 import { Suggestion } from '../../../models/suggestion-models/suggestion';
 import { SuggestionService } from '../../../services/suggestion-service/suggestion.service';
+import { AppRoutes } from '@routes';
 
 @Component({
   selector: 'app-random-suggestion-page',
@@ -28,9 +29,9 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
   //  employees: Employee[] = [];
   suggestions: Suggestion[] = [];
   suggestion: Suggestion = {
-    suggestionId: 0,
-    suggestionText: "No text to show here.",
-    authorName: "anonymous"
+    suggestionId: -1,
+    suggestionText: "Suggestions failed to populate from the database, please try back later.",
+    authorName: "Admin"
   };
 
 
@@ -47,20 +48,21 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
   //#region ng-ANGULAR LIFECYCLE HOOKS───────────────────────────────────────────────────────────────────
   //** ngOnInit==========================================================================================
   ngOnInit(): void {
-    console.log("Loading quote..");
-
-    this.suggestionService.getSuggestions().subscribe({
-      next: (suggestionDataFromDb: Suggestion[]) => {
-        this.suggestions = suggestionDataFromDb;
+    console.log("generating a suggestion..");
+    this.loading = true;
+    this.suggestionService.getSuggestionByRandomId().subscribe({
+      next: (suggestionFromDb => {
+        this.suggestion = suggestionFromDb;
         this.loading = false;
-
-        this.suggestion = this.suggestions[Math.floor(Math.random() * this.suggestions.length)];
         console.log("Finished loading suggestions");
-        console.log(this.suggestion);
-
-      },
+      }),
       error: (err) => {
-        console.error("Error loading suggestions: ", err);
+        this.suggestion = {
+          suggestionId: -1,
+          suggestionText: "Suggestions failed to populate from the database, please try back later.",
+          authorName: "Admin"
+        };
+        this.loading = false;
       }
     })
   }
@@ -130,10 +132,44 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
 
 
   //#region BUTTONS──────────────────────────────────────────────────────────────────────────────────────
-  //** BUTTONS===========================================================================================
+  //** BUTTONS==========================================================================================
   turnOnGravity(): void{
     this.gravityOn = this.drawHelperService.changeGravity(this.gravityOn);
   }
+
+  generateRandomSuggestionBtn(): void{
+    console.log("generating a suggestion..");
+    this.loading = true;
+    this.suggestionService.getSuggestionByRandomId().subscribe({
+      next: (suggestionFromDb => {
+        this.suggestion = suggestionFromDb;
+        this.loading = false;
+        console.log("Finished loading suggestions");
+      }),
+      error: (err) => {
+        this.suggestion = {
+          suggestionId: -1,
+          suggestionText: "Suggestions failed to populate from the database, please try back later.",
+          authorName: "Admin"
+        };
+        this.loading = false;
+      }
+    })
+  }
+
+  createSuggestionBtn(): void{
+    this.router.navigate([AppRoutes.createSuggestion]);
+  }
+
+  updateSuggestionBtn(): void{
+    this.router.navigate([AppRoutes.createSuggestion]);
+  }
+
+  deleteSuggestionBtn(): void{
+    console.log("Deleting suggestion..");
+  }
+
+
   //** BUTTONS===========================================================================================
   //#endregion BUTTONS───────────────────────────────────────────────────────────────────────────────────
 

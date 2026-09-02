@@ -24,6 +24,11 @@ export class SuggestionService {
     return this.http.get<Suggestion>(`${this.apiUrl}/${suggestionId}`);
   }
 
+  // GET suggestion by randomId (generated in the backend)
+  getSuggestionByRandomId(): Observable<Suggestion>{
+    return this.http.get<Suggestion>(`${this.apiUrl}/randomId`);
+  }
+
   // CREATE suggestion
   createSuggestion(suggestion: Suggestion): Observable<Suggestion>{
     return this.http.post<Suggestion>(this.apiUrl, suggestion);
