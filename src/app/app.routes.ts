@@ -36,7 +36,8 @@ export const routes: Routes = [
 
   // random-suggestion-website-------------------------------------------------------------------
   { path: 'random-suggestions', component: RandomSuggestionPageComponent},
-  { path: 'random-suggestions/create-suggestion', component: CreateSuggestionPageComponent},
+  { path: 'random-suggestions/form', component: CreateSuggestionPageComponent},
+  { path: 'random-suggestions/form/update/:suggestionId', component: CreateSuggestionPageComponent},
   // random-suggestion-website-------------------------------------------------------------------
 
 

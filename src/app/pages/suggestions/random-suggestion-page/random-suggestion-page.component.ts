@@ -31,7 +31,8 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
   suggestion: Suggestion = {
     suggestionId: -1,
     suggestionText: "Suggestions failed to populate from the database, please try back later.",
-    authorName: "Admin"
+    authorName: "Admin",
+    randomKey: "-1"
   };
 
 
@@ -48,19 +49,18 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
   //#region ng-ANGULAR LIFECYCLE HOOKS───────────────────────────────────────────────────────────────────
   //** ngOnInit==========================================================================================
   ngOnInit(): void {
-    console.log("generating a suggestion..");
     this.loading = true;
     this.suggestionService.getSuggestionByRandomId().subscribe({
       next: (suggestionFromDb => {
         this.suggestion = suggestionFromDb;
         this.loading = false;
-        console.log("Finished loading suggestions");
       }),
       error: (err) => {
         this.suggestion = {
           suggestionId: -1,
           suggestionText: "Suggestions failed to populate from the database, please try back later.",
-          authorName: "Admin"
+          authorName: "Admin",
+          randomKey: "-1"
         };
         this.loading = false;
       }
@@ -138,19 +138,18 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
   }
 
   generateRandomSuggestionBtn(): void{
-    console.log("generating a suggestion..");
     this.loading = true;
     this.suggestionService.getSuggestionByRandomId().subscribe({
       next: (suggestionFromDb => {
         this.suggestion = suggestionFromDb;
         this.loading = false;
-        console.log("Finished loading suggestions");
       }),
       error: (err) => {
         this.suggestion = {
           suggestionId: -1,
           suggestionText: "Suggestions failed to populate from the database, please try back later.",
-          authorName: "Admin"
+          authorName: "Admin",
+          randomKey: "-1"
         };
         this.loading = false;
       }
@@ -162,7 +161,7 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
   }
 
   updateSuggestionBtn(): void{
-    this.router.navigate([AppRoutes.createSuggestion]);
+    this.router.navigate([AppRoutes.updateSuggestion(this.suggestion.suggestionId)]);
   }
 
   deleteSuggestionBtn(): void{

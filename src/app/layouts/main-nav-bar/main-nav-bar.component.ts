@@ -34,7 +34,6 @@ export class MainNavBarComponent implements OnInit{
 
     // get the current url so we can add buttons to the nav bar based on that url.
     this.currentUrl = this.router.url;
-    console.log("current url: ", this.currentUrl);
   }
 
   // logout button

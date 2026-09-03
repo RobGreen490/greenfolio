@@ -1,6 +1,5 @@
-export interface Suggestion{
+export interface CreateSuggestion{
   suggestionId: number;
   suggestionText: string;
   authorName: string;
-  randomKey: string;
 }

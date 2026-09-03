@@ -20,7 +20,8 @@ export const AppRoutes = {
    * Pages for viewing and creating a random suggestion
    */
   randomSuggestionsPage: '/random-suggestions',
-  createSuggestion: '/random-suggestions/create-suggestion',
+  createSuggestion: '/random-suggestions/form',
+  updateSuggestion: (suggestionId: string | number) => `/random-suggestions/form/update/${suggestionId}`,
 
 
 

@@ -3,13 +3,13 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Suggestion } from '../../models/suggestion-models/suggestion';
+import { CreateSuggestion } from '../../models/suggestion-models/createSuggestion';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SuggestionService {
 
-  //  private apiUrl = `${environment.apiUrl}/Employees`
   private apiUrl = `${environment.apiUrl}/Suggestions`
 
   constructor(private http: HttpClient) { }
@@ -21,7 +21,7 @@ export class SuggestionService {
 
   // GET suggestion by id
   getSuggestionById(suggestionId: number): Observable<Suggestion>{
-    return this.http.get<Suggestion>(`${this.apiUrl}/${suggestionId}`);
+    return this.http.get<Suggestion>(`${this.apiUrl}/id/${suggestionId}`);
   }
 
   // GET suggestion by randomId (generated in the backend)
@@ -30,8 +30,8 @@ export class SuggestionService {
   }
 
   // CREATE suggestion
-  createSuggestion(suggestion: Suggestion): Observable<Suggestion>{
-    return this.http.post<Suggestion>(this.apiUrl, suggestion);
+  createSuggestion(suggestion: CreateSuggestion): Observable<CreateSuggestion>{
+    return this.http.post<CreateSuggestion>(this.apiUrl, suggestion);
   }
 
   // DELETE suggestion
@@ -40,7 +40,7 @@ export class SuggestionService {
   }
 
   // UPDATE suggestion
-  updateSuggestion(suggestion: Suggestion): Observable<Suggestion>{
-    return this.http.put<Suggestion>(`${this.apiUrl}/${suggestion.suggestionId}`, suggestion);
+  updateSuggestion(suggestion: CreateSuggestion): Observable<CreateSuggestion>{
+    return this.http.put<CreateSuggestion>(`${this.apiUrl}/${suggestion.suggestionId}`, suggestion);
   }
 }

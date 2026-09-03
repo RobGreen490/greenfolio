@@ -1,1 +1,56 @@
-<p>create-suggestion-page works!</p>
+<div class="page">
+  <app-canvas #canvasComp class="background-canvas" [drawFn]="draw"></app-canvas>
+  <div #content class="page-content">
+    <app-main-nav-bar></app-main-nav-bar>
+
+    <div class="container">
+      <h2 class="text-center my-5">{{ isUpdating ? 'Update Suggestion' : 'Create Suggestion' }}</h2>
+
+      <form class="border rounded p-5 w-50 mb-5 mx-auto transparent" #suggestionForm="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+          <label class="form-label">Your Name</label>
+          <input #authorName="ngModel" class="form-control" type="text" name="authorName" [placeholder]="suggestion.authorName"
+            [(ngModel)]="createSuggestion.authorName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Comment, suggestion, feedback</label>
+          <textarea required #suggestionText="ngModel" class="form-control" type="text" name="suggestionText" rows="5"
+            [(ngModel)]="createSuggestion.suggestionText" [placeholder]="suggestion.suggestionText"></textarea>
+          @if (suggestionText.errors?.['required'] && (suggestionText.touched || suggestionText.dirty)) {
+          <div class="text-danger">A comment or suggestion is required before continuing.</div>
+          }
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="suggestionForm.invalid">{{ isUpdating ? 'Update' :
+          'Create'
+          }}
+        </button>
+      </form>
+
+      <!-- For Error Message if one exists -->
+      @if (errorMessage != "") {
+      <div>
+        <p class="text-danger text-center">{{errorMessage}}</p>
+      </div>
+      }
+    </div>
+
+    <!-- draw the gravity button if bouncing circles is on. -->
+    @if (currentDrawable == 'bouncing-circles') {
+    <div class="button-container">
+      <button class="gravity-button" (click)="turnOnGravity()">
+        @if (gravityOn) {
+        Turn off gravity
+        }
+        @else {
+        Turn gravity on
+        }
+      </button>
+    </div>
+    }
+
+  </div>
+
+</div>
