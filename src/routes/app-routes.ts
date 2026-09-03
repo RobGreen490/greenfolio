@@ -23,6 +23,12 @@ export const AppRoutes = {
   createSuggestion: '/random-suggestions/form',
   updateSuggestion: (suggestionId: string | number) => `/random-suggestions/form/update/${suggestionId}`,
 
+  /**
+   *
+   * Pages for health-and-nutrition
+   */
+  healthAndNutritionHomeURL: '/health-and-nutrition',
+
 
 
   /** employeeManagement

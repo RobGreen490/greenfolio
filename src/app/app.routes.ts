@@ -13,6 +13,7 @@ import { VisitManagementHomePageComponent } from './pages/visit-management/visit
 import { ScannerPageComponent } from './pages/visit-management/scanner-page/scanner-page.component';
 import { RandomSuggestionPageComponent } from './pages/suggestions/random-suggestion-page/random-suggestion-page.component';
 import { CreateSuggestionPageComponent } from './pages/suggestions/create-suggestion-page/create-suggestion-page.component';
+import { HanHomePageComponent } from './pages/health-and-nutrition/han-home-page/han-home-page.component';
 
 
 export const routes: Routes = [
@@ -32,6 +33,11 @@ export const routes: Routes = [
   { path: 'login/register', component: RegisterPageComponent, canActivate: [authGuard] },
   // auth pages ---------------------------------------------------------------------------------
 
+
+
+  // health-and-nutrition
+  {path: 'health-and-nutrition', component: HanHomePageComponent},
+  // health-and-nutrition
 
 
   // random-suggestion-website-------------------------------------------------------------------

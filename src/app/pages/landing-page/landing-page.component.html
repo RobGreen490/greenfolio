@@ -47,9 +47,8 @@
             </div>
           </div>
 
-          <div class="box span-4">
-            <div class="image-tile background-image" [style.background-image]="'url(' + bubblePopperBackground + ')'"
-              (click)="goToBubblePopper()">
+          <div class="box span-4" (click)="goToBubblePopper()">
+            <div class="image-tile background-image" [style.background-image]="'url(' + bubblePopperBackground + ')'">
             </div>
             <div class="box-text">
               <h2>Bubble Popper Game</h2>
@@ -59,14 +58,13 @@
             </div>
           </div>
 
-          <div class="box span-8">
-            <div class="image-tile" (click)="goToVisit()">
-              <h1>New Project</h1>
+          <div class="box span-8" (click)="goToHealthAndNutrition()">
+            <div class="image-tile" [style.background-image]="'url(' + healthAndNutritionBackground + ')'">
             </div>
             <div class="box-text">
-              <h2>Coming Soon</h2>
+              <h2>Health & Nutrition (WORK IN PROGRESS)</h2>
               <p>
-                Work in progress..
+                A page featuring affordable nutritious meals and calorie tracking with login.
               </p>
             </div>
           </div>

@@ -1,0 +1,60 @@
+.page {
+  position: relative;
+}
+
+.background-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/*GRAVITY BUTTON*******************************************************************/
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding: 24px;
+}
+
+.gravity-button {
+  padding: 24px;
+  color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(0, 0, 0, .75);
+  border-radius: 999px;
+  transition: all 0.4s;
+}
+
+.gravity-button:hover {
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(0, 0, 0, 1);
+}
+
+/* if the screen width is 651 or more, move the button slightly to the left */
+@media(min-width: 651px) {
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 24px;
+  }
+}
+
+/* if the screen width is 650 or less, move the button to the center of the page */
+@media (max-width: 650px) {
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+}
+
+/*GRAVITY BUTTON*******************************************************************/

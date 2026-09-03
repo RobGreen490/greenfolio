@@ -1,19 +1,16 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MainNavBarComponent } from '@layouts';
-import { AppRoutes } from '@routes';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
 
-
 @Component({
-  selector: 'app-landing-page',
+  selector: 'app-han-home-page',
   standalone: true,
-  imports: [MainNavBarComponent, CanvasComponent],
-  templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.css'
+  imports: [CanvasComponent],
+  templateUrl: './han-home-page.component.html',
+  styleUrl: './han-home-page.component.css'
 })
-export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
+export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
   @ViewChild('content') contentRef!: ElementRef<HTMLElement>;
 
@@ -23,21 +20,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
     private drawHelperService: DrawHelperService
   ){}
 
-  //** IMAGES FROM UNSPLASH=================================================================================>
-  //https://unsplash.com/@mohalotfi
-  healthAndNutritionBackground = 'assets/images/landing-website-images/health-and-nutrition-v1.jpg';
 
-  // https://unsplash.com/@element5digital
-  suggestionsBackground = 'assets/images/landing-website-images/suggestions-photo-v1.jpg';
-
-  // https://unsplash.com/@bennieray
-  employeeManagementBackground = 'assets/images/landing-website-images/employee-management-photo.jpg';
-
-  // https://unsplash.com/@photowolf
-  worldMapBackground = 'assets/images/landing-website-images/world-map-photo.jpg';
-
-  bubblePopperBackground = 'assets/images/landing-website-images/bubble-popper-photo-v2.jpg';
-  //** IMAGES FROM UNSPLASH=================================================================================>
 
   //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
   private resizeObserver?: ResizeObserver;
@@ -57,6 +40,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   //** ngOnInit==========================================================================================
 
 
+
   //** ngAfterViewInit===================================================================================
   ngAfterViewInit(): void {
     // recolor the background of the canvas based on what is drawn
@@ -72,6 +56,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   //** ngAfterViewInit===================================================================================
 
 
+
   //** ngOnDestroy=======================================================================================
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
@@ -83,8 +68,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   //#region DRAWABLE METHODS & LOGIC─────────────────────────────────────────────────────────────────────
   //** RESIZE WINDOW LOGIC===============================================================================
-  // used to resize the canvas on window resize or orientation change by user.
   private resizeCanvasToContent(): void {
+    // store the boolean in result so we can reset the sine wave if necessary, and resize the canvas with the method used to determine the value.
     this.lastIsMobile = this.drawHelperService.resizeCanvasToContent(
       this.canvasComp,
       this.contentRef,
@@ -97,6 +82,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   //** ALL DRAWING LOGIC=================================================================================
+  // Receives a drawing function from the parent page via [drawFn]="draw".
+  // CanvasComponent supplies the canvas context, canvas, and mouse position when calling it.
   draw = (
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
@@ -110,7 +97,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
       this.gravityOn
     );
   };
-  //** ALL DRAWING LOGIC================================================================================>
+  //** ALL DRAWING LOGIC=================================================================================
   //#endregion DRAWABLE METHODS & LOGIC──────────────────────────────────────────────────────────────────
 
 
@@ -125,28 +112,4 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
 
-  //** ROUTING LOGIC=====================================================================================
-  // Employee Management Website
-  goToEmployeeManagement() {
-    this.router.navigate([AppRoutes.randomSuggestionsPage]);
-  }
-
-  // World Map Website
-  goToWorldMap(){
-    this.router.navigate([AppRoutes.worldMap]);
-  }
-
-  goToBubblePopper(){
-    this.router.navigate([AppRoutes.bubblePopper]);
-  }
-
-  goToVisit(){
-    this.router.navigate([AppRoutes.visitManagement]);
-  }
-
-  goToHealthAndNutrition(){
-    console.log("going to health page");
-    this.router.navigate([AppRoutes.healthAndNutritionHomeURL]);
-  }
-  //** ROUTING LOGIC====================================================================================>
 }
