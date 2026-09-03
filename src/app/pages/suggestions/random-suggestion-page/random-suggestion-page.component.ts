@@ -164,8 +164,23 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
     this.router.navigate([AppRoutes.updateSuggestion(this.suggestion.suggestionId)]);
   }
 
-  deleteSuggestionBtn(): void{
-    console.log("Deleting suggestion..");
+  deleteSuggestionBtn(suggestionId: number): void{
+    const confirmed = confirm("Are you sure you wish to delete this suggestion?");
+    if(!confirmed)
+      return;
+
+
+    this.suggestionService.deleteSuggestion(this.suggestion.suggestionId).subscribe({
+      next: (response) => {
+        this.suggestions = this.suggestions.filter(e => e.suggestionId !== suggestionId);
+        this.loading = true;
+        window.location.reload();
+
+      },
+      error: (err) =>{
+        console.log("FULL ERROR: ", err);
+      }
+    });
   }
 
 
