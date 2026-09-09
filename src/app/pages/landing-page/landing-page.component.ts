@@ -67,6 +67,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
     });
+
+    if(this.currentDrawable === 'floating-dots')
+      this.drawHelperService.getCanvasDimensions(this.contentRef);
+
     this.resizeObserver.observe(this.contentRef.nativeElement);
   }
   //** ngAfterViewInit===================================================================================

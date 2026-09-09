@@ -110,6 +110,7 @@ export class Circle{
     // slowly reduce sideways motion over time (like surface friction)
     this.dx *= 0.99;
 
+    // ----- STOP HORIZONTAL MOTION -----
     // if horizontal speed becomes extremely small, stop it completely
     if (Math.abs(this.dx) < 0.01) {
       this.dx = 0;

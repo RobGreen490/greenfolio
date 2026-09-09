@@ -1,6 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
-import { Circle, Wave } from '@canvas-renders';
+import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService, DotsService } from '@canvas';
+import { Circle, Wave, Dot } from '@canvas-renders';
 import { DrawableMode } from '@types';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class DrawHelperService {
 
   constructor(
     private bouncingCirclesService: BouncingCirclesService,
+    private dotsService: DotsService,
     private resizeHelperService: ResizeHelperService,
     private backgroundColorService: BackgroundColorService
   )
@@ -18,7 +19,21 @@ export class DrawHelperService {
   //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
   wave: Wave = new Wave();
   circles: Circle [] = this.bouncingCirclesService.generateCircles(400, 10, 100);
+
+  canvasWidth = 0;
+  canvasHeight = 0;
+  dotRadius = 1;
+  dotMaxRadius = 6;
+  dots: Dot [] = [];
+
   //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
+
+  getCanvasDimensions(contentRef: ElementRef<HTMLElement>){
+    this.canvasWidth = document.documentElement.clientWidth;
+    this.canvasHeight = contentRef.nativeElement.scrollHeight;
+
+    this.dots = this.dotsService.generateDots(this.canvasWidth, this.canvasHeight, this.dotRadius, this.dotMaxRadius);
+  }
 
 
   resizeCanvasToContent(
@@ -31,6 +46,11 @@ export class DrawHelperService {
 
     if(result?.shouldResetWave && currentDrawable === "sine-waves")
       this.wave = new Wave();
+    if(currentDrawable === "floating-dots")
+    {
+      this.getCanvasDimensions(contentRef);
+      this.dots = this.dotsService.generateDots(this.canvasWidth, this.canvasHeight, this.dotRadius, this.dotMaxRadius);
+    }
 
     return !lastIsMobile;
   }
@@ -58,6 +78,12 @@ export class DrawHelperService {
           // update the circle with new x & y cooridates, then draw the circle
           circle.update(canvas.width, canvas.height, ctx, mouse, gravity, true, true);
           });
+        break;
+
+      case 'floating-dots':
+          this.dots.forEach((Dot, index) => {
+            Dot.dotUpdate(canvas.width, canvas.height, ctx, mouse);
+          })
         break;
 
       case 'mouse-draw':

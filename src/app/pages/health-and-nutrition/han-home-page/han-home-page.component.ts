@@ -25,7 +25,7 @@ export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
   private resizeObserver?: ResizeObserver;
   // type in a different string for a different drawable effect.
-  currentDrawable: DrawableMode = 'bouncing-circles';
+  currentDrawable: DrawableMode = 'floating-dots';
   lastIsMobile = false;
   gravityOn = false;
   //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
@@ -51,6 +51,10 @@ export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvasToContent();
     });
+
+    if(this.currentDrawable === 'floating-dots')
+      this.drawHelperService.getCanvasDimensions(this.contentRef);
+
     this.resizeObserver.observe(this.contentRef.nativeElement);
   }
   //** ngAfterViewInit===================================================================================

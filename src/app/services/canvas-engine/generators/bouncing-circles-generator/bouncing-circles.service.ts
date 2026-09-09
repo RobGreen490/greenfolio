@@ -42,6 +42,7 @@ export class BouncingCirclesService{
           maxRadius,
           // outline
           'transparent',
+          // choosing a random color for the inside of each circle
           this.CirclesColorArray[Math.floor(Math.random() * this.CirclesColorArray.length)]
         )
       );

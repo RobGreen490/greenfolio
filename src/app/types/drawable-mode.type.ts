@@ -1,2 +1,2 @@
 export
-type DrawableMode = 'sine-waves' | 'bouncing-circles' | 'mouse-draw' | 'dark-canvas';
+type DrawableMode = 'sine-waves' | 'bouncing-circles' | 'mouse-draw' | 'dark-canvas' | 'floating-dots';

@@ -23,6 +23,9 @@ export class BackgroundColorService {
       case 'dark-canvas':
         this.backgroundColor = "#0D0E12"
         break;
+      case 'floating-dots':
+        this.backgroundColor = "#0D0E12"
+        break;
       default:
         this.backgroundColor = "#b0b0b0";
         break;
