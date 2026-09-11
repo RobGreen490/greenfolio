@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AppRoutes } from '@routes';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AuthService } from '@services';
@@ -18,6 +18,9 @@ export class MainNavBarComponent implements OnInit{
   isLoggedIn = false;
   loggedInUserName = '';
 
+  // used to pass the username that is logged in to other pages
+  @Output() username = new EventEmitter<string>();
+
   constructor(
     private router: Router,
     private authService: AuthService
@@ -28,8 +31,10 @@ export class MainNavBarComponent implements OnInit{
   ngOnInit(): void {
     this.authService.status().subscribe(res => {
       this.isLoggedIn = res.authenticated
-      if(this.isLoggedIn)
+      if(this.isLoggedIn){
         this.loggedInUserName = res.user;
+        this.username.emit(this.loggedInUserName);
+      }
     });
 
     // get the current url so we can add buttons to the nav bar based on that url.

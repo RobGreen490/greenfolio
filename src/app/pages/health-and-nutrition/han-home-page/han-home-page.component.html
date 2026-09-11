@@ -4,6 +4,33 @@
 
   <div #content class="page-content">
 
+    <!-- NAVIGATION BAR -->
+    <app-main-nav-bar
+    (username)="getUsername($event)">
+    </app-main-nav-bar>
+
+    <div class="body">
+
+      <div class="grid-container">
+        <div class="box span-full">
+          <!-- if the user is logged in, display their information -->
+          @if (username) {
+            <div class="header">
+              <h1>Welcome back {{username}}</h1>
+            </div>
+          }
+          @else {
+            <div class="header" (click)="goToLoginPage()">
+              <h1>Log in to see personalized information</h1>
+            </div>
+
+          }
+        </div>
+
+
+      </div>
+    </div>
+
     <!-- draw the gravity button if bouncing circles is on. -->
     @if (currentDrawable == 'bouncing-circles') {
     <div class="button-container">

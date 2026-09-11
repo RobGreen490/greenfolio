@@ -27,12 +27,22 @@
   margin: 0 auto;
 }
 
-.logo-warning{
+.login-box{
+  padding: 24px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, .2);
+  border: 2px solid blue;
+}
+
+.logo-box{
   display: flex;
+  padding-top: 24px;
+  border-radius: 12px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   user-select: none;
+  background-color: #999999;
 }
 
 .logo{
@@ -52,7 +62,7 @@
 }
 
 p{
-  color: #81270b;
+  color: #fff;
   text-align: center;
   cursor: default;
 }

@@ -30,7 +30,7 @@ export class Dot{
     public currentBlue: number = 155,
     public maxBlueReached: boolean = false,
 
-    public currentGreen: number = 255,
+    public currentGreen: number = 155,
     public maxGreenReached: boolean = false,
 
     public transparency: number = .8,
@@ -62,6 +62,7 @@ export class Dot{
     canvasHeight: number,
     mouseLocation: {x: number, y:number},): void
     {
+      const defaultColor = 155;
       // get the distance in a circular pattern to change the colors and move the dots left to right.
       const distanceSquared = (mouseLocation.x - this.x) ** 2 + (mouseLocation.y - this.y) ** 2;
       if(distanceSquared < 80 ** 2)
@@ -137,29 +138,31 @@ export class Dot{
           this.radius -= .2;
 
         // returning red to normal color (gray)
-        if(this.currentRed !== 155){
-          if(this.currentRed > 155)
+        if(this.currentRed !== defaultColor){
+          if(this.currentRed > defaultColor)
             this.currentRed -= 5;
-          else if(this.currentRed < 155)
+          else if(this.currentRed < defaultColor)
             this.currentRed += 5
+          if(this.currentRed === defaultColor)
+            this.maxRedReached = false;
         }
-          else this.maxRedReached = false;
 
         // returning blue to normal color (gray)
-        if(this.currentBlue !== 155){
-          if(this.currentBlue > 155)
+        if(this.currentBlue !== defaultColor){
+          if(this.currentBlue > defaultColor)
             this.currentBlue -= 1;
-          else if(this.currentBlue < 155)
+          else if(this.currentBlue < defaultColor)
             this.currentBlue += 1;
+          if(this.currentBlue === defaultColor)
+            this.maxBlueReached = false;
         }
-        else this.maxBlueReached = false;
 
         /*
         // returning green to normal color (gray)
-        if(this.currentGreen !== 155){
-          if(this.currentGreen > 155)
+        if(this.currentGreen !== defaultColor){
+          if(this.currentGreen > defaultColor)
             this.currentGreen -= 1;
-          else if(this.currentGreen < 155)
+          else if(this.currentGreen < defaultColor)
             this.currentGreen += 1;
         }
         else

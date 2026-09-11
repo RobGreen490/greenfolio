@@ -35,7 +35,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
     password: ''
   }
   showPassword: boolean = false;
-  private errorMessage: string = '';
+  errorMessage: string = '';
 
   //#region DRAWABLE VARIABLES───────────────────────────────────────────────────────────────────────────
   private resizeObserver?: ResizeObserver;
@@ -127,8 +127,18 @@ export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
         console.log("successfully logged in.");
         this.router.navigate([AppRoutes.landingPage])
       },
-      error: () => {
-        console.log("error");
+      error: (err) => {
+        if(err.status === 401)
+        {
+          console.log("Invalid username or password.");
+          this.errorMessage = "Invalid username or password.";
+        }
+        else
+        {
+          console.log(err.message);
+          this.errorMessage = "An unknown error has occured.";
+        }
+
       }
     });
   }

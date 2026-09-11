@@ -149,7 +149,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   goToHealthAndNutrition(){
-    console.log("going to health page");
     this.router.navigate([AppRoutes.healthAndNutritionHomeURL]);
   }
   //** ROUTING LOGIC====================================================================================>

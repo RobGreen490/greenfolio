@@ -25,12 +25,20 @@ h1, h2, p {
   z-index: 1;
 }
 
+.background-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+
 .body{
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 1;
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -154,12 +162,6 @@ h1, h2, p {
 
 }
 
-.background-canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: block;
-}
 
 .button-container {
   display: flex;

@@ -2,11 +2,13 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { Router } from '@angular/router';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
+import { MainNavBarComponent } from "@layouts";
+import { AppRoutes } from '@routes';
 
 @Component({
   selector: 'app-han-home-page',
   standalone: true,
-  imports: [CanvasComponent],
+  imports: [CanvasComponent, MainNavBarComponent],
   templateUrl: './han-home-page.component.html',
   styleUrl: './han-home-page.component.css'
 })
@@ -28,6 +30,7 @@ export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   currentDrawable: DrawableMode = 'floating-dots';
   lastIsMobile = false;
   gravityOn = false;
+  username = '';
   //#endregion DRAWABLE VARIABLES────────────────────────────────────────────────────────────────────────
 
 
@@ -115,5 +118,11 @@ export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   //#endregion BUTTONS───────────────────────────────────────────────────────────────────────────────────
 
 
+  getUsername(username: string){
+    this.username = username;
+  }
 
+  goToLoginPage(){
+    this.router.navigate([AppRoutes.loginPage])
+  }
 }
