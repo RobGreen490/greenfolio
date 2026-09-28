@@ -42,7 +42,7 @@
   justify-content: center;
   align-items: center;
   user-select: none;
-  background-color: #999999;
+  background-color: #0D0E12;
 }
 
 .logo{
@@ -59,6 +59,14 @@
 
 .form-label{
   color: white;
+}
+
+.show-hide-password{
+  background-color: #000;
+}
+
+h1{
+  color: #fff;
 }
 
 p{

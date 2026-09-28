@@ -9,16 +9,15 @@
 
       <div class="login-box">
       <div class="logo-box">
-        <img class="logo" src="assets/images/auth-images/user-icon-light.png" alt="user image" />
-        <p><b>USER
-          </b></p>
+        <img class="logo" src="assets/images/auth-images/user-icon-light.png" alt="user profile icon" />
+        <h1>Login</h1>
       </div>
 
       <form class="form" #userForm="ngForm" (ngSubmit)="login()">
-        <label class="form-label"><b>Username</b></label>
+        <label class="form-label" for="username"><b>Username</b></label>
         <div class="input-group">
           <input required #username="ngModel" class="form-control fs-4 form-control-lg bg-warning-subtle" type="text"
-            name="username" [(ngModel)]="user.username" />
+            id="username" name="username" [(ngModel)]="user.username" />
         </div>
         @if (username.errors?.['required'] && (username.touched || username.dirty)) {
         <div class="text-danger">Username is required.</div>
@@ -28,11 +27,11 @@
         }
 
 
-        <label class="form-label"><b>Password</b></label>
+        <label class="form-label" for="password"><b>Password</b></label>
         <div class="input-group">
           <input required #password="ngModel" class="form-control fs-4 form-control-lg bg-warning-subtle"
-            [type]="showPassword ? 'text' : 'password'" autocomplete="off" name="password" [(ngModel)]="user.password" />
-          <span class="input-group-text text-primary" style="cursor: pointer;" (click)="showPassword = !showPassword">
+            [type]="showPassword ? 'text' : 'password'" autocomplete="off" id="password" name="password" [(ngModel)]="user.password" />
+          <span class="input-group-text text-primary show-hide-password" style="cursor: pointer;" (click)="showPassword = !showPassword">
             {{ showPassword ? 'hide' : 'show' }}
           </span>
         </div>

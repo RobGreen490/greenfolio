@@ -165,7 +165,7 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
   }
 
   deleteSuggestionBtn(suggestionId: number): void{
-    const confirmed = confirm("Are you sure you wish to delete this suggestion?");
+    const confirmed = confirm("Are you sure you wish to delete this suggestion? This cannot be undone.");
     if(!confirmed)
       return;
 

@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page fallback-background">
 
   <app-canvas #canvasComp class="background-canvas" [drawFn]="draw"></app-canvas>
 
@@ -6,7 +6,10 @@
 
     <app-main-nav-bar></app-main-nav-bar>
 
+
     <div class="container">
+      <h1>Suggestions</h1>
+
       <div class="card-button-container">
         @if (loading) {
           <div class="center-loader">
@@ -37,7 +40,7 @@
       </div>
       <div class="crud-container">
         <button class="btn btn-primary crud-button" (click)="createSuggestionBtn()">Create new suggestion</button>
-        <button class="btn btn-warning crud-button" (click)="updateSuggestionBtn()">Update current suggestion</button>
+        <button class="btn btn-secondary crud-button" (click)="updateSuggestionBtn()">Update current suggestion</button>
         <button class="btn btn-danger crud-button" (click)="deleteSuggestionBtn(suggestion.suggestionId)">delete current suggestion</button>
       </div>
     </div>

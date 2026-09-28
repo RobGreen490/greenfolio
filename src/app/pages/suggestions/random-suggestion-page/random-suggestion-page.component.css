@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.fallback-background{
+  background-color: #000;
+}
+
 .background-canvas {
   position: absolute;
   inset: 0;
@@ -73,10 +77,19 @@
   }
 }
 
-p{
+h1{
+  padding-bottom: 24px;
+  text-shadow: red 10px 0px 10px;
+}
+
+p, h1, div{
+  cursor: default;
   color: white;
 }
 
+figcaption{
+  cursor: default;
+}
 
 .crud-container{
   display: flex;
@@ -85,8 +98,13 @@ p{
 }
 .crud-button{
   color: white;
-  text-shadow: 1px 1px 2px #000;
+  text-shadow:
+    -2px 0px 2px #000,
+    2px 0px 2px #000,
+    0px -2px 2px #000,
+    0px 2px 2px #000;
 }
+
 
 
 /*GRAVITY BUTTON*******************************************************************/
