@@ -1,4 +1,5 @@
 export const environment = {
     isProduction: true,
-    apiUrl: 'https://greenfolio-api.azurewebsites.net/api'
+    apiUrl: 'https://api.greenfolio.net/api'
 }
+// apiUrl: 'https://greenfolio-api.azurewebsites.net/api'
