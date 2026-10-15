@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CanvasComponent, BackgroundColorService, DrawHelperService} from '@canvas';
@@ -15,6 +15,7 @@ import { AppRoutes } from '@routes';
     imports: [FormsModule, CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './login-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{

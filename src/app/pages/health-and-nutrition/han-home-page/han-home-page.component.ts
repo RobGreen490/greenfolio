@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -10,6 +10,7 @@ import { AppRoutes } from '@routes';
     standalone: true,
     imports: [CanvasComponent, MainNavBarComponent],
     templateUrl: './han-home-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './han-home-page.component.css'
 })
 export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{

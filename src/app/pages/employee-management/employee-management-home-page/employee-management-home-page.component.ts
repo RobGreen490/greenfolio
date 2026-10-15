@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmployeeManagementNavBarComponent } from '@layouts';
 import { BackgroundColorService, CanvasComponent, DrawHelperService } from '@canvas';
@@ -13,6 +13,7 @@ import { DrawableMode } from '@types';
     imports: [EmployeeManagementNavBarComponent, CanvasComponent],
     standalone: true,
     templateUrl: './employee-management-home-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './employee-management-home-page.component.css'
 })
 export class EmployeeManagementHomePageComponent implements OnInit, AfterViewInit, OnDestroy{

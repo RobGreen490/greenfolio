@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -12,6 +12,7 @@ import { MainNavBarComponent } from "@layouts";
     imports: [CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './visit-management-home-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './visit-management-home-page.component.css'
 })
 export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{

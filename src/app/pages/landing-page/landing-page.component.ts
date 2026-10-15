@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainNavBarComponent } from '@layouts';
 import { AppRoutes } from '@routes';
@@ -11,6 +11,7 @@ import { DrawableMode } from '@types';
     imports: [MainNavBarComponent, CanvasComponent],
     standalone: true,
     templateUrl: './landing-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './landing-page.component.css'
 })
 export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{

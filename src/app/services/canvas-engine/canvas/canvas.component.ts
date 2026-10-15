@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-canvas',
     standalone: true,
     imports: [],
     templateUrl: './canvas.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './canvas.component.css'
 })
 export class CanvasComponent implements AfterViewInit, OnDestroy{

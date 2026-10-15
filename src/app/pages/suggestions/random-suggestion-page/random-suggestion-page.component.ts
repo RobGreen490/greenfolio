@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -12,6 +12,7 @@ import { AppRoutes } from '@routes';
     imports: [CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './random-suggestion-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './random-suggestion-page.component.css'
 })
 export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnDestroy{

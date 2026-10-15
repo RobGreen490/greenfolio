@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Employee } from '@models';
 import { EmployeeManagementService } from '../../../services/employee-management-service/employee-management.service';
@@ -15,6 +15,7 @@ import { DrawableMode } from '@types';
     imports: [FormsModule, EmployeeManagementNavBarComponent, CanvasComponent],
     standalone: true,
     templateUrl: './employee-management-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './employee-management-form.component.css'
 })
 export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, OnDestroy{

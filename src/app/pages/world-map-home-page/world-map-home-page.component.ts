@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { WorldMapService } from '@services';
 import { WorldMapNavBarComponent } from "@layouts";
 
@@ -7,6 +7,7 @@ import { WorldMapNavBarComponent } from "@layouts";
     imports: [WorldMapNavBarComponent],
     standalone: true,
     templateUrl: './world-map-home-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './world-map-home-page.component.css'
 })
 export class WorldMapHomePageComponent {

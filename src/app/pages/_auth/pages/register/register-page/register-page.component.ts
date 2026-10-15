@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -9,6 +9,7 @@ import { Circle, Wave } from '@canvas-renders';
     imports: [CanvasComponent],
     standalone: true,
     templateUrl: './register-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './register-page.component.css'
 })
 export class RegisterPageComponent implements OnInit, AfterViewInit ,OnDestroy{

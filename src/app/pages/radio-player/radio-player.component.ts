@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-radio-player',
     standalone: true,
     imports: [],
     templateUrl: './radio-player.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './radio-player.component.css'
 })
 export class RadioPlayerComponent implements OnInit{

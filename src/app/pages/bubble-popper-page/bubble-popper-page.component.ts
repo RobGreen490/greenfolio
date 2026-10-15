@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppRoutes } from '@routes';
 import { CanvasComponent } from '@canvas';
@@ -10,6 +10,7 @@ import { Circle, Projectile , ExplosionParticle } from '@canvas-renders';
     imports: [CanvasComponent],
     standalone: true,
     templateUrl: './bubble-popper-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './bubble-popper-page.component.css'
 })
 export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestroy{

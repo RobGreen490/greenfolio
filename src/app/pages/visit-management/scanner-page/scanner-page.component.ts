@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CanvasComponent, ResizeHelperService, BackgroundColorService, BouncingCirclesService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -14,6 +14,7 @@ import { MainNavBarComponent } from "@layouts";
     imports: [CanvasComponent, DatePipe, JsonPipe, RouterLink, MainNavBarComponent],
     standalone: true,
     templateUrl: './scanner-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './scanner-page.component.css'
 })
 export class ScannerPageComponent {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -15,6 +15,7 @@ import { CreateSuggestion } from '../../../models/suggestion-models/createSugges
     imports: [FormsModule, CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './create-suggestion-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './create-suggestion-page.component.css'
 })
 export class CreateSuggestionPageComponent implements OnInit, AfterViewInit ,OnDestroy{

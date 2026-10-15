@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -9,6 +9,7 @@ import { DrawableMode } from '@types';
     imports: [CanvasComponent],
     standalone: true,
     templateUrl: './boiler-plate-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './boiler-plate-page.component.css'
 })
 export class BoilerPlatePageComponent implements OnInit, AfterViewInit ,OnDestroy{
