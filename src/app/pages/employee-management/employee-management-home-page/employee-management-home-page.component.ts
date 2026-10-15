@@ -9,11 +9,11 @@ import { DrawableMode } from '@types';
 
 
 @Component({
-  selector: 'app-employee-management-home-page',
-  standalone: true,
-  imports: [EmployeeManagementNavBarComponent, CanvasComponent],
-  templateUrl: './employee-management-home-page.component.html',
-  styleUrl: './employee-management-home-page.component.css'
+    selector: 'app-employee-management-home-page',
+    imports: [EmployeeManagementNavBarComponent, CanvasComponent],
+    standalone: true,
+    templateUrl: './employee-management-home-page.component.html',
+    styleUrl: './employee-management-home-page.component.css'
 })
 export class EmployeeManagementHomePageComponent implements OnInit, AfterViewInit, OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

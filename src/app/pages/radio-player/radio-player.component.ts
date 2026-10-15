@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-radio-player',
-  standalone: true,
-  imports: [],
-  templateUrl: './radio-player.component.html',
-  styleUrl: './radio-player.component.css'
+    selector: 'app-radio-player',
+    standalone: true,
+    imports: [],
+    templateUrl: './radio-player.component.html',
+    styleUrl: './radio-player.component.css'
 })
 export class RadioPlayerComponent implements OnInit{
 
@@ -14,6 +14,6 @@ export class RadioPlayerComponent implements OnInit{
   constructor(){}
 
   ngOnInit(): void {
-    
+
   }
 }

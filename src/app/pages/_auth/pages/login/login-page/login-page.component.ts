@@ -11,11 +11,11 @@ import { AppRoutes } from '@routes';
 
 
 @Component({
-  selector: 'app-login-page',
-  standalone: true,
-  imports: [FormsModule, CanvasComponent, MainNavBarComponent],
-  templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+    selector: 'app-login-page',
+    imports: [FormsModule, CanvasComponent, MainNavBarComponent],
+    standalone: true,
+    templateUrl: './login-page.component.html',
+    styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

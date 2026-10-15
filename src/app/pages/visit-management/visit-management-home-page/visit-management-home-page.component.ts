@@ -8,11 +8,11 @@ import { MainNavBarComponent } from "@layouts";
 
 
 @Component({
-  selector: 'app-visit-management-home-page',
-  standalone: true,
-  imports: [CanvasComponent, MainNavBarComponent],
-  templateUrl: './visit-management-home-page.component.html',
-  styleUrl: './visit-management-home-page.component.css'
+    selector: 'app-visit-management-home-page',
+    imports: [CanvasComponent, MainNavBarComponent],
+    standalone: true,
+    templateUrl: './visit-management-home-page.component.html',
+    styleUrl: './visit-management-home-page.component.css'
 })
 export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

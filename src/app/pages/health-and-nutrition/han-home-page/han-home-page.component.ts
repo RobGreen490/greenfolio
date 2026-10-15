@@ -6,11 +6,11 @@ import { MainNavBarComponent } from "@layouts";
 import { AppRoutes } from '@routes';
 
 @Component({
-  selector: 'app-han-home-page',
-  standalone: true,
-  imports: [CanvasComponent, MainNavBarComponent],
-  templateUrl: './han-home-page.component.html',
-  styleUrl: './han-home-page.component.css'
+    selector: 'app-han-home-page',
+    standalone: true,
+    imports: [CanvasComponent, MainNavBarComponent],
+    templateUrl: './han-home-page.component.html',
+    styleUrl: './han-home-page.component.css'
 })
 export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

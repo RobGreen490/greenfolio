@@ -11,11 +11,11 @@ import { DrawableMode } from '@types';
 
 
 @Component({
-  selector: 'app-employee-management-form',
-  standalone: true,
-  imports: [FormsModule, EmployeeManagementNavBarComponent, CanvasComponent],
-  templateUrl: './employee-management-form.component.html',
-  styleUrl: './employee-management-form.component.css'
+    selector: 'app-employee-management-form',
+    imports: [FormsModule, EmployeeManagementNavBarComponent, CanvasComponent],
+    standalone: true,
+    templateUrl: './employee-management-form.component.html',
+    styleUrl: './employee-management-form.component.css'
 })
 export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

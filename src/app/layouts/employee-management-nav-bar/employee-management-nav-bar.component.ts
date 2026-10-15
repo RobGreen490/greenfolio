@@ -4,11 +4,11 @@ import { AppRoutes } from '@routes';
 
 
 @Component({
-  selector: 'app-employee-management-nav-bar',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './employee-management-nav-bar.component.html',
-  styleUrl: './employee-management-nav-bar.component.css'
+    selector: 'app-employee-management-nav-bar',
+    imports: [RouterModule],
+    standalone: true,
+    templateUrl: './employee-management-nav-bar.component.html',
+    styleUrl: './employee-management-nav-bar.component.css'
 })
 export class EmployeeManagementNavBarComponent {
   routes = AppRoutes;

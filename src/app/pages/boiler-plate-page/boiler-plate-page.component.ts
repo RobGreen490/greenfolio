@@ -5,11 +5,11 @@ import { DrawableMode } from '@types';
 
 
 @Component({
-  selector: 'app-boiler-plate-page',
-  standalone: true,
-  imports: [CanvasComponent],
-  templateUrl: './boiler-plate-page.component.html',
-  styleUrl: './boiler-plate-page.component.css'
+    selector: 'app-boiler-plate-page',
+    imports: [CanvasComponent],
+    standalone: true,
+    templateUrl: './boiler-plate-page.component.html',
+    styleUrl: './boiler-plate-page.component.css'
 })
 export class BoilerPlatePageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

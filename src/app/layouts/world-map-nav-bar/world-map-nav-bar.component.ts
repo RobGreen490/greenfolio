@@ -4,11 +4,11 @@ import { AppRoutes } from '@routes';
 
 
 @Component({
-  selector: 'app-world-map-nav-bar',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './world-map-nav-bar.component.html',
-  styleUrl: './world-map-nav-bar.component.css'
+    selector: 'app-world-map-nav-bar',
+    imports: [RouterModule],
+    standalone: true,
+    templateUrl: './world-map-nav-bar.component.html',
+    styleUrl: './world-map-nav-bar.component.css'
 })
 export class WorldMapNavBarComponent {
   routes = AppRoutes;

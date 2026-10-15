@@ -6,11 +6,11 @@ import { Circle, Projectile , ExplosionParticle } from '@canvas-renders';
 
 
 @Component({
-  selector: 'app-bubble-popper-page',
-  standalone: true,
-  imports: [CanvasComponent],
-  templateUrl: './bubble-popper-page.component.html',
-  styleUrl: './bubble-popper-page.component.css'
+    selector: 'app-bubble-popper-page',
+    imports: [CanvasComponent],
+    standalone: true,
+    templateUrl: './bubble-popper-page.component.html',
+    styleUrl: './bubble-popper-page.component.css'
 })
 export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

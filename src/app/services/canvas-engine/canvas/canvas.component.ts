@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-canvas',
-  standalone: true,
-  imports: [],
-  templateUrl: './canvas.component.html',
-  styleUrl: './canvas.component.css'
+    selector: 'app-canvas',
+    standalone: true,
+    imports: [],
+    templateUrl: './canvas.component.html',
+    styleUrl: './canvas.component.css'
 })
 export class CanvasComponent implements AfterViewInit, OnDestroy{
 

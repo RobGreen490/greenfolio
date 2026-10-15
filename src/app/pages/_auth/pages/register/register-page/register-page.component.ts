@@ -5,11 +5,11 @@ import { DrawableMode } from '@types';
 import { Circle, Wave } from '@canvas-renders';
 
 @Component({
-  selector: 'app-register-page',
-  standalone: true,
-  imports: [CanvasComponent],
-  templateUrl: './register-page.component.html',
-  styleUrl: './register-page.component.css'
+    selector: 'app-register-page',
+    imports: [CanvasComponent],
+    standalone: true,
+    templateUrl: './register-page.component.html',
+    styleUrl: './register-page.component.css'
 })
 export class RegisterPageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

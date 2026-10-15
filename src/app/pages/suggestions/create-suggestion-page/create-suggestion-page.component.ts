@@ -11,11 +11,11 @@ import { AppRoutes } from '@routes';
 import { CreateSuggestion } from '../../../models/suggestion-models/createSuggestion';
 
 @Component({
-  selector: 'app-create-suggestion-page',
-  standalone: true,
-  imports: [FormsModule, CanvasComponent, MainNavBarComponent],
-  templateUrl: './create-suggestion-page.component.html',
-  styleUrl: './create-suggestion-page.component.css'
+    selector: 'app-create-suggestion-page',
+    imports: [FormsModule, CanvasComponent, MainNavBarComponent],
+    standalone: true,
+    templateUrl: './create-suggestion-page.component.html',
+    styleUrl: './create-suggestion-page.component.css'
 })
 export class CreateSuggestionPageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

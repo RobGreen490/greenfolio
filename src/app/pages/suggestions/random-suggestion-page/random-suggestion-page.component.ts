@@ -8,11 +8,11 @@ import { SuggestionService } from '../../../services/suggestion-service/suggesti
 import { AppRoutes } from '@routes';
 
 @Component({
-  selector: 'app-random-suggestion-page',
-  standalone: true,
-  imports: [CanvasComponent, MainNavBarComponent],
-  templateUrl: './random-suggestion-page.component.html',
-  styleUrl: './random-suggestion-page.component.css'
+    selector: 'app-random-suggestion-page',
+    imports: [CanvasComponent, MainNavBarComponent],
+    standalone: true,
+    templateUrl: './random-suggestion-page.component.html',
+    styleUrl: './random-suggestion-page.component.css'
 })
 export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

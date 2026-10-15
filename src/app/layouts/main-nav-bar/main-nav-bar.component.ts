@@ -4,11 +4,11 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AuthService } from '@services';
 
 @Component({
-  selector: 'app-main-nav-bar',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './main-nav-bar.component.html',
-  styleUrl: './main-nav-bar.component.css'
+    selector: 'app-main-nav-bar',
+    imports: [RouterLink],
+    standalone: true,
+    templateUrl: './main-nav-bar.component.html',
+    styleUrl: './main-nav-bar.component.css'
 })
 export class MainNavBarComponent implements OnInit{
 

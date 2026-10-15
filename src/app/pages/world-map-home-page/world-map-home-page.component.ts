@@ -3,11 +3,11 @@ import { WorldMapService } from '@services';
 import { WorldMapNavBarComponent } from "@layouts";
 
 @Component({
-  selector: 'app-world-map-home-page',
-  standalone: true,
-  imports: [WorldMapNavBarComponent],
-  templateUrl: './world-map-home-page.component.html',
-  styleUrl: './world-map-home-page.component.css'
+    selector: 'app-world-map-home-page',
+    imports: [WorldMapNavBarComponent],
+    standalone: true,
+    templateUrl: './world-map-home-page.component.html',
+    styleUrl: './world-map-home-page.component.css'
 })
 export class WorldMapHomePageComponent {
 

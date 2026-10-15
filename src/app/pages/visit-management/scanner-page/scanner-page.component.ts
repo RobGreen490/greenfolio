@@ -10,11 +10,11 @@ import { CameraService } from '@services';
 import { MainNavBarComponent } from "@layouts";
 
 @Component({
-  selector: 'app-scanner-page',
-  standalone: true,
-  imports: [CanvasComponent, DatePipe, JsonPipe, RouterLink, MainNavBarComponent],
-  templateUrl: './scanner-page.component.html',
-  styleUrl: './scanner-page.component.css'
+    selector: 'app-scanner-page',
+    imports: [CanvasComponent, DatePipe, JsonPipe, RouterLink, MainNavBarComponent],
+    standalone: true,
+    templateUrl: './scanner-page.component.html',
+    styleUrl: './scanner-page.component.css'
 })
 export class ScannerPageComponent {
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;

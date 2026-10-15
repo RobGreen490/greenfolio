@@ -7,11 +7,11 @@ import { DrawableMode } from '@types';
 
 
 @Component({
-  selector: 'app-landing-page',
-  standalone: true,
-  imports: [MainNavBarComponent, CanvasComponent],
-  templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.css'
+    selector: 'app-landing-page',
+    imports: [MainNavBarComponent, CanvasComponent],
+    standalone: true,
+    templateUrl: './landing-page.component.html',
+    styleUrl: './landing-page.component.css'
 })
 export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   @ViewChild('canvasComp') canvasComp!: CanvasComponent;
