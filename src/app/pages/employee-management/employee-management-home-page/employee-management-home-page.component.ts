@@ -13,7 +13,7 @@ import { DrawableMode } from '@types';
     imports: [EmployeeManagementNavBarComponent, CanvasComponent],
     standalone: true,
     templateUrl: './employee-management-home-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './employee-management-home-page.component.css'
 })
 export class EmployeeManagementHomePageComponent implements OnInit, AfterViewInit, OnDestroy{

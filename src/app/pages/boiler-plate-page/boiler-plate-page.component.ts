@@ -9,7 +9,7 @@ import { DrawableMode } from '@types';
     imports: [CanvasComponent],
     standalone: true,
     templateUrl: './boiler-plate-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './boiler-plate-page.component.css'
 })
 export class BoilerPlatePageComponent implements OnInit, AfterViewInit ,OnDestroy{

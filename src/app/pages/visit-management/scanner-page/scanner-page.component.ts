@@ -14,7 +14,7 @@ import { MainNavBarComponent } from "@layouts";
     imports: [CanvasComponent, DatePipe, JsonPipe, RouterLink, MainNavBarComponent],
     standalone: true,
     templateUrl: './scanner-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './scanner-page.component.css'
 })
 export class ScannerPageComponent {

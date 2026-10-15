@@ -15,7 +15,7 @@ import { CreateSuggestion } from '../../../models/suggestion-models/createSugges
     imports: [FormsModule, CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './create-suggestion-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './create-suggestion-page.component.css'
 })
 export class CreateSuggestionPageComponent implements OnInit, AfterViewInit ,OnDestroy{

@@ -8,7 +8,7 @@ import { AuthService } from '@services';
     imports: [RouterLink],
     standalone: true,
     templateUrl: './main-nav-bar.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './main-nav-bar.component.css'
 })
 export class MainNavBarComponent implements OnInit{

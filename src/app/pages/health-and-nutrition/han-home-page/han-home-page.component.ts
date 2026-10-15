@@ -10,7 +10,7 @@ import { AppRoutes } from '@routes';
     standalone: true,
     imports: [CanvasComponent, MainNavBarComponent],
     templateUrl: './han-home-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './han-home-page.component.css'
 })
 export class HanHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{

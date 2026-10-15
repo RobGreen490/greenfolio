@@ -12,7 +12,7 @@ import { MainNavBarComponent } from "@layouts";
     imports: [CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './visit-management-home-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './visit-management-home-page.component.css'
 })
 export class VisitManagementHomePageComponent implements OnInit, AfterViewInit ,OnDestroy{

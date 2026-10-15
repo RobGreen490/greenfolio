@@ -8,7 +8,7 @@ import { AppRoutes } from '@routes';
     imports: [RouterModule],
     standalone: true,
     templateUrl: './employee-management-nav-bar.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './employee-management-nav-bar.component.css'
 })
 export class EmployeeManagementNavBarComponent {

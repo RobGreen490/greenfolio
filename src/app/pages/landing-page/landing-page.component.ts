@@ -11,7 +11,7 @@ import { DrawableMode } from '@types';
     imports: [MainNavBarComponent, CanvasComponent],
     standalone: true,
     templateUrl: './landing-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './landing-page.component.css'
 })
 export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{

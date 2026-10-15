@@ -8,7 +8,7 @@ import { AppRoutes } from '@routes';
     imports: [RouterModule],
     standalone: true,
     templateUrl: './world-map-nav-bar.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './world-map-nav-bar.component.css'
 })
 export class WorldMapNavBarComponent {

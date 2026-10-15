@@ -10,7 +10,7 @@ import { Circle, Projectile , ExplosionParticle } from '@canvas-renders';
     imports: [CanvasComponent],
     standalone: true,
     templateUrl: './bubble-popper-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './bubble-popper-page.component.css'
 })
 export class BubblePopperPageComponent implements AfterViewInit, OnInit, OnDestroy{

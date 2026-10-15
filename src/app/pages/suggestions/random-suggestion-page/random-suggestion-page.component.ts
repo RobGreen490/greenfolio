@@ -12,7 +12,7 @@ import { AppRoutes } from '@routes';
     imports: [CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './random-suggestion-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './random-suggestion-page.component.css'
 })
 export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnDestroy{

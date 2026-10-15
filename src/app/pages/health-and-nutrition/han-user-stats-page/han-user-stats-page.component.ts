@@ -5,7 +5,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     imports: [],
     standalone: true,
     templateUrl: './han-user-stats-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './han-user-stats-page.component.css'
 })
 export class HanUserStatsPageComponent {

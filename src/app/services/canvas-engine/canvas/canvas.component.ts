@@ -5,7 +5,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild, Chan
     standalone: true,
     imports: [],
     templateUrl: './canvas.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './canvas.component.css'
 })
 export class CanvasComponent implements AfterViewInit, OnDestroy{

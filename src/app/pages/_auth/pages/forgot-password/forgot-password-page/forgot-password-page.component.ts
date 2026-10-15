@@ -5,7 +5,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     imports: [],
     standalone: true,
     templateUrl: './forgot-password-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './forgot-password-page.component.css'
 })
 export class ForgotPasswordPageComponent {

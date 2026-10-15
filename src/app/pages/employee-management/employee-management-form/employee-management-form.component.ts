@@ -15,7 +15,7 @@ import { DrawableMode } from '@types';
     imports: [FormsModule, EmployeeManagementNavBarComponent, CanvasComponent],
     standalone: true,
     templateUrl: './employee-management-form.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './employee-management-form.component.css'
 })
 export class EmployeeManagementFormComponent implements OnInit, AfterViewInit, OnDestroy{

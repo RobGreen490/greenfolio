@@ -15,7 +15,7 @@ import { AppRoutes } from '@routes';
     imports: [FormsModule, CanvasComponent, MainNavBarComponent],
     standalone: true,
     templateUrl: './login-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent implements OnInit, AfterViewInit ,OnDestroy{

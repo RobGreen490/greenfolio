@@ -7,7 +7,7 @@ import { WorldMapNavBarComponent } from "@layouts";
     imports: [WorldMapNavBarComponent],
     standalone: true,
     templateUrl: './world-map-home-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './world-map-home-page.component.css'
 })
 export class WorldMapHomePageComponent {

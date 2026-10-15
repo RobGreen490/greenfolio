@@ -9,7 +9,7 @@ import { Circle, Wave } from '@canvas-renders';
     imports: [CanvasComponent],
     standalone: true,
     templateUrl: './register-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './register-page.component.css'
 })
 export class RegisterPageComponent implements OnInit, AfterViewInit ,OnDestroy{
