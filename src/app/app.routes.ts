@@ -14,6 +14,7 @@ import { ScannerPageComponent } from './pages/visit-management/scanner-page/scan
 import { RandomSuggestionPageComponent } from './pages/suggestions/random-suggestion-page/random-suggestion-page.component';
 import { CreateSuggestionPageComponent } from './pages/suggestions/create-suggestion-page/create-suggestion-page.component';
 import { HanHomePageComponent } from './pages/health-and-nutrition/han-home-page/han-home-page.component';
+import { RadioPlayerComponent } from './pages/radio-player/radio-player.component';
 
 
 export const routes: Routes = [
@@ -73,6 +74,11 @@ export const routes: Routes = [
   { path: 'visit-management/scanner', component: ScannerPageComponent, canActivate: [authGuard] },
   // visit-management-app -----------------------------------------------------------------------
 
+
+
+  // radio-player
+  {path: 'radio-player', component: RadioPlayerComponent},
+  // radio-player
 
 
   // wildcard -----------------------------------------------------------------------------------
