@@ -1,4 +1,70 @@
-<p>radio-player works!</p>
-<audio controls [src]="streamUrl"></audio>
+<app-main-nav-bar></app-main-nav-bar>
 
-<p>{{streamUrl}}</p>
+<div class="container page mt-3 white-text">
+  <h2 class="mb-4 text-center white-text">Radio Station List</h2>
+  <h3 class="text-center white-text">Station count: {{ radioStations.length }}</h3>
+    <table class="table table-striped table-hover mt-2">
+      <thead>
+        <tr>
+          <th scope="col">Station Name</th>
+          <th scope="col">Genre</th>
+          <th scope="col">favicon</th>
+          <th scope="col">country</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (station of radioStations; track $index) {
+        <tr>
+          <td class="align-middle text-start"><p>{{station.stationName}}</p></td>
+          <td class="align-middle text-start">{{station.tags}}</td>
+          <td class="align-middle text-start "><img class="favicon" [src]="station.favicon"></td>
+          <td class="align-middle text-start">{{station.country}}</td>
+          <td class="align-middle">
+            <button class="btn btn-danger m-1" (click)="selectStation(station.url)">Select</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+</div>
+
+<div class="text-end position-fixed bottom-0 end-0 m-3">
+    <audio class="mb-3" #audioPlayer controls [src]="streamUrl"></audio>
+  <div class="d-flex  flex-column gap-3">
+    <div>
+      <label class="me-2" for="stationName">Station Name:</label>
+      <input #sName name="stationName" id="stationNameInput" placeholder="station name..">
+    </div>
+    <div>
+      <label class="me-2" for="stationCount">Station Count</label>
+      <input #sCount name="stationCount" id="stationCountInput" placeholder="How many to generate.." type="number">
+    </div>
+    <div>
+      <label class="me-2" for="country">country</label>
+      <input #cName name="country" id="countryInput" placeholder="defaults to united states..">
+    </div>
+    <div>
+      <select #gSelect class="me-4" name="genre" id="genre">
+        <optgroup label="Genre">
+          <option value=""></option>
+          <option value="rock">Rock</option>
+          <option value="classic rock">Classic Rock</option>
+          <option value="pop">Pop</option>
+          <option value="country">country</option>
+          <option value="rap">Rap</option>
+        </optgroup>
+      </select>
+      <select #lSelect name="language" id="language">
+        <optgroup label="Language">
+          <option value=""></option>
+          <option value="english">English</option>
+          <option value="spanish">Spanish</option>
+        </optgroup>
+      </select>
+    </div>
+    <button class="btn btn-primary p-4" (click)="generateStations(sName.value, sCount.valueAsNumber, cName.value, gSelect.value, lSelect.value)">
+      Generate stations
+    </button>
+  </div>
+</div>

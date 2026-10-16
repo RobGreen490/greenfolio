@@ -13,7 +13,11 @@ export const AppRoutes = {
   */
   loginPage: '/login',
 
-
+  /** radio station
+   *
+   *
+   */
+  radioStationUrl: '/radio-player',
 
   /**
    * -----------------------

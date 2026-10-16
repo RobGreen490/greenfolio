@@ -1,0 +1,29 @@
+.page-container {
+  width: 100vw;
+  height: 100vh;
+  padding: 12px;
+  background-color: #0f0c3f;
+}
+
+.page {
+  background-color: #0f0c3f;
+}
+
+.white-text {
+  color: #fff;
+  text-shadow: #0cF 1px 1px 2px;
+}
+
+.testBorder{
+  width: 30%;
+  border: 2px solid green;
+}
+
+.stationWidth{
+  table-layout: fixed;
+  width: fit-content;
+}
+
+select{
+  min-width: 108px;
+}

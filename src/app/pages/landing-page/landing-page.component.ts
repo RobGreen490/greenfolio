@@ -28,6 +28,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   //https://unsplash.com/@mohalotfi
   healthAndNutritionBackground = 'assets/images/landing-website-images/health-and-nutrition-v1.jpg';
 
+  //https://unsplash.com/@mbuff
+  radioStationBackground = '/assets/images/landing-website-images/radio-station-photo-v2.jpg';
+
+
   // https://unsplash.com/@element5digital
   suggestionsBackground = 'assets/images/landing-website-images/suggestions-photo-v1.jpg';
 
@@ -151,6 +155,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   goToHealthAndNutrition(){
     this.router.navigate([AppRoutes.healthAndNutritionHomeURL]);
+  }
+
+  goToRadioStation(){
+    this.router.navigate([AppRoutes.radioStationUrl]);
   }
   //** ROUTING LOGIC====================================================================================>
 }

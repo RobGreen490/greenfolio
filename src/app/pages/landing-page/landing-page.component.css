@@ -67,6 +67,10 @@ h1, h2, p {
   gap: 1em;
 }
 
+.span-12{
+  grid-column: span 12;
+}
+
 .span-8{
   grid-column: span 8;
 }

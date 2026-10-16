@@ -18,6 +18,17 @@
         </header>
 
         <div class="grid-container">
+          <div class="box span-12" (click)="goToRadioStation()">
+            <div class="image-tile" [style.background-image]="'url(' + radioStationBackground + ')'">
+            </div>
+            <div class="box-text">
+              <h2>Radio Station</h2>
+              <p>
+                <b>An interface for generating and listening to radio stations using the public Radio Browser API.</b>
+              </p>
+            </div>
+          </div>
+
           <div class="box span-8" (click)="goToEmployeeManagement()">
             <div class="image-tile" [style.background-image]="'url(' + suggestionsBackground + ')'">
             </div>
