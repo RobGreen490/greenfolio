@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CanvasComponent, BackgroundColorService, DrawHelperService } from '@canvas';
 import { DrawableMode } from '@types';
@@ -23,7 +23,8 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
     private router: Router,
     private suggestionService: SuggestionService,
     private backgroundColorService: BackgroundColorService,
-    private drawHelperService: DrawHelperService
+    private drawHelperService: DrawHelperService,
+    private cdr: ChangeDetectorRef
   ){}
 
   loading: boolean = true;
@@ -55,6 +56,8 @@ export class RandomSuggestionPageComponent implements OnInit, AfterViewInit ,OnD
       next: (suggestionFromDb => {
         this.suggestion = suggestionFromDb;
         this.loading = false;
+        console.log("successfully grabbed suggestion", this.suggestion);
+        this.cdr.markForCheck();
       }),
       error: (err) => {
         this.suggestion = {

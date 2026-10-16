@@ -18,7 +18,7 @@
         <tr>
           <td class="align-middle text-start"><p>{{station.stationName}}</p></td>
           <td class="align-middle text-start">{{station.tags}}</td>
-          <td class="align-middle text-start "><img class="favicon" [src]="station.favicon"></td>
+          <td class="align-middle text-start "><img class="favicon" [src]="station.favicon" alt="station favicon"></td>
           <td class="align-middle text-start">{{station.country}}</td>
           <td class="align-middle">
             <button class="btn btn-danger m-1" (click)="selectStation(station.url)">Select</button>
@@ -32,6 +32,11 @@
 <div class="text-end position-fixed bottom-0 end-0 m-3">
     <audio class="mb-3" #audioPlayer controls [src]="streamUrl"></audio>
   <div class="d-flex  flex-column gap-3">
+    <div>
+      <label class="me-2" for="stationUrl">Station URL:</label>
+      <input #sUrl name="stationUrl" id="stationUrlInput" placeholder="enter entire url here..">
+    </div>
+    <button class="btn btn-primary" (click)="getStationByUrl(sUrl.value)">Grab URL Stream</button>
     <div>
       <label class="me-2" for="stationName">Station Name:</label>
       <input #sName name="stationName" id="stationNameInput" placeholder="station name..">

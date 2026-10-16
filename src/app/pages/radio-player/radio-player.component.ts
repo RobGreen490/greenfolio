@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MainNavBarComponent } from '@layouts';
 import { Station } from '../../models/station-models/station';
 import { RadioService } from '../../services/radio-service/radio.service';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './radio-player.component.css'
 })
-export class RadioPlayerComponent implements OnInit{
+export class RadioPlayerComponent implements OnInit, OnDestroy{
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>
 
   constructor(
@@ -39,7 +39,11 @@ export class RadioPlayerComponent implements OnInit{
 
   ngOnInit(): void {
     this.generateStations(this.options.stationName, this.options.stationCount, this.options.country, this.options.genre, this.options.language);
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
+  }
+
+  ngOnDestroy(): void {
+
   }
 
 
@@ -103,5 +107,21 @@ export class RadioPlayerComponent implements OnInit{
 
     console.log("API RESPONSE: ", data);
     this.stationObjects = data;
+  }
+
+  getStationByUrl(sUrl: string): void{
+    if(sUrl){
+      const audio = this.audioPlayer.nativeElement;
+
+      audio.src = sUrl;
+      audio.load();
+    }
+    else{
+      this.snackBar.open("The url input is empty..", "", {
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      });
+    }
   }
 }

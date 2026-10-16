@@ -29,8 +29,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy{
   healthAndNutritionBackground = 'assets/images/landing-website-images/health-and-nutrition-v1.jpg';
 
   //https://unsplash.com/@mbuff
-  radioStationBackground = '/assets/images/landing-website-images/radio-station-photo-v2.jpg';
+  //assets/images/landing-website-images/radio-station-photo.jpg
 
+  //https://unsplash.com/@indraprojects
+  radioStationBackground = '/assets/images/landing-website-images/radio-station-photo-v2.jpg';
 
   // https://unsplash.com/@element5digital
   suggestionsBackground = 'assets/images/landing-website-images/suggestions-photo-v1.jpg';
